@@ -1,4 +1,7 @@
 {
+  "cache": {
+    "key": "production-cache-v1"
+  },
   "build": {
     "production": {
       "android": {
