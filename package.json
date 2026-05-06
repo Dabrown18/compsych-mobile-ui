@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
+    "@compsych/mobile-ui": "file:./packages/mobile-ui",
     "@javierkonpo/design-system": "file:../ComPsych-Design-System/packages/design-system",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
