@@ -1,126 +1,244 @@
 # ComPsych Design System — React Native
 
-A React Native implementation of the ComPsych Design System component library, built on Expo SDK 54. All components consume only `sys.*` tokens from the `@javierkonpo/design-system` package, ensuring full theme and brand compatibility.
+A React Native component library built directly from the ComPsych Figma Design System, using the four-tier token architecture. All 17 components are pixel-accurate implementations synchronized with Figma.
 
 ---
 
-## Getting started
+## Getting Started
 
 ```bash
 npm install
 npx expo start
 ```
 
-Open the app in a development build, iOS Simulator, Android emulator, or Expo Go.
+---
+
+## Token System
+
+All components consume `sys.*` tokens exclusively — never raw values.
+
+```ts
+import { sys } from '@/components/ds/tokens';
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
+```
 
 ---
 
 ## Components
 
-17 production-ready components are located in `components/ds/`. Each component is fully typed, supports controlled and uncontrolled usage where applicable, and is accessibility-labelled out of the box.
-
 ---
 
 ### Alert
 
-Inline contextual messaging with six semantic variants, optional title, dismiss button, and action.
+`Version: 1.0.0`
+
+Inline feedback banner for status, warnings, errors, and success messages. Supports a title, icon, action button, and dismiss control.
 
 ![Alert](docs/images/alert.png)
 
+**Import**
 ```tsx
 import { Alert } from '@/components/ds/Alert';
+```
+**Component File:** `components/ds/Alert.tsx`
 
-<Alert variant="informative" description="Your session will expire in 5 minutes." />
-<Alert variant="danger" title="Payment failed" description="Check your card details." dismissible onDismiss={() => {}} />
-<Alert variant="positive" size="sm" description="Changes saved." actionLabel="Undo" onAction={() => {}} />
+#### Variants
+
+There are six alert variants covering the full range of feedback contexts.
+
+```tsx
+<Alert variant="informative" description="Tips, help, or guidance." />
+<Alert variant="warning"     description="Your session will expire in 5 minutes." />
+<Alert variant="danger"      description="Failed to save changes." />
+<Alert variant="positive"    description="Changes saved successfully." />
 ```
 
-| Prop | Type | Default | Description |
+#### With Action
+
+An optional action button prompts the user to take a next step.
+
+```tsx
+<Alert
+  variant="informative"
+  title="New feature available"
+  description="Update the app to access the latest tools."
+  actionLabel="Update now"
+  onAction={handleUpdate}
+/>
+```
+
+#### Dismissible
+
+Add a dismiss button by setting `dismissible` to `true`.
+
+```tsx
+<Alert variant="danger" description="Failed to save." dismissible onDismiss={() => setVisible(false)} />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
 | `variant` | `'default' \| 'elevated' \| 'informative' \| 'warning' \| 'positive' \| 'danger'` | `'default'` | Color scheme and icon |
-| `size` | `'sm' \| 'lg'` | `'lg'` | `lg` shows a bold title; `sm` is compact text-only |
-| `title` | `string` | — | Bold heading, `lg` size only |
-| `description` | `string` | **required** | Body text |
-| `icon` | `ReactNode` | — | Override the default variant icon |
-| `hideIcon` | `boolean` | `false` | Hide the leading icon entirely |
-| `actionLabel` | `string` | — | Label for the inline action button |
+| `size` | `'sm' \| 'lg'` | `'lg'` | `lg` shows a bold title; `sm` is compact |
+| `description` | `string` | — | **Required.** Body text |
+| `title` | `string` | — | Bold heading (`lg` size only) |
+| `hideIcon` | `boolean` | `false` | Removes the leading icon |
+| `actionLabel` | `string` | — | Label for the optional action button |
 | `onAction` | `() => void` | — | Action button handler |
-| `dismissible` | `boolean` | `false` | Show the × dismiss button |
+| `dismissible` | `boolean` | `false` | Shows a × dismiss button |
 | `onDismiss` | `() => void` | — | Dismiss button handler |
 
 ---
 
 ### Avatar
 
-User identity graphic in text-initials, image, or icon form, with optional activity ring and presence badge.
+`Version: 1.0.0`
+
+Circular user representation — text initials, photo, or icon. Supports a presence badge and activity ring.
 
 ![Avatar](docs/images/avatar.png)
 
+**Import**
 ```tsx
 import { Avatar } from '@/components/ds/Avatar';
+```
+**Component File:** `components/ds/Avatar.tsx`
 
+#### Sizes
+
+Avatar can be rendered in seven sizes from extra-small to triple-extra-large.
+
+```tsx
+<Avatar variant="text" initials="CP" size="xs" />
 <Avatar variant="text" initials="CP" size="md" />
-<Avatar variant="image" source={{ uri: 'https://...' }} size="lg" activityRing />
-<Avatar variant="icon" size="xl" presenceBadge />
+<Avatar variant="text" initials="CP" size="xl" />
 ```
 
-| Prop | Type | Default | Description |
+#### Image Avatar
+
+Display a user's photo by providing an image source.
+
+```tsx
+<Avatar variant="image" source={{ uri: 'https://example.com/photo.jpg' }} size="lg" activityRing />
+```
+
+#### Letter Avatar
+
+Render up to two initials when no photo is available.
+
+```tsx
+<Avatar variant="text" initials="JD" size="md" />
+<Avatar variant="text" initials="AB" size="lg" />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'text' \| 'image' \| 'icon'` | `'icon'` | Graphic type |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| '3xl'` | `'md'` | Diameter: 24 / 32 / 40 / 48 / 56 / 72 / 96 px |
-| `initials` | `string` | — | Up to 2 characters for the text variant |
-| `source` | `ImageSourcePropType` | — | Image source for the image variant |
-| `icon` | `ReactNode` | — | Custom icon for the icon variant |
-| `activityRing` | `boolean` | `false` | Renders a coloured ring around the avatar |
-| `presenceBadge` | `boolean` | `false` | Renders a shield-check badge at the bottom-right corner |
+| `variant` | `'text' \| 'image' \| 'icon'` | `'text'` | Content type |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| '3xl'` | `'md'` | Circle diameter |
+| `initials` | `string` | — | Up to 2 characters (text variant) |
+| `source` | `ImageSourcePropType` | — | Photo source (image variant) |
+| `activityRing` | `boolean` | `false` | Renders a coloured ring around the circle |
+| `presenceBadge` | `boolean` | `false` | Renders a shield-check badge at bottom-right |
 
 ---
 
 ### Badge
 
-Compact label for counts, statuses, and categorical tags.
+`Version: 1.0.0`
+
+Small status indicator as a pill, dot, or count. Used on icons and list items to show notification states.
 
 ![Badge](docs/images/badge.png)
 
+**Import**
 ```tsx
 import { Badge } from '@/components/ds/Badge';
+```
+**Component File:** `components/ds/Badge.tsx`
 
-<Badge label={4} badgeStyle="filled" size="md" />
-<Badge label="New" badgeStyle="positive" size="lg" />
-<Badge badgeStyle="dot" size="sm" />
+#### Styles
+
+Badge supports six visual styles covering neutral, semantic, and dot presentations.
+
+```tsx
+<Badge label={5}   badgeStyle="filled"   />
+<Badge label="New" badgeStyle="positive" />
+<Badge label="99+" badgeStyle="danger"   />
+<Badge label={3}   badgeStyle="tonal"    />
+<Badge             badgeStyle="dot"      />
 ```
 
-| Prop | Type | Default | Description |
+#### Sizes
+
+Badge can be rendered in three sizes.
+
+```tsx
+<Badge label={5} size="sm" />
+<Badge label={5} size="md" />
+<Badge label={5} size="lg" />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `label` | `number \| string` | — | Content; ignored for `dot` style |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Height: 16 / 20 / 24 px |
-| `badgeStyle` | `'filled' \| 'positive' \| 'danger' \| 'elevated' \| 'tonal' \| 'dot'` | `'filled'` | Color treatment |
+| `label` | `number \| string` | — | Text or count inside the badge |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Controls diameter and font size |
+| `badgeStyle` | `'filled' \| 'positive' \| 'danger' \| 'elevated' \| 'tonal' \| 'dot'` | `'filled'` | Color scheme and shape |
 
 ---
 
 ### Breadcrumb
 
-Horizontal navigation trail with home icon, overflow ellipsis, and disabled items.
+`Version: 1.0.0`
+
+Horizontal scrollable navigation trail with `/` dividers. The last item always renders as the current page.
 
 ![Breadcrumb](docs/images/breadcrumb.png)
 
+**Import**
 ```tsx
 import { Breadcrumb } from '@/components/ds/Breadcrumb';
+```
+**Component File:** `components/ds/Breadcrumb.tsx`
 
+#### Basic
+
+Provide an ordered array of items. The last item is always treated as the current page.
+
+```tsx
 <Breadcrumb
-  size="lg"
   items={[
-    { isHome: true, onPress: () => {} },
-    { label: 'Settings', onPress: () => {} },
-    { label: 'Profile' },         // current — no onPress
+    { isHome: true, onPress: goHome },
+    { label: 'Settings', onPress: goSettings },
+    { label: 'Profile' },
   ]}
 />
 ```
 
-| Prop | Type | Default | Description |
+#### With Overflow
+
+Use `isOverflow: true` to collapse middle crumbs into an ellipsis.
+
+```tsx
+<Breadcrumb
+  items={[
+    { isHome: true, onPress: goHome },
+    { isOverflow: true, onPress: expandCrumbs },
+    { label: 'Current Page' },
+  ]}
+/>
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `items` | `BreadcrumbItem[]` | **required** | Ordered list of crumbs |
-| `size` | `'sm' \| 'lg'` | `'lg'` | Type scale and spacing |
+| `items` | `BreadcrumbItem[]` | — | **Required.** Ordered crumb items |
+| `size` | `'sm' \| 'lg'` | `'lg'` | Font size and vertical padding |
 
 **BreadcrumbItem**
 
@@ -128,7 +246,7 @@ import { Breadcrumb } from '@/components/ds/Breadcrumb';
 |-------|------|-------------|
 | `label` | `string` | Display text |
 | `isHome` | `boolean` | Renders the home icon instead of text |
-| `isOverflow` | `boolean` | Renders "…" — tap to expand |
+| `isOverflow` | `boolean` | Renders `…` for collapsed middle crumbs |
 | `disabled` | `boolean` | Reduces opacity; non-interactive |
 | `onPress` | `() => void` | Omit for the current/last crumb |
 
@@ -136,375 +254,741 @@ import { Breadcrumb } from '@/components/ds/Breadcrumb';
 
 ### Button
 
-Primary call-to-action with seven variants, four sizes, loading state, and optional icons.
+`Version: 1.0.0`
+
+Buttons are touchable elements used to trigger actions. They support seven visual variants, four sizes, leading and trailing icons, a loading state, and full-width layout.
 
 ![Button](docs/images/button.png)
 
+**Import**
 ```tsx
 import { Button } from '@/components/ds/Button';
+```
+**Component File:** `components/ds/Button.tsx`
 
-<Button variant="filled" size="md" label="Save changes" onPress={() => {}} />
-<Button variant="outlined" size="sm" label="Cancel" />
-<Button variant="danger" size="lg" label="Delete" leadingIcon={<Ionicons name="trash" />} />
-<Button variant="filled" size="md" label="Saving…" loading />
+#### Variants
+
+There are solid, outline, text, tonal, elevated, danger, and danger-outlined button types.
+
+```tsx
+<Button label="Filled"   variant="filled"   onPress={handlePress} />
+<Button label="Tonal"    variant="tonal"    onPress={handlePress} />
+<Button label="Outlined" variant="outlined" onPress={handlePress} />
+<Button label="Text"     variant="text"     onPress={handlePress} />
+<Button label="Danger"   variant="danger"   onPress={handlePress} />
 ```
 
-| Prop | Type | Default | Description |
+#### Size
+
+Button can be small, medium, large, or extra-large.
+
+```tsx
+<Button label="Small"  size="sm" onPress={handlePress} />
+<Button label="Medium" size="md" onPress={handlePress} />
+<Button label="Large"  size="lg" onPress={handlePress} />
+```
+
+#### Disabled
+
+Disabled buttons reduce opacity and ignore press interactions.
+
+```tsx
+<Button label="Filled"   variant="filled"   disabled />
+<Button label="Outlined" variant="outlined" disabled />
+<Button label="Text"     variant="text"     disabled />
+```
+
+#### Icon Button
+
+Can contain a leading or trailing icon, or be rendered as a square icon-only button.
+
+```tsx
+<Button label="Delete" variant="danger" leadingIcon={<Ionicons name="trash-outline" size={16} />} onPress={handleDelete} />
+```
+
+#### Loading Spinner
+
+Use the `loading` prop to replace the label with an activity indicator.
+
+```tsx
+<Button label="Saving…" loading />
+<Button label="Saving…" loading variant="outlined" />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
+| `label` | `string` | — | **Required.** Button text |
 | `variant` | `'filled' \| 'tonal' \| 'outlined' \| 'elevated' \| 'text' \| 'danger' \| 'danger-outlined'` | `'filled'` | Visual style |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Height: 32 / 40 / 48 / 56 px |
-| `label` | `string` | **required** | Button text |
-| `disabled` | `boolean` | `false` | Disables interaction |
-| `loading` | `boolean` | `false` | Replaces label with a spinner |
-| `fullWidth` | `boolean` | `false` | Stretches to fill container width |
-| `iconOnly` | `boolean` | `false` | Square aspect ratio for icon-only buttons |
-| `leadingIcon` | `ReactNode` | — | Icon before the label |
-| `trailingIcon` | `ReactNode` | — | Icon after the label |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Height and padding |
+| `disabled` | `boolean` | `false` | Disables interaction and reduces opacity |
+| `loading` | `boolean` | `false` | Shows `ActivityIndicator` in place of label |
+| `fullWidth` | `boolean` | `false` | Stretches to fill the parent |
+| `iconOnly` | `boolean` | `false` | Square layout for single icons |
+| `leadingIcon` | `React.ReactNode` | — | Icon before the label |
+| `trailingIcon` | `React.ReactNode` | — | Icon after the label |
+| `onPress` | `() => void` | — | Press handler |
 
 ---
 
 ### Card
 
-General-purpose container with outlined, filled, and gradient variants; interactive and disabled states.
+`Version: 1.0.0`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'outlined' \| 'filled' \| 'gradient'` | `'outlined'` | Visual treatment |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Inner padding and gap |
-| `interactive` | `boolean` | `false` | Adds press feedback |
-| `disabled` | `boolean` | `false` | Reduces opacity; non-interactive |
-| `current` | `boolean` | `false` | Active/selected ring |
-| `fullWidth` | `boolean` | `false` | Stretches to fill container width |
-| `onPress` | `() => void` | — | Press handler (requires `interactive`) |
-| `children` | `ReactNode` | — | Card content |
+Surface container for grouping related content. Supports three visual variants, four padding sizes, interactive press states, and a current/selected highlight.
 
+**Import**
 ```tsx
 import { Card } from '@/components/ds/Card';
-
-<Card variant="outlined" size="md" interactive onPress={() => {}}>
-  <Text>Card content</Text>
-</Card>
 ```
+**Component File:** `components/ds/Card.tsx`
+
+#### Variants
+
+There are outlined, filled, and gradient card types.
+
+```tsx
+<Card variant="outlined"><Text>Outlined card</Text></Card>
+<Card variant="filled"><Text>Filled card</Text></Card>
+<Card variant="gradient"><Text>Gradient card</Text></Card>
+```
+
+#### Interactive
+
+Set `interactive` to enable press feedback and wrap the card in a `Pressable`.
+
+```tsx
+<Card interactive onPress={handleCardPress}><Text>Tap me</Text></Card>
+```
+
+#### Current State
+
+The `current` prop applies a primary-colored border to indicate the selected card.
+
+```tsx
+<Card interactive current onPress={handlePress}><Text>Selected card</Text></Card>
+```
+
+**Props**
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'outlined' \| 'filled' \| 'gradient'` | `'outlined'` | Visual treatment |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Inner padding |
+| `interactive` | `boolean` | `false` | Enables press feedback |
+| `disabled` | `boolean` | `false` | Reduces opacity |
+| `current` | `boolean` | `false` | Primary border (selected state) |
+| `fullWidth` | `boolean` | `false` | Fills parent width |
+| `onPress` | `() => void` | — | Press handler (requires `interactive`) |
+| `children` | `React.ReactNode` | — | Card content |
 
 ---
 
 ### Checkbox
 
-Binary or indeterminate selection control with label, description, invalid state, and two sizes.
+`Version: 1.0.0`
+
+Binary or indeterminate selection control. Supports controlled and uncontrolled usage.
 
 ![Checkbox](docs/images/checkbox.png)
 
+**Import**
 ```tsx
 import { Checkbox } from '@/components/ds/Checkbox';
+```
+**Component File:** `components/ds/Checkbox.tsx`
 
-<Checkbox label="Accept terms" size="md" />
-<Checkbox label="Subscribe" checked={value} onChange={setValue} />
-<Checkbox label="Partial" checked="indeterminate" size="sm" />
-<Checkbox label="Disabled" disabled />
-<Checkbox label="Invalid" invalid description="This field is required." />
+#### States
+
+Checkbox can be unchecked, checked, indeterminate, or disabled.
+
+```tsx
+<Checkbox defaultChecked={false} onValueChange={console.log} />
+<Checkbox defaultChecked={true}  onValueChange={console.log} />
+<Checkbox checked="indeterminate" onValueChange={handleChange} />
+<Checkbox disabled />
 ```
 
-| Prop | Type | Default | Description |
+#### Controlled
+
+Use the `checked` prop with `onValueChange` for controlled usage.
+
+```tsx
+const [checked, setChecked] = useState(false);
+<Checkbox checked={checked} onValueChange={setChecked} />
+```
+
+#### Sizes
+
+Checkbox supports medium (default) and small sizes.
+
+```tsx
+<Checkbox size="md" defaultChecked />
+<Checkbox size="sm" defaultChecked />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
 | `checked` | `boolean \| 'indeterminate'` | — | Controlled state |
-| `defaultChecked` | `boolean` | `false` | Initial state for uncontrolled usage |
-| `onChange` | `(checked: boolean) => void` | — | Change handler |
-| `size` | `'sm' \| 'md'` | `'md'` | Box: 20 / 24 px |
-| `label` | `string` | — | Inline label |
-| `description` | `string` | — | Secondary helper text below the label |
-| `disabled` | `boolean` | `false` | Non-interactive |
-| `invalid` | `boolean` | `false` | Error border colour |
+| `defaultChecked` | `boolean` | `false` | Initial uncontrolled state |
+| `onValueChange` | `(value: boolean \| 'indeterminate') => void` | — | Change handler |
+| `size` | `'sm' \| 'md'` | `'md'` | Hit area and box size |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `accessibilityLabel` | `string` | — | Screen-reader label |
 
 ---
 
 ### Chip
 
-Compact tag or filter token with semantic colour, optional leading icon, dismiss button, and count badge.
+`Version: 1.0.0`
+
+Compact label pill for status, category, or filter display. Supports a leading icon, dismiss button, and badge count.
 
 ![Chip](docs/images/chip.png)
 
+**Import**
 ```tsx
 import { Chip } from '@/components/ds/Chip';
+```
+**Component File:** `components/ds/Chip.tsx`
 
-<Chip label="Active" usage="positive" size="md" />
-<Chip label="Urgent" usage="danger" size="lg" dismissible onDismiss={() => {}} />
-<Chip label="Filters" badge={3} size="xl" />
+#### Colors
+
+Chip supports neutral, informative, positive, danger, and warning semantic colors.
+
+```tsx
+<Chip label="Neutral"   usage="neutral"     />
+<Chip label="Info"      usage="informative" />
+<Chip label="Completed" usage="positive"    />
+<Chip label="Overdue"   usage="danger"      />
+<Chip label="Pending"   usage="warning"     />
 ```
 
-| Prop | Type | Default | Description |
+#### Sizes
+
+Chip can be rendered in four sizes.
+
+```tsx
+<Chip label="Small"  size="sm" />
+<Chip label="Medium" size="md" />
+<Chip label="Large"  size="lg" />
+```
+
+#### Dismissible
+
+Add a dismiss button at the trailing end using the `dismissible` prop.
+
+```tsx
+<Chip label="Filter" dismissible onDismiss={handleDismiss} />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `label` | `string` | **required** | Chip text |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Height: 20 / 24 / 32 / 40 px |
-| `usage` | `'neutral' \| 'informative' \| 'positive' \| 'danger' \| 'warning'` | `'neutral'` | Semantic colour |
-| `leadingIcon` | `ReactNode` | — | Icon before the label |
-| `dismissible` | `boolean` | `false` | Renders a close button |
-| `onDismiss` | `() => void` | — | Close button handler |
-| `badge` | `number \| string` | — | Small count badge after the label |
+| `label` | `string` | — | **Required.** Chip text |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Height and font |
+| `usage` | `'neutral' \| 'informative' \| 'positive' \| 'danger' \| 'warning'` | `'neutral'` | Semantic color |
+| `leadingIcon` | `React.ReactNode` | — | Icon before the label |
+| `dismissible` | `boolean` | `false` | Shows a × button |
+| `onDismiss` | `() => void` | — | Called when dismissed |
+| `badge` | `number \| string` | — | Trailing count or label |
 
 ---
 
 ### Divider
 
-Single-line separator for horizontal or vertical use, in thin or thick weights, with optional dashed style.
+`Version: 1.0.0`
+
+Decorative separator — horizontal or vertical, thin or thick, solid or dashed.
 
 ![Divider](docs/images/divider.png)
 
+**Import**
 ```tsx
 import { Divider } from '@/components/ds/Divider';
+```
+**Component File:** `components/ds/Divider.tsx`
 
+#### Horizontal
+
+A horizontal divider stretches to fill its parent width and is the default orientation.
+
+```tsx
 <Divider />
-<Divider variant="vertical" weight="thick" />
-<Divider dashed />
+<Divider weight="thick" />
 ```
 
-| Prop | Type | Default | Description |
+#### Vertical
+
+A vertical divider fills its parent height and is used as a separator inside a row layout.
+
+```tsx
+<View style={{ flexDirection: 'row', height: 40 }}>
+  <Text>Left</Text>
+  <Divider variant="vertical" />
+  <Text>Right</Text>
+</View>
+```
+
+#### Dashed
+
+The dashed style is used for section breaks or to indicate optional content areas.
+
+```tsx
+<Divider dashed />
+<Divider weight="thick" dashed />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
 | `variant` | `'horizontal' \| 'vertical'` | `'horizontal'` | Orientation |
-| `weight` | `'thin' \| 'thick'` | `'thin'` | Stroke width |
-| `dashed` | `boolean` | `false` | Dashed line style |
+| `weight` | `'thin' \| 'thick'` | `'thin'` | 1px or 2px line |
+| `dashed` | `boolean` | `false` | Dashed line pattern |
 
 ---
 
 ### EmptyState
 
-Placeholder panel shown when a list or view has no content, with icon or illustration graphic, optional description, and action button.
+`Version: 1.0.0`
+
+Full-panel placeholder for empty screens. Supports an icon circle or illustrated card-collage graphic with an optional action button.
 
 ![EmptyState](docs/images/emptystate.png)
 
+**Import**
 ```tsx
 import { EmptyState } from '@/components/ds/EmptyState';
+```
+**Component File:** `components/ds/EmptyState.tsx`
 
+#### Icon Style
+
+The default style renders an icon inside a circular container above the title and description.
+
+```tsx
 <EmptyState
-  title="No results"
-  description="Try adjusting your filters."
-  actionLabel="Clear filters"
-  onAction={() => {}}
+  title="No messages"
+  description="When you receive messages they will appear here."
 />
-<EmptyState style="illustration" viewport="desktop" title="Nothing here yet" />
 ```
 
-| Prop | Type | Default | Description |
+#### Illustration Style
+
+The `illustration` style renders a pure-View card collage — no image assets required.
+
+```tsx
+<EmptyState style="illustration" title="Nothing here yet" description="Get started by creating your first item." />
+```
+
+#### With Action
+
+An optional action button prompts the user to take a next step.
+
+```tsx
+<EmptyState title="No results" description="Try adjusting your filters." actionLabel="Clear filters" onAction={clearFilters} />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `style` | `'icon' \| 'illustration'` | `'icon'` | Graphic area — icon circle or card collage illustration |
-| `viewport` | `'desktop' \| 'mobile'` | `'mobile'` | Type scale and icon circle size |
+| `style` | `'icon' \| 'illustration'` | `'icon'` | Graphic treatment |
+| `viewport` | `'desktop' \| 'mobile'` | `'mobile'` | Token set for type scale and sizing |
 | `title` | `string` | `'No results'` | Heading text |
-| `description` | `string` | `'Description if needed'` | Body text below the title |
-| `showDescription` | `boolean` | `true` | Hide description even when provided |
-| `icon` | `ReactNode` | — | Custom icon inside the icon circle |
+| `description` | `string` | `'Description if needed'` | Body copy |
+| `showDescription` | `boolean` | `true` | Hides description when `false` |
+| `icon` | `React.ReactNode` | — | Custom icon in the circle |
 | `actionLabel` | `string` | — | Action button label |
-| `onAction` | `() => void` | — | Action button handler |
-| `showAction` | `boolean` | auto | Override action button visibility |
+| `onAction` | `() => void` | — | Action press handler |
 
 ---
 
 ### Input
 
-Text input field with floating label, helper/error text, leading and trailing icons, and two sizes.
+`Version: 1.0.0`
+
+Single-line text field with floating label, helper/error text, and leading/trailing icon slots.
 
 ![Input](docs/images/input.png)
 
+**Import**
 ```tsx
 import { Input } from '@/components/ds/Input';
+```
+**Component File:** `components/ds/Input.tsx`
 
-<Input label="Email" size="md" />
-<Input label="Search" leadingIcon={<Ionicons name="search" />} />
-<Input label="Password" invalid errorText="Must be at least 8 characters." />
-<Input label="Notes" helperText="Optional" size="sm" />
+#### Basic
+
+A simple text field with a floating label and placeholder.
+
+```tsx
+<Input label="Email" placeholder="you@example.com" />
 ```
 
-| Prop | Type | Default | Description |
+#### Sizes
+
+Input supports three sizes that control height, padding, and font scale.
+
+```tsx
+<Input size="sm" label="Small"  placeholder="Small field"  />
+<Input size="md" label="Medium" placeholder="Medium field" />
+<Input size="lg" label="Large"  placeholder="Large field"  />
+```
+
+#### Error State
+
+Use `invalid` and `errorText` to communicate a validation error.
+
+```tsx
+<Input label="Username" invalid={!!errors.username} errorText={errors.username} />
+```
+
+#### With Icons
+
+Leading and trailing icons can be placed inside the field.
+
+```tsx
+<Input label="Search" leadingIcon={<Ionicons name="search" size={20} />} />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `size` | `'sm' \| 'md'` | `'md'` | Height: 40 / 48 px |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Height, padding, and font |
 | `label` | `string` | — | Floating label |
 | `helperText` | `string` | — | Hint text below the field |
-| `errorText` | `string` | — | Error message (shown when `invalid`) |
-| `invalid` | `boolean` | `false` | Error border and error text |
-| `leadingIcon` | `ReactNode` | — | Icon inside the left edge |
-| `trailingIcon` | `ReactNode` | — | Icon inside the right edge |
-| `...TextInputProps` | — | — | All standard React Native `TextInput` props |
+| `errorText` | `string` | — | Error message; replaces `helperText` |
+| `invalid` | `boolean` | `false` | Red border and error color |
+| `leadingIcon` | `React.ReactNode` | — | Icon at the leading edge |
+| `trailingIcon` | `React.ReactNode` | — | Icon at the trailing edge |
 
 ---
 
 ### Pagination
 
-Page navigation control with numbered page buttons, prev/next arrows, ellipsis, and compact mode.
+`Version: 1.0.0`
+
+Page navigation with smart truncation. Supports numbered layout or compact prev/next-only mode.
 
 ![Pagination](docs/images/pagination.png)
 
+**Import**
 ```tsx
 import { Pagination } from '@/components/ds/Pagination';
+```
+**Component File:** `components/ds/Pagination.tsx`
 
-<Pagination
-  totalPages={10}
-  currentPage={page}
-  onPageChange={setPage}
-  size="lg"
-/>
-<Pagination
-  totalPages={20}
-  currentPage={page}
-  onPageChange={setPage}
-  siblingCount={1}
-  compact  // prev/next only
-/>
+#### Standard
+
+The default layout renders numbered page buttons with prev and next arrows inside a pill container.
+
+```tsx
+const [page, setPage] = useState(1);
+<Pagination totalPages={12} currentPage={page} onPageChange={setPage} />
 ```
 
-| Prop | Type | Default | Description |
+#### Compact
+
+Compact mode renders only prev/next arrows — ideal for narrow mobile screens.
+
+```tsx
+<Pagination compact totalPages={20} currentPage={page} onPageChange={setPage} />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `totalPages` | `number` | **required** | Total number of pages |
-| `currentPage` | `number` | **required** | Active page (1-indexed) |
-| `onPageChange` | `(page: number) => void` | **required** | Page change handler |
-| `size` | `'sm' \| 'lg'` | `'lg'` | Item size: 32 / 40 px |
-| `siblingCount` | `number` | `1` | Pages shown on each side of the current page |
-| `compact` | `boolean` | `false` | Renders only previous/next arrows |
+| `totalPages` | `number` | — | **Required.** Total pages |
+| `currentPage` | `number` | — | **Required.** Active page (1-based) |
+| `onPageChange` | `(page: number) => void` | — | **Required.** Page change handler |
+| `size` | `'sm' \| 'lg'` | `'lg'` | `lg` inside a pill; `sm` bare |
+| `siblingCount` | `number` | `1` | Pages shown on each side before `…` |
+| `compact` | `boolean` | `false` | Prev/next only — no page numbers |
 
 ---
 
 ### ProgressTracker
 
-Multi-step progress indicator with completed, active, and pending states per step.
+`Version: 1.0.0`
+
+Multi-step progress indicator with labelled steps and per-step progress bars.
 
 ![ProgressTracker](docs/images/progress.png)
 
+**Import**
 ```tsx
 import { ProgressTracker } from '@/components/ds/ProgressTracker';
+```
+**Component File:** `components/ds/ProgressTracker.tsx`
 
+#### Basic
+
+Provide an array of steps with a `label` and `state` for each.
+
+```tsx
 <ProgressTracker
-  size="lg"
   steps={[
-    { label: 'Account', state: 'completed' },
-    { label: 'Plan',    state: 'active' },
-    { label: 'Payment', state: 'pending' },
+    { label: 'Personal info', state: 'completed' },
+    { label: 'Address',       state: 'completed' },
+    { label: 'Review',        state: 'active'    },
+    { label: 'Submit',        state: 'pending'   },
   ]}
 />
 ```
 
-| Prop | Type | Default | Description |
+#### Without Labels
+
+Set `showLabels` to `false` for a compact bar-only indicator.
+
+```tsx
+<ProgressTracker showLabels={false} steps={steps} />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `steps` | `TrackerStep[]` | **required** | Ordered step definitions |
-| `size` | `'sm' \| 'lg'` | `'lg'` | Type scale and spacing |
-| `showLabels` | `boolean` | `true` | Show step label text |
+| `steps` | `TrackerStep[]` | — | **Required.** Step descriptors |
+| `size` | `'sm' \| 'lg'` | `'lg'` | Label font size |
+| `showLabels` | `boolean` | `true` | Show step labels below bars |
 
 **TrackerStep**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `label` | `string` | Step label |
-| `state` | `'completed' \| 'active' \| 'pending'` | Visual state — completed = full bar, active = partial bar, pending = empty |
+| `label` | `string` | Step display name |
+| `state` | `'completed' \| 'active' \| 'pending'` | 100% / 25% / 0% fill |
 
 ---
 
 ### RadioButton
 
-Single-selection control with label, description, invalid state, and two sizes.
+`Version: 1.0.0`
+
+Single-selection control. Use within a group where only one option can be selected at a time.
 
 ![RadioButton](docs/images/radio.png)
 
+**Import**
 ```tsx
 import { RadioButton } from '@/components/ds/RadioButton';
+```
+**Component File:** `components/ds/RadioButton.tsx`
 
-const [selected, setSelected] = useState('a');
+#### States
 
-<RadioButton label="Option A" checked={selected === 'a'} onChange={() => setSelected('a')} />
-<RadioButton label="Option B" checked={selected === 'b'} onChange={() => setSelected('b')} />
-<RadioButton label="Option C" disabled />
+RadioButton can be unselected, selected, or disabled.
+
+```tsx
+<RadioButton defaultSelected={false} />
+<RadioButton defaultSelected={true}  />
+<RadioButton disabled />
 ```
 
-| Prop | Type | Default | Description |
+#### In a Group
+
+Manage selection state externally and pass `selected` and `onValueChange` to each option.
+
+```tsx
+const [selected, setSelected] = useState<string>('a');
+
+<RadioButton selected={selected === 'a'} onValueChange={() => setSelected('a')} accessibilityLabel="Option A" />
+<RadioButton selected={selected === 'b'} onValueChange={() => setSelected('b')} accessibilityLabel="Option B" />
+<RadioButton selected={selected === 'c'} onValueChange={() => setSelected('c')} disabled />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `checked` | `boolean` | — | Controlled state |
-| `defaultChecked` | `boolean` | `false` | Initial state for uncontrolled usage |
-| `onChange` | `(checked: boolean) => void` | — | Change handler |
-| `size` | `'sm' \| 'md'` | `'md'` | Circle: 20 / 24 px |
-| `label` | `string` | — | Inline label |
-| `description` | `string` | — | Secondary helper text |
-| `disabled` | `boolean` | `false` | Non-interactive |
-| `invalid` | `boolean` | `false` | Error border colour |
+| `selected` | `boolean` | — | Controlled state |
+| `defaultSelected` | `boolean` | `false` | Initial uncontrolled state |
+| `onValueChange` | `(value: boolean) => void` | — | Change handler |
+| `size` | `'sm' \| 'md'` | `'md'` | Hit area and ring size |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `accessibilityLabel` | `string` | — | Screen-reader label |
 
 ---
 
 ### Slider
 
-Draggable continuous value selector with optional label, min/max labels, step snapping, and disabled state.
+`Version: 1.0.0`
+
+Continuous value selector with a draggable thumb. Tap anywhere on the track to jump; drag to adjust. Resists gesture theft from parent `ScrollView`.
 
 ![Slider](docs/images/slider.png)
 
+**Import**
 ```tsx
 import { Slider } from '@/components/ds/Slider';
+```
+**Component File:** `components/ds/Slider.tsx`
 
-<Slider
-  label="Volume"
-  value={volume}
-  onValueChange={setVolume}
-  min={0}
-  max={100}
-/>
-<Slider defaultValue={50} step={10} showMinMax />
-<Slider value={30} disabled />
+#### Basic
+
+A simple uncontrolled slider with default `min` (0) and `max` (100).
+
+```tsx
+<Slider onSlidingComplete={(v) => console.log(v)} />
 ```
 
-| Prop | Type | Default | Description |
+#### With Label
+
+Use the `label` prop to render a descriptor above the track.
+
+```tsx
+const [volume, setVolume] = useState(50);
+<Slider label="Volume" value={volume} onValueChange={setVolume} />
+```
+
+#### Step
+
+Use the `step` prop to snap the thumb to fixed intervals.
+
+```tsx
+<Slider defaultValue={0} min={0} max={100} step={10} showMinMax />
+```
+
+#### Disabled
+
+A disabled slider reduces opacity and ignores interaction.
+
+```tsx
+<Slider value={40} disabled label="Locked setting" />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
 | `value` | `number` | — | Controlled value |
-| `defaultValue` | `number` | `min` | Initial value for uncontrolled usage |
-| `min` | `number` | `0` | Minimum value |
-| `max` | `number` | `100` | Maximum value |
-| `step` | `number` | `1` | Snapping interval |
-| `onValueChange` | `(value: number) => void` | — | Called continuously while dragging |
+| `defaultValue` | `number` | `min` | Initial uncontrolled value |
+| `min` | `number` | `0` | Minimum |
+| `max` | `number` | `100` | Maximum |
+| `step` | `number` | `1` | Snap interval |
+| `onValueChange` | `(value: number) => void` | — | Called while dragging |
 | `onSlidingComplete` | `(value: number) => void` | — | Called on release |
 | `label` | `string` | — | Label above the track |
-| `showMinMax` | `boolean` | `true` | Show min/max labels beside the track |
-| `disabled` | `boolean` | `false` | Non-interactive |
-| `accessibilityLabel` | `string` | — | Overrides `label` for screen readers |
+| `showMinMax` | `boolean` | `true` | Min/max labels on each side |
+| `disabled` | `boolean` | `false` | Disables interaction |
 
 ---
 
 ### Switch
 
-Animated binary toggle with controlled and uncontrolled usage, disabled state, and accessible role.
+`Version: 1.0.0`
+
+Animated binary toggle with 150ms thumb slide and background color transition. Supports controlled and uncontrolled usage.
 
 ![Switch](docs/images/switch.png)
 
+**Import**
 ```tsx
 import { Switch } from '@/components/ds/Switch';
+```
+**Component File:** `components/ds/Switch.tsx`
 
-<Switch value={enabled} onValueChange={setEnabled} />
-<Switch defaultValue={true} />
-<Switch value={false} disabled />
+#### On and Off
+
+Switch can be toggled between on and off states.
+
+```tsx
+<Switch defaultValue={false} onValueChange={console.log} />
+<Switch defaultValue={true}  onValueChange={console.log} />
 ```
 
-| Prop | Type | Default | Description |
+#### Controlled
+
+Use the `value` prop with `onValueChange` for controlled usage.
+
+```tsx
+const [enabled, setEnabled] = useState(false);
+<Switch value={enabled} onValueChange={setEnabled} accessibilityLabel="Notifications" />
+```
+
+#### Disabled
+
+Disabled switches reduce opacity and ignore press interactions.
+
+```tsx
+<Switch value={false} disabled />
+<Switch value={true}  disabled />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `value` | `boolean` | — | Controlled on/off state |
-| `defaultValue` | `boolean` | `false` | Initial state for uncontrolled usage |
-| `onValueChange` | `(value: boolean) => void` | — | Change handler |
-| `disabled` | `boolean` | `false` | Non-interactive |
-| `accessibilityLabel` | `string` | — | Screen reader label |
+| `value` | `boolean` | — | Controlled value |
+| `defaultValue` | `boolean` | `false` | Initial uncontrolled value |
+| `onValueChange` | `(value: boolean) => void` | — | Toggle handler |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `accessibilityLabel` | `string` | — | Screen-reader label |
 
 ---
 
 ### Tooltip
 
-Static informational label with filled or elevated variant and five directional arrow options.
+`Version: 1.0.0`
+
+Short contextual label with a directional arrow. Use to clarify icon buttons, abbreviations, or truncated text.
 
 ![Tooltip](docs/images/tooltip.png)
 
+**Import**
 ```tsx
 import { Tooltip } from '@/components/ds/Tooltip';
+```
+**Component File:** `components/ds/Tooltip.tsx`
 
-<Tooltip text="Saved to your account" direction="top" />
-<Tooltip text="More info" variant="elevated" direction="right" />
+#### Filled
+
+The filled variant uses a dark inverse surface — the default and most common style.
+
+```tsx
+<Tooltip text="More options" />
+<Tooltip text="Delete item" direction="bottom" />
 ```
 
-| Prop | Type | Default | Description |
+#### Elevated
+
+The elevated variant uses a white surface with a border and shadow — for use on dark backgrounds.
+
+```tsx
+<Tooltip text="Save your work" variant="elevated" direction="bottom" />
+```
+
+#### Directions
+
+The `direction` prop describes where the target is relative to the bubble, which determines where the arrow is drawn.
+
+```tsx
+<Tooltip text="No arrow"    direction="none"   />
+<Tooltip text="Arrow up"    direction="top"    />
+<Tooltip text="Arrow down"  direction="bottom" />
+<Tooltip text="Arrow left"  direction="left"   />
+<Tooltip text="Arrow right" direction="right"  />
+```
+
+**Props**
+
+| Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `text` | `string` | **required** | Tooltip content |
-| `variant` | `'filled' \| 'elevated'` | `'filled'` | Dark background vs. elevated surface |
-| `direction` | `'none' \| 'top' \| 'bottom' \| 'left' \| 'right'` | `'none'` | Directional arrow placement |
+| `text` | `string` | — | **Required.** Tooltip content |
+| `variant` | `'filled' \| 'elevated'` | `'filled'` | Dark inverse or white elevated |
+| `direction` | `'none' \| 'top' \| 'bottom' \| 'left' \| 'right'` | `'none'` | Where the target is relative to the bubble |
 
 ---
 
-## Token system
+## Token System
 
 All components reference only `sys.*` tokens via:
 
@@ -513,17 +997,19 @@ import { sys } from '@/components/ds/tokens';
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
 ```
 
-Never apply `core.*`, `product.*`, or `brand.*` tokens directly in UI — they are internal plumbing. Only `sys.*` tokens respond to theme and brand changes.
+Never apply `core.*`, `product.*`, or `brand.*` tokens directly in UI — they are internal plumbing and will not respond to theme or brand changes.
 
 ---
 
-## Project structure
+## Project Structure
 
 ```
-components/ds/       Design system components + tokens
-app/(tabs)/          Expo Router tab screens
+components/ds/          All 17 DS component implementations
+components/ds/tokens.ts sys.* token bridge from @javierkonpo/design-system
+app/(tabs)/index.tsx    Component gallery / showcase screen
 docs/
-  components.md      Full component API reference
-  components.pdf     Print-ready reference with Figma screenshots
-  images/            Figma component screenshots
+  components.md         Full component API reference (RNEUI-style)
+  Components.docx       Word document with Figma screenshots
+  components.pdf        PDF reference with Figma screenshots
+  images/               Figma component screenshots
 ```
