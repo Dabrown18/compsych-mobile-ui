@@ -177,6 +177,8 @@ function PageItem({ s, page, isActive, onPress }: PageItemProps) {
 function EllipsisItem({ s }: { s: SizeTokens }) {
   return (
     <View
+      accessible
+      accessibilityLabel="More pages"
       style={{
         width: s.itemSize + RING_SIZE * 2,
         height: s.itemSize + RING_SIZE * 2,

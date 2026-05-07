@@ -89,6 +89,7 @@ function scaledPos(left: number, top: number) {
 }
 
 function EmptyIllustration() {
+  // Purely decorative — hidden from accessibility tree
   // Central active card
   const central = scaledPos(119, 63);
   // Surrounding faded cards
@@ -102,7 +103,11 @@ function EmptyIllustration() {
   ];
 
   return (
-    <View style={[styles.illusContainer, { width: ILLUS_W, height: ILLUS_H }]}>
+    <View
+      accessible={false}
+      importantForAccessibility="no-hide-descendants"
+      style={[styles.illusContainer, { width: ILLUS_W, height: ILLUS_H }]}
+    >
       {/* Faded background cards */}
       {positions.map((pos, i) => (
         <View
@@ -252,6 +257,8 @@ export function EmptyState({
         {hasAction && actionLabel && (
           <Pressable
             onPress={onAction}
+            accessibilityRole="button"
+            accessibilityLabel={actionLabel}
             style={({ pressed }) => [
               styles.actionBtn,
               {

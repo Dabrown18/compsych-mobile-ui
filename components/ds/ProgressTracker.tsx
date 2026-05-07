@@ -17,7 +17,12 @@ export function ProgressBar({ progress }: ProgressBarProps) {
   const clamped = Math.min(100, Math.max(0, progress));
 
   return (
-    <View style={styles.track}>
+    <View
+      accessible
+      accessibilityRole="progressbar"
+      accessibilityValue={{ min: 0, max: 100, now: clamped }}
+      style={styles.track}
+    >
       {clamped > 0 && (
         <View
           style={[

@@ -129,7 +129,7 @@ export function Breadcrumb({ items, size = 'lg' }: BreadcrumbProps) {
             ) : (
               <View
                 accessibilityRole={isCurrent ? 'text' : undefined}
-                aria-current={isCurrent ? 'page' : undefined}
+                accessibilityState={isCurrent ? { selected: true } : undefined}
               >
                 {content}
               </View>
@@ -138,6 +138,7 @@ export function Breadcrumb({ items, size = 'lg' }: BreadcrumbProps) {
             {/* Divider — shown after every item except the last */}
             {!isLast && (
               <View
+                accessible={false}
                 style={[styles.divider, { width: s.dividerWidth }]}
               >
                 <Text

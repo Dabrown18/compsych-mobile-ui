@@ -25,6 +25,8 @@ export interface AvatarProps {
   activityRing?: boolean;
   /** Renders a shield-check badge at the bottom-right corner */
   presenceBadge?: boolean;
+  /** Accessible label announced by screen readers */
+  accessibilityLabel?: string;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -124,14 +126,23 @@ export function Avatar({
   icon,
   activityRing = false,
   presenceBadge = false,
+  accessibilityLabel,
 }: AvatarProps) {
   const s = SIZE_TOKENS[size];
   const r = s.diameter / 2;
 
+  const defaultLabel =
+    variant === 'text' ? `Avatar: ${initials}` : 'Avatar';
+
   return (
     // Outer wrapper — same footprint as avatar, does NOT clip so ring/badge
     // can overflow its bounds freely.
-    <View style={{ width: s.diameter, height: s.diameter }}>
+    <View
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={accessibilityLabel ?? defaultLabel}
+      style={{ width: s.diameter, height: s.diameter }}
+    >
 
       {/* ── Avatar circle ─────────────────────────────────────────────── */}
       <View
@@ -186,6 +197,7 @@ export function Avatar({
       {/* ── Activity ring ─────────────────────────────────────────────── */}
       {activityRing && (
         <View
+          accessible={false}
           style={{
             position: 'absolute',
             top: s.ringInset,
@@ -203,6 +215,7 @@ export function Avatar({
       {/* ── Presence badge ────────────────────────────────────────────── */}
       {presenceBadge && s.badgeSize > 0 && (
         <View
+          accessible={false}
           style={[
             styles.badge,
             {
