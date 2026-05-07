@@ -52,5 +52,11 @@ export type { SwitchProps } from './Switch';
 export { Tooltip } from './Tooltip';
 export type { TooltipProps, TooltipVariant, TooltipDirection } from './Tooltip';
 
+export { BodyText } from './BodyText';
+export type { BodyTextProps, BodyVariant } from './BodyText';
+
+export { HeaderText } from './HeaderText';
+export type { HeaderTextProps, HeaderVariant } from './HeaderText';
+
 // Re-export tokens for consumers who need direct access
 export { sys } from './tokens';

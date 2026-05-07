@@ -156,6 +156,9 @@ export function Input({
           <TextInput
             {...rest}
             editable={editable}
+            accessibilityLabel={label ?? rest.placeholder}
+            accessibilityHint={supportingText}
+            accessibilityState={{ disabled: isDisabled }}
             onFocus={(e) => {
               setIsFocused(true);
               onFocus?.(e);

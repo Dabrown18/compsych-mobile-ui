@@ -1,1 +1,1 @@
-export { sys } from '@javierkonpo/design-system/themes/compsych-gro';
+export { sys } from '@compsych/mobile-ui';

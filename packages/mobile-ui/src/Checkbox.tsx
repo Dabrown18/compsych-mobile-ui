@@ -69,6 +69,7 @@ export function Checkbox({
     <Pressable
       onPress={handlePress}
       accessibilityRole="checkbox"
+      accessibilityLabel={label}
       accessibilityState={{
         checked: isIndeterminate ? 'mixed' : isChecked,
         disabled,

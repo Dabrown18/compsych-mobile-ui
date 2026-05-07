@@ -73,6 +73,7 @@ export function RadioButton({
     <Pressable
       onPress={handlePress}
       accessibilityRole="radio"
+      accessibilityLabel={label}
       accessibilityState={{ checked: isChecked, disabled }}
       style={({ pressed }) => [
         styles.root,

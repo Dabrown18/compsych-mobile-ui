@@ -111,12 +111,15 @@ export function Tooltip({
         break;
     }
 
-    return <View style={arrowStyle!} />;
+    return <View accessible={false} style={arrowStyle!} />;
   }
 
   // ── Bubble ────────────────────────────────────────────────────────────────
   const bubble = (
     <View
+      accessible
+      accessibilityRole="text"
+      accessibilityLabel={text}
       style={[
         styles.bubble,
         {

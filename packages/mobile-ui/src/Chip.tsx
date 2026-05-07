@@ -169,6 +169,9 @@ export function Chip({
 
   return (
     <View
+      accessible
+      accessibilityRole="none"
+      accessibilityLabel={badge !== undefined ? `${label}, ${badge}` : label}
       style={[
         styles.root,
         {

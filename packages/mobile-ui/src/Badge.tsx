@@ -113,6 +113,7 @@ export function Badge({
   if (badgeStyle === 'dot') {
     return (
       <View
+        accessible={false}
         style={{
           width: s.outerSize,
           height: s.outerSize,
@@ -139,6 +140,8 @@ export function Badge({
 
   return (
     <View
+      accessible
+      accessibilityLabel={displayLabel ? `${displayLabel} badge` : 'Badge'}
       style={[
         styles.root,
         {

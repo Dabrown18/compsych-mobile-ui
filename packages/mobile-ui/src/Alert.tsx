@@ -151,6 +151,8 @@ export function Alert({
 
   return (
     <View
+      accessibilityRole="alert"
+      accessibilityLiveRegion="polite"
       style={[
         styles.root,
         {
@@ -232,6 +234,8 @@ export function Alert({
               // lg: pill button with white bg + shadow (or border for elevated)
               <Pressable
                 onPress={onAction}
+                accessibilityRole="button"
+                accessibilityLabel={actionLabel}
                 style={({ pressed }) => [
                   styles.actionLg,
                   c.actionBorder && styles.actionLgBorder,
@@ -252,7 +256,12 @@ export function Alert({
               </Pressable>
             ) : (
               // sm: text-only button
-              <Pressable onPress={onAction} style={styles.actionSm}>
+              <Pressable
+                onPress={onAction}
+                accessibilityRole="button"
+                accessibilityLabel={actionLabel}
+                style={styles.actionSm}
+              >
                 <Text
                   style={{
                     color: c.text,
@@ -273,6 +282,7 @@ export function Alert({
         {dismissible && (
           <Pressable
             onPress={onDismiss}
+            accessibilityRole="button"
             accessibilityLabel="Dismiss"
             style={({ pressed }) => [
               styles.closeBtn,

@@ -1,7 +1,7 @@
 {
   "name": "@compsych/mobile-ui",
   "version": "1.0.0",
-  "description": "ComPsych React Native Design System — 17 mobile UI components built on the ComPsych token system",
+  "description": "ComPsych React Native Design System — 19 mobile UI components with self-contained design tokens",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "react-native": "src/index.ts",
@@ -19,8 +19,8 @@
   "license": "UNLICENSED",
   "private": true,
   "peerDependencies": {
+    "@expo-google-fonts/google-sans": ">=0.4.0",
     "@expo/vector-icons": ">=15.0.0",
-    "@javierkonpo/design-system": "*",
     "react": ">=18.0.0",
     "react-native": ">=0.73.0"
   }
