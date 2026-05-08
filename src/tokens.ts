@@ -72,6 +72,13 @@ export const sys = {
       },
     },
   },
+  iconography: {
+    sysSizeXs: 16,
+    sysSizeSm: 20,
+    sysSizeMd: 24,
+    sysSizeLg: 32,
+    sysSizeXl: 40,
+  },
   dimensions: {
     borderRadius: {
       sysRadiusXs: 4,
