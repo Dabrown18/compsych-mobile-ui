@@ -1,11 +1,6 @@
 import React from 'react';
 import { Text, type TextProps } from 'react-native';
 import { useFonts } from 'expo-font';
-import {
-  GoogleSans_400Regular,
-  GoogleSans_500Medium,
-  GoogleSans_600SemiBold,
-} from '@expo-google-fonts/google-sans';
 
 import { sys } from './tokens';
 
@@ -48,9 +43,9 @@ export function BodyText({
   ...rest
 }: BodyTextProps) {
   const [fontsLoaded] = useFonts({
-    GoogleSans_400Regular,
-    GoogleSans_500Medium,
-    GoogleSans_600SemiBold,
+    GoogleSans_400Regular: require('./fonts/GoogleSans_400Regular.ttf'),
+    GoogleSans_500Medium: require('./fonts/GoogleSans_500Medium.ttf'),
+    GoogleSans_600SemiBold: require('./fonts/GoogleSans_600SemiBold.ttf'),
   });
 
   const token = ts[VARIANT_TOKEN_KEY[variant]];
