@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@compsych/mobile-ui": ["../src/index.ts"],
+      "@compsych/mobile-ui/*": ["../src/*"]
+    }
+  }
+}

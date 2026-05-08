@@ -1,0 +1,30 @@
+export type RootStackParamList = {
+  Home: undefined;
+  // Molecules
+  Alert: undefined;
+  Avatar: undefined;
+  Badge: undefined;
+  Breadcrumb: undefined;
+  Button: undefined;
+  Card: undefined;
+  Checkbox: undefined;
+  Chip: undefined;
+  Divider: undefined;
+  EmptyState: undefined;
+  Input: undefined;
+  Pagination: undefined;
+  ProgressTracker: undefined;
+  RadioButton: undefined;
+  SegmentedControl: undefined;
+  Slider: undefined;
+  Snackbar: undefined;
+  Switch: undefined;
+  Tooltip: undefined;
+  // Organisms
+  ActionSheet: undefined;
+  List: undefined;
+  PlanCard: undefined;
+  // Typography
+  HeaderText: undefined;
+  BodyText: undefined;
+};
