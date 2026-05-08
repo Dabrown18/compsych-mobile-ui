@@ -1,5 +1,11 @@
 import React from 'react';
 import { Text, type TextProps } from 'react-native';
+import { useFonts } from 'expo-font';
+import {
+  GoogleSans_400Regular,
+  GoogleSans_500Medium,
+  GoogleSans_600SemiBold,
+} from '@expo-google-fonts/google-sans';
 
 import { sys } from './tokens';
 
@@ -26,7 +32,7 @@ const FONT_FAMILY: Record<string, string> = {
   semibold: 'GoogleSans_600SemiBold',
 };
 
-const VARIANT_TOKEN_KEY: Record<HeaderVariant, string> = {
+const VARIANT_TOKEN_KEY: Record<HeaderVariant, keyof typeof sys.typeScale> = {
   large: 'displayLarge',
   medium: 'displayMedium',
   small: 'displaySmall',
@@ -47,6 +53,12 @@ export function HeaderText({
   style,
   ...rest
 }: HeaderTextProps) {
+  const [fontsLoaded] = useFonts({
+    GoogleSans_400Regular,
+    GoogleSans_500Medium,
+    GoogleSans_600SemiBold,
+  });
+
   const token = ts[VARIANT_TOKEN_KEY[variant]];
   const weight = emphasized ? token.sysFontWeightEmphasized : token.sysFontWeight;
 
@@ -55,7 +67,7 @@ export function HeaderText({
       accessibilityRole="header"
       style={[
         {
-          fontFamily: FONT_FAMILY[weight],
+          fontFamily: fontsLoaded ? FONT_FAMILY[weight] : undefined,
           fontSize: token.sysFontSize,
           lineHeight: token.sysLineHeight,
           letterSpacing: token.sysTracking,

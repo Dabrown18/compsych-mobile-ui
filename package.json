@@ -1,6 +1,6 @@
 {
   "name": "@compsych/mobile-ui",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ComPsych React Native Design System — 19 mobile UI components with self-contained design tokens",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -20,6 +20,7 @@
   "peerDependencies": {
     "@expo-google-fonts/google-sans": ">=0.4.0",
     "@expo/vector-icons": ">=15.0.0",
+    "expo-font": ">=13.0.0",
     "react": ">=18.0.0",
     "react-native": ">=0.73.0"
   }

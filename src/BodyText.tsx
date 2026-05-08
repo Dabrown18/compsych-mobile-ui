@@ -1,5 +1,11 @@
 import React from 'react';
 import { Text, type TextProps } from 'react-native';
+import { useFonts } from 'expo-font';
+import {
+  GoogleSans_400Regular,
+  GoogleSans_500Medium,
+  GoogleSans_600SemiBold,
+} from '@expo-google-fonts/google-sans';
 
 import { sys } from './tokens';
 
@@ -23,7 +29,7 @@ const FONT_FAMILY: Record<string, string> = {
   semibold: 'GoogleSans_600SemiBold',
 };
 
-const VARIANT_TOKEN_KEY: Record<BodyVariant, string> = {
+const VARIANT_TOKEN_KEY: Record<BodyVariant, keyof typeof sys.typeScale> = {
   large: 'bodyLarge',
   medium: 'bodyMedium',
   small: 'bodySmall',
@@ -41,6 +47,12 @@ export function BodyText({
   style,
   ...rest
 }: BodyTextProps) {
+  const [fontsLoaded] = useFonts({
+    GoogleSans_400Regular,
+    GoogleSans_500Medium,
+    GoogleSans_600SemiBold,
+  });
+
   const token = ts[VARIANT_TOKEN_KEY[variant]];
   const weight = emphasized ? token.sysFontWeightEmphasized : token.sysFontWeight;
 
@@ -48,7 +60,7 @@ export function BodyText({
     <Text
       style={[
         {
-          fontFamily: FONT_FAMILY[weight],
+          fontFamily: fontsLoaded ? FONT_FAMILY[weight] : undefined,
           fontSize: token.sysFontSize,
           lineHeight: token.sysLineHeight,
           letterSpacing: token.sysTracking,
