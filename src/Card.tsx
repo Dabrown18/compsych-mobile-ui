@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
 import { BodyText } from './BodyText';
 
@@ -29,58 +30,107 @@ export interface CardProps {
 
 const { colorRoles: cr, dimensions: dim } = sys;
 
-const VARIANT_TOKENS = {
+// ── Variant tokens ────────────────────────────────────────────────────────────
+
+const VARIANT_TOKENS: Record<
+  CardVariant,
+  {
+    bg: string;
+    borderColor: string;
+    borderWidth: number;
+    elevated: boolean;
+    titleColor: string;
+    descColor: string;
+    chevronColor: string;
+    // doubled inner gradient overlay color
+    innerBg?: string;
+    iconBadgeBg?: string;
+    iconBadgeColor?: string;
+  }
+> = {
   outlined: {
-    outerBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+    bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     borderColor: cr.outline.sysOutline,
     borderWidth: dim.borderWidth.sysStrokeThin,
-    outerRadius: dim.borderRadius.sysRadiusLg,
     elevated: true,
     titleColor: cr.surface.surface.sysOnSurface,
     descColor: cr.surface.surface.sysOnSurfaceVariant,
+    chevronColor: cr.outline.sysOutlineFixed,
   },
   tonal: {
-    outerBg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
+    bg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
     borderColor: 'transparent',
     borderWidth: 0,
-    outerRadius: dim.borderRadius.sysRadiusLg,
     elevated: false,
     titleColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
     descColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
+    chevronColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
   },
   filled: {
-    outerBg: cr.accent.primary.sysPrimaryContainer,
+    bg: cr.accent.primary.sysPrimary,
     borderColor: 'transparent',
     borderWidth: 0,
-    outerRadius: dim.borderRadius.sysRadiusLg,
     elevated: true,
-    titleColor: cr.surface.surface.sysOnSurface,
-    descColor: cr.surface.surface.sysOnSurfaceVariant,
+    titleColor: cr.accent.primary.sysOnPrimary,
+    descColor: cr.accent.primary.sysOnPrimary,
+    chevronColor: cr.accent.primary.sysOnPrimary,
   },
   doubled: {
-    outerBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+    bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     borderColor: cr.outline.sysOutline,
     borderWidth: dim.borderWidth.sysStrokeThin,
-    outerRadius: dim.borderRadius.sysRadiusXl,
     elevated: false,
     titleColor: cr.surface.surface.sysOnSurface,
     descColor: cr.surface.surface.sysOnSurfaceVariant,
+    chevronColor: cr.outline.sysOutlineFixed,
+    innerBg: cr.transparent.primary.sysPrimary08,
+    iconBadgeBg: cr.accent.primary.sysPrimary,
+    iconBadgeColor: cr.accent.primary.sysOnPrimary,
   },
   image: {
-    outerBg: 'transparent',
+    bg: 'transparent',
     borderColor: 'transparent',
     borderWidth: 0,
-    outerRadius: dim.borderRadius.sysRadiusLg,
     elevated: false,
     titleColor: '#ffffff',
     descColor: cr.transparent.neutral.sysWhite80,
+    chevronColor: '#ffffff',
   },
 };
 
-const SIZE_PADDING: Record<CardSize, number> = {
-  sm: dim.spacing.padding.sysPadding8,
-  md: dim.spacing.padding.sysPadding12,
-  lg: dim.spacing.padding.sysPadding16,
+// ── Size tokens ───────────────────────────────────────────────────────────────
+
+const SIZE_TOKENS = {
+  sm: {
+    layout: 'row' as const,
+    paddingH: dim.spacing.padding.sysPadding16,
+    paddingV: dim.spacing.padding.sysPadding12,
+    gap: dim.spacing.padding.sysPadding12,
+    borderRadius: dim.borderRadius.sysRadiusMd,
+    iconSize: 24,
+    titleVariant: 'medium' as const,
+    showChevron: true,
+  },
+  md: {
+    layout: 'column' as const,
+    paddingH: dim.spacing.padding.sysPadding16,
+    paddingV: dim.spacing.padding.sysPadding16,
+    gap: dim.spacing.padding.sysPadding24,
+    borderRadius: dim.borderRadius.sysRadiusLg,
+    iconSize: 32,
+    titleVariant: 'medium' as const,
+    showChevron: false,
+  },
+  lg: {
+    layout: 'column' as const,
+    paddingH: dim.spacing.padding.sysPadding16,
+    paddingV: dim.spacing.padding.sysPadding16,
+    gap: dim.spacing.padding.sysPadding32,
+    borderRadius: dim.borderRadius.sysRadiusLg,
+    iconSize: 32,
+    titleVariant: 'large' as const,
+    showChevron: false,
+  },
 };
 
 const ELEVATION = {
@@ -90,6 +140,8 @@ const ELEVATION = {
   shadowRadius: 8,
   elevation: 2,
 };
+
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export function Card({
   variant = 'outlined',
@@ -106,30 +158,34 @@ export function Card({
   fullWidth = false,
 }: CardProps) {
   const v = VARIANT_TOKENS[variant];
-  const padding = SIZE_PADDING[size];
+  const s = SIZE_TOKENS[size];
+  const isRow = s.layout === 'row';
 
   const outerStyle = [
-    styles.root,
     {
-      backgroundColor: v.outerBg,
+      backgroundColor: variant === 'doubled' ? v.bg : v.bg,
       borderColor: v.borderColor,
       borderWidth: v.borderWidth,
-      borderRadius: v.outerRadius,
-      padding: variant === 'doubled' ? dim.spacing.padding.sysPadding8 : padding,
+      borderRadius: variant === 'doubled' ? dim.borderRadius.sysRadiusXl : s.borderRadius,
+      paddingHorizontal: variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingH,
+      paddingVertical: variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingV,
       opacity: disabled ? 0.48 : 1,
     },
     v.elevated && ELEVATION,
     fullWidth && { alignSelf: 'stretch' as const },
+    isRow ? styles.rowRoot : styles.colRoot,
+    !isRow && { gap: s.gap },
   ];
 
+  // ── Text block ──────────────────────────────────────────────────────────────
   const textBlock = (title || description) ? (
-    <View style={styles.textBlock}>
+    <View style={isRow ? styles.rowTextBlock : undefined}>
       {title && (
-        <BodyText variant="large" color={v.titleColor}>
+        <BodyText variant={s.titleVariant} color={v.titleColor}>
           {title}
         </BodyText>
       )}
-      {description && (
+      {!isRow && description && (
         <BodyText variant="small" color={v.descColor}>
           {description}
         </BodyText>
@@ -137,17 +193,20 @@ export function Card({
     </View>
   ) : null;
 
+  // ── Inner content by variant ────────────────────────────────────────────────
   let inner: React.ReactNode;
 
   if (variant === 'doubled') {
     inner = (
       <View
         style={[
-          styles.doubledInner,
+          styles.colRoot,
           {
-            backgroundColor: cr.transparent.primary.sysPrimary08,
-            borderRadius: dim.borderRadius.sysRadiusLg,
-            padding,
+            backgroundColor: v.innerBg,
+            borderRadius: s.borderRadius,
+            paddingHorizontal: s.paddingH,
+            paddingVertical: s.paddingV,
+            gap: s.gap,
           },
         ]}
       >
@@ -156,7 +215,7 @@ export function Card({
             style={[
               styles.doubledIconBadge,
               {
-                backgroundColor: cr.accent.primary.sysPrimary,
+                backgroundColor: v.iconBadgeBg,
                 borderRadius: dim.borderRadius.sysRadiusFull,
               },
             ]}
@@ -175,34 +234,53 @@ export function Card({
           <>
             <Image
               source={image}
-              style={[StyleSheet.absoluteFillObject, { borderRadius: v.outerRadius }]}
+              style={[StyleSheet.absoluteFillObject, { borderRadius: s.borderRadius }]}
               resizeMode="cover"
               accessible={false}
             />
             <View
               style={[
                 StyleSheet.absoluteFillObject,
-                { borderRadius: v.outerRadius, backgroundColor: 'rgba(0,0,0,0.30)' },
+                { borderRadius: s.borderRadius, backgroundColor: 'rgba(0,0,0,0.30)' },
               ]}
               pointerEvents="none"
             />
           </>
         )}
-        {icon && <View style={styles.iconSlot}>{icon}</View>}
+        {icon && <View style={{ width: s.iconSize, height: s.iconSize }}>{icon}</View>}
         {textBlock}
         {children}
       </>
     );
-  } else {
+  } else if (isRow) {
+    // sm — horizontal row
     inner = (
       <>
-        {icon && <View style={styles.iconSlot}>{icon}</View>}
+        {icon && <View style={{ width: s.iconSize, height: s.iconSize }}>{icon}</View>}
+        {textBlock}
+        {s.showChevron && (
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={v.chevronColor}
+            accessible={false}
+          />
+        )}
+        {children}
+      </>
+    );
+  } else {
+    // md / lg — vertical column
+    inner = (
+      <>
+        {icon && <View style={{ width: s.iconSize, height: s.iconSize }}>{icon}</View>}
         {textBlock}
         {children}
       </>
     );
   }
 
+  // ── Wrapper ─────────────────────────────────────────────────────────────────
   if (interactive || onPress) {
     return (
       <Pressable
@@ -210,38 +288,48 @@ export function Card({
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel ?? title}
         accessibilityState={{ disabled }}
-        style={({ pressed }) => [outerStyle, pressed && !disabled && styles.pressed]}
+        style={({ pressed }) => [
+          styles.overflow,
+          ...outerStyle,
+          pressed && !disabled && styles.pressed,
+        ]}
       >
         {inner}
       </Pressable>
     );
   }
 
-  return <View style={outerStyle}>{inner}</View>;
+  return (
+    <View style={[styles.overflow, ...outerStyle]}>
+      {inner}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  root: {
+  overflow: {
     overflow: 'hidden',
-    gap: 32,
   },
-  pressed: {
-    opacity: 0.84,
+  colRoot: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
-  iconSlot: {
-    width: 32,
-    height: 32,
+  rowRoot: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
-  textBlock: {
-    gap: 0,
-  },
-  doubledInner: {
-    gap: 24,
+  rowTextBlock: {
+    flex: 1,
+    minWidth: 0,
   },
   doubledIconBadge: {
     width: 48,
     height: 48,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  pressed: {
+    opacity: 0.84,
   },
 });
