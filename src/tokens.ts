@@ -65,7 +65,9 @@ export const sys = {
     transparent: {
       neutral: {
         sysBlack10: '#0000001a',
+        sysWhite10: '#ffffff1a',
         sysWhite20: '#ffffff33',
+        sysWhite80: 'rgba(255,255,255,0.8)',
       },
       primary: {
         sysPrimary08: '#075cba14',

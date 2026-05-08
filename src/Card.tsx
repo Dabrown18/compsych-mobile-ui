@@ -1,152 +1,247 @@
 import React from 'react';
-import { Pressable, StyleSheet, View, type PressableProps, type ViewProps } from 'react-native';
+import {
+  Image,
+  type ImageSourcePropType,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { sys } from './tokens';
+import { BodyText } from './BodyText';
 
-export type CardVariant = 'outlined' | 'filled' | 'gradient';
-export type CardSize = 'sm' | 'md' | 'lg' | 'xl';
+export type CardVariant = 'outlined' | 'tonal' | 'filled' | 'doubled' | 'image';
+export type CardSize = 'sm' | 'md' | 'lg';
 
 export interface CardProps {
   variant?: CardVariant;
   size?: CardSize;
+  title?: string;
+  description?: string;
+  icon?: React.ReactNode;
+  image?: ImageSourcePropType;
   interactive?: boolean;
   disabled?: boolean;
-  current?: boolean;
-  fullWidth?: boolean;
   onPress?: () => void;
   children?: React.ReactNode;
   accessibilityLabel?: string;
+  fullWidth?: boolean;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
 
 const VARIANT_TOKENS = {
   outlined: {
-    bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+    outerBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     borderColor: cr.outline.sysOutline,
     borderWidth: dim.borderWidth.sysStrokeThin,
-    elevated: false,
+    outerRadius: dim.borderRadius.sysRadiusLg,
+    elevated: true,
+    titleColor: cr.surface.surface.sysOnSurface,
+    descColor: cr.surface.surface.sysOnSurfaceVariant,
   },
-  filled: {
-    bg: cr.accent.primary.sysPrimaryContainer,
+  tonal: {
+    outerBg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
     borderColor: 'transparent',
     borderWidth: 0,
-    elevated: true,
+    outerRadius: dim.borderRadius.sysRadiusLg,
+    elevated: false,
+    titleColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
+    descColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
   },
-  gradient: {
-    // Approximates the gradient variant with a tinted surface; expo-linear-gradient not required.
-    bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+  filled: {
+    outerBg: cr.accent.primary.sysPrimaryContainer,
+    borderColor: 'transparent',
+    borderWidth: 0,
+    outerRadius: dim.borderRadius.sysRadiusLg,
+    elevated: true,
+    titleColor: cr.surface.surface.sysOnSurface,
+    descColor: cr.surface.surface.sysOnSurfaceVariant,
+  },
+  doubled: {
+    outerBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     borderColor: cr.outline.sysOutline,
     borderWidth: dim.borderWidth.sysStrokeThin,
+    outerRadius: dim.borderRadius.sysRadiusXl,
     elevated: false,
+    titleColor: cr.surface.surface.sysOnSurface,
+    descColor: cr.surface.surface.sysOnSurfaceVariant,
+  },
+  image: {
+    outerBg: 'transparent',
+    borderColor: 'transparent',
+    borderWidth: 0,
+    outerRadius: dim.borderRadius.sysRadiusLg,
+    elevated: false,
+    titleColor: '#ffffff',
+    descColor: cr.transparent.neutral.sysWhite80,
   },
 };
 
-const SIZE_TOKENS = {
-  sm: {
-    padding: dim.spacing.padding.sysPadding24,
-    borderRadius: dim.borderRadius.sysRadiusLg,
-    gap: dim.spacing.padding.sysPadding12,
-  },
-  md: {
-    padding: dim.spacing.padding.sysPadding32,
-    borderRadius: dim.borderRadius.sysRadiusLg,
-    gap: dim.spacing.padding.sysPadding16,
-  },
-  lg: {
-    padding: dim.spacing.padding.sysPadding32,
-    borderRadius: dim.borderRadius.sysRadiusLg,
-    gap: dim.spacing.padding.sysPadding24,
-  },
-  xl: {
-    padding: dim.spacing.padding.sysPadding48,
-    borderRadius: dim.borderRadius.sysRadiusXl,
-    gap: dim.spacing.padding.sysPadding24,
-  },
+const SIZE_PADDING: Record<CardSize, number> = {
+  sm: dim.spacing.padding.sysPadding8,
+  md: dim.spacing.padding.sysPadding12,
+  lg: dim.spacing.padding.sysPadding16,
+};
+
+const ELEVATION = {
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.08,
+  shadowRadius: 8,
+  elevation: 2,
 };
 
 export function Card({
   variant = 'outlined',
-  size = 'md',
+  size = 'lg',
+  title,
+  description,
+  icon,
+  image,
   interactive = false,
   disabled = false,
-  current = false,
-  fullWidth = false,
   onPress,
   children,
   accessibilityLabel,
+  fullWidth = false,
 }: CardProps) {
   const v = VARIANT_TOKENS[variant];
-  const s = SIZE_TOKENS[size];
+  const padding = SIZE_PADDING[size];
 
-  const borderColor = current ? cr.accent.primary.sysPrimary : v.borderColor;
-  const borderWidth = current ? dim.borderWidth.sysStrokeThick : v.borderWidth;
+  const outerStyle = [
+    styles.root,
+    {
+      backgroundColor: v.outerBg,
+      borderColor: v.borderColor,
+      borderWidth: v.borderWidth,
+      borderRadius: v.outerRadius,
+      padding: variant === 'doubled' ? dim.spacing.padding.sysPadding8 : padding,
+      opacity: disabled ? 0.48 : 1,
+    },
+    v.elevated && ELEVATION,
+    fullWidth && { alignSelf: 'stretch' as const },
+  ];
 
-  const baseStyle = {
-    backgroundColor: v.bg,
-    borderColor,
-    borderWidth,
-    borderRadius: s.borderRadius,
-    padding: s.padding,
-    gap: s.gap,
-    ...(fullWidth ? { alignSelf: 'stretch' as const } : {}),
-    ...(v.elevated
-      ? {
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.06,
-          shadowRadius: 4,
-          elevation: 1,
-        }
-      : {}),
-    opacity: disabled ? 0.48 : 1,
-  };
+  const textBlock = (title || description) ? (
+    <View style={styles.textBlock}>
+      {title && (
+        <BodyText variant="large" color={v.titleColor}>
+          {title}
+        </BodyText>
+      )}
+      {description && (
+        <BodyText variant="small" color={v.descColor}>
+          {description}
+        </BodyText>
+      )}
+    </View>
+  ) : null;
 
-  // Gradient variant: overlay a subtle primary tint over the content area
-  const gradientOverlay =
-    variant === 'gradient' ? (
+  let inner: React.ReactNode;
+
+  if (variant === 'doubled') {
+    inner = (
       <View
         style={[
-          StyleSheet.absoluteFillObject,
+          styles.doubledInner,
           {
-            borderRadius: s.borderRadius,
             backgroundColor: cr.transparent.primary.sysPrimary08,
+            borderRadius: dim.borderRadius.sysRadiusLg,
+            padding,
           },
         ]}
-        pointerEvents="none"
-      />
-    ) : null;
+      >
+        {icon && (
+          <View
+            style={[
+              styles.doubledIconBadge,
+              {
+                backgroundColor: cr.accent.primary.sysPrimary,
+                borderRadius: dim.borderRadius.sysRadiusFull,
+              },
+            ]}
+          >
+            {icon}
+          </View>
+        )}
+        {textBlock}
+        {children}
+      </View>
+    );
+  } else if (variant === 'image') {
+    inner = (
+      <>
+        {image && (
+          <>
+            <Image
+              source={image}
+              style={[StyleSheet.absoluteFillObject, { borderRadius: v.outerRadius }]}
+              resizeMode="cover"
+              accessible={false}
+            />
+            <View
+              style={[
+                StyleSheet.absoluteFillObject,
+                { borderRadius: v.outerRadius, backgroundColor: 'rgba(0,0,0,0.30)' },
+              ]}
+              pointerEvents="none"
+            />
+          </>
+        )}
+        {icon && <View style={styles.iconSlot}>{icon}</View>}
+        {textBlock}
+        {children}
+      </>
+    );
+  } else {
+    inner = (
+      <>
+        {icon && <View style={styles.iconSlot}>{icon}</View>}
+        {textBlock}
+        {children}
+      </>
+    );
+  }
 
   if (interactive || onPress) {
     return (
       <Pressable
         onPress={disabled ? undefined : onPress}
         accessibilityRole="button"
-        accessibilityLabel={accessibilityLabel}
-        accessibilityState={{ disabled, selected: current }}
-        style={({ pressed }) => [
-          styles.root,
-          baseStyle,
-          pressed && !disabled
-            ? { opacity: 0.84 }
-            : {},
-        ]}
+        accessibilityLabel={accessibilityLabel ?? title}
+        accessibilityState={{ disabled }}
+        style={({ pressed }) => [outerStyle, pressed && !disabled && styles.pressed]}
       >
-        {gradientOverlay}
-        {children}
+        {inner}
       </Pressable>
     );
   }
 
-  return (
-    <View style={[styles.root, baseStyle]}>
-      {gradientOverlay}
-      {children}
-    </View>
-  );
+  return <View style={outerStyle}>{inner}</View>;
 }
 
 const styles = StyleSheet.create({
   root: {
     overflow: 'hidden',
+    gap: 32,
+  },
+  pressed: {
+    opacity: 0.84,
+  },
+  iconSlot: {
+    width: 32,
+    height: 32,
+  },
+  textBlock: {
+    gap: 0,
+  },
+  doubledInner: {
+    gap: 24,
+  },
+  doubledIconBadge: {
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
