@@ -31,8 +31,14 @@ export type { DividerProps, DividerVariant, DividerWeight } from './Divider';
 export { EmptyState } from './EmptyState';
 export type { EmptyStateProps, EmptyStateStyle, EmptyStateViewport } from './EmptyState';
 
+export { List, ListItem } from './List';
+export type { ListProps, ListItemProps, ListItemType } from './List';
+
 export { Input } from './Input';
 export type { InputProps, InputSize } from './Input';
+
+export { PlanCard, PlanCardDropdownItem } from './PlanCard';
+export type { PlanCardProps, PlanCardItemData } from './PlanCard';
 
 export { Pagination } from './Pagination';
 export type { PaginationProps, PaginationSize } from './Pagination';
@@ -43,14 +49,23 @@ export type { ProgressTrackerProps, ProgressTrackerSize, ProgressBarProps, Track
 export { RadioButton } from './RadioButton';
 export type { RadioButtonProps, RadioButtonSize } from './RadioButton';
 
+export { SegmentedControl } from './SegmentedControl';
+export type { SegmentedControlProps, SegmentedControlOption } from './SegmentedControl';
+
 export { Slider } from './Slider';
 export type { SliderProps } from './Slider';
+
+export { Snackbar } from './Snackbar';
+export type { SnackbarProps, SnackbarVariant } from './Snackbar';
 
 export { Switch } from './Switch';
 export type { SwitchProps } from './Switch';
 
 export { Tooltip } from './Tooltip';
 export type { TooltipProps, TooltipVariant, TooltipDirection } from './Tooltip';
+
+export { ActionSheet } from './ActionSheet';
+export type { ActionSheetProps, ActionSheetAction } from './ActionSheet';
 
 export { BodyText } from './BodyText';
 export type { BodyTextProps, BodyVariant } from './BodyText';

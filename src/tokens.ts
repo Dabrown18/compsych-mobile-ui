@@ -88,6 +88,7 @@ export const sys = {
       sysRadiusMd: 12,
       sysRadiusLg: 16,
       sysRadiusXl: 24,
+      sysRadiusXxl: 32,
       sysRadiusFull: 999,
     },
     borderWidth: {
@@ -100,6 +101,7 @@ export const sys = {
       padding: {
         sysPadding2: 2,
         sysPadding4: 4,
+        sysPadding6: 6,
         sysPadding8: 8,
         sysPadding12: 12,
         sysPadding16: 16,
