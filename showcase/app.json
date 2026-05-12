@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "ComPsych DS",
+    "slug": "compsych-ds-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "backgroundColor": "#070f36"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.compsych.ds.mobile"
+    },
+    "android": {
+      "package": "com.compsych.ds.mobile"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/icon.png"
+    }
+  }
+}

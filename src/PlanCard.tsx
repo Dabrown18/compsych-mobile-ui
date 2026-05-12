@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
-  Animated,
   LayoutAnimation,
   Platform,
   Pressable,
@@ -180,7 +179,9 @@ export function PlanCard({
   children,
 }: PlanCardProps) {
   function handleToggle() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (Platform.OS !== 'web') {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
     onToggle?.();
   }
 
