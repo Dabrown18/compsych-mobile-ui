@@ -20,6 +20,7 @@ export interface CardProps {
   description?: string;
   icon?: React.ReactNode;
   image?: ImageSourcePropType;
+  buttonIcon?: React.ReactNode;
   interactive?: boolean;
   disabled?: boolean;
   onPress?: () => void;
@@ -150,6 +151,7 @@ export function Card({
   description,
   icon,
   image,
+  buttonIcon,
   interactive = false,
   disabled = false,
   onPress,
@@ -276,6 +278,18 @@ export function Card({
         {icon && <View style={{ width: s.iconSize, height: s.iconSize }}>{icon}</View>}
         {textBlock}
         {children}
+        {buttonIcon && (
+          <View
+            style={{
+              position: 'absolute',
+              bottom: s.paddingV,
+              right: s.paddingH,
+            }}
+            pointerEvents="none"
+          >
+            {buttonIcon}
+          </View>
+        )}
       </>
     );
   }
