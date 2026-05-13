@@ -4,7 +4,8 @@
     "strict": true,
     "paths": {
       "@compsych/mobile-ui": ["../src/index.ts"],
-      "@compsych/mobile-ui/*": ["../src/*"]
+      "@compsych/mobile-ui/*": ["../src/*"],
+      "react-native-svg": ["./node_modules/react-native-svg"]
     }
   }
 }

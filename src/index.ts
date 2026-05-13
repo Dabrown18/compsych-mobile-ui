@@ -75,3 +75,26 @@ export type { HeaderTextProps, HeaderVariant } from './HeaderText';
 
 // Re-export tokens for consumers who need direct access
 export { sys } from './tokens';
+
+// Icons
+export {
+  UserRoundIcon,
+  GlobeIcon,
+  HandshakeIcon,
+  HeartHandshakeIcon,
+  AtomIcon,
+  HazeIcon,
+  HourglassIcon,
+  GraduationCapIcon,
+  HandHeartIcon,
+  IdCardIcon,
+  MessageCirclePlusIcon,
+  StethoscopeIcon,
+  BinocularsIcon,
+  FlagIcon,
+  MountainSnowIcon,
+  SnowflakeIcon,
+  FileChartColumnIncreasingIcon,
+  WheatIcon,
+} from './icons';
+export type { IconProps, IconSize } from './icons';
