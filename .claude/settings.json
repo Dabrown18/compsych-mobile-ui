@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "file=$(jq -r '.tool_input.file_path // .tool_response.filePath // empty' 2>/dev/null); if echo \"$file\" | grep -qE '^/Users/dbrown/Projects/expo-test-app/src/.*\\.tsx?$'; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"REMINDER: A component file in expo-test-app/src/ was just edited. Check if the corresponding spec in /Users/dbrown/Projects/ComPsych-Design-System/packages/design-system/specs/ needs to be updated to reflect any API or behavior changes.\"}}'; fi"
+            "command": "file=$(jq -r '.tool_input.file_path // .tool_response.filePath // empty' 2>/dev/null); if echo \"$file\" | grep -qE '^/Users/dbrown/Projects/expo-test-app/src/.*\\.tsx?$'; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"REMINDER: A component file in expo-test-app/src/ was just edited. Update both: (1) the corresponding component in /Users/dbrown/Projects/compsych-mobile-ui/components/ds/ and its gallery page in app/mobile/components/, and (2) the spec in /Users/dbrown/Projects/ComPsych-Design-System/packages/design-system/specs/ — to reflect any API or behavior changes.\"}}'; fi"
           }
         ]
       }
