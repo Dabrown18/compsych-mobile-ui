@@ -16,8 +16,8 @@ export type CardSize = 'sm' | 'md' | 'lg';
 export interface CardProps {
   variant?: CardVariant;
   size?: CardSize;
-  title?: string;
-  description?: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
   icon?: React.ReactNode;
   image?: ImageSourcePropType;
   buttonIcon?: React.ReactNode;
@@ -188,7 +188,7 @@ export function Card({
         </BodyText>
       )}
       {!isRow && description && (
-        <BodyText variant="small" color={v.descColor}>
+        <BodyText variant="medium" color={v.descColor}>
           {description}
         </BodyText>
       )}
@@ -300,7 +300,7 @@ export function Card({
       <Pressable
         onPress={disabled ? undefined : onPress}
         accessibilityRole="button"
-        accessibilityLabel={accessibilityLabel ?? title}
+        accessibilityLabel={accessibilityLabel ?? (typeof title === 'string' ? title : undefined)}
         accessibilityState={{ disabled }}
         style={({ pressed }) => [
           styles.overflow,
