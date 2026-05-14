@@ -9,6 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
 import { BodyText } from './BodyText';
+import { ICON_MAP, type IconName } from './icons';
 
 export type CardVariant = 'outlined' | 'tonal' | 'filled' | 'doubled' | 'image';
 export type CardSize = 'sm' | 'md' | 'lg';
@@ -18,7 +19,7 @@ export interface CardProps {
   size?: CardSize;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  icon?: React.ReactNode;
+  icon?: IconName;
   image?: ImageSourcePropType;
   buttonIcon?: React.ReactNode;
   interactive?: boolean;
@@ -109,6 +110,7 @@ const SIZE_TOKENS = {
     gap: dim.spacing.padding.sysPadding12,
     borderRadius: dim.borderRadius.sysRadiusMd,
     iconSize: 24,
+    iconSizeName: 'small' as const,
     titleVariant: 'medium' as const,
     showChevron: true,
   },
@@ -119,6 +121,7 @@ const SIZE_TOKENS = {
     gap: dim.spacing.padding.sysPadding24,
     borderRadius: dim.borderRadius.sysRadiusLg,
     iconSize: 32,
+    iconSizeName: 'medium' as const,
     titleVariant: 'medium' as const,
     showChevron: false,
   },
@@ -129,6 +132,7 @@ const SIZE_TOKENS = {
     gap: dim.spacing.padding.sysPadding32,
     borderRadius: dim.borderRadius.sysRadiusLg,
     iconSize: 32,
+    iconSizeName: 'large' as const,
     titleVariant: 'large' as const,
     showChevron: false,
   },
@@ -162,6 +166,11 @@ export function Card({
   const v = VARIANT_TOKENS[variant];
   const s = SIZE_TOKENS[size];
   const isRow = s.layout === 'row';
+
+  const IconComponent = icon ? ICON_MAP[icon] : null;
+  const renderedIcon = IconComponent
+    ? <IconComponent size={s.iconSizeName} color={v.titleColor} />
+    : null;
 
   const outerStyle = [
     {
@@ -212,7 +221,7 @@ export function Card({
           },
         ]}
       >
-        {icon && (
+        {renderedIcon && (
           <View
             style={[
               styles.doubledIconBadge,
@@ -222,7 +231,7 @@ export function Card({
               },
             ]}
           >
-            {icon}
+            {renderedIcon}
           </View>
         )}
         {textBlock}
@@ -249,7 +258,7 @@ export function Card({
             />
           </>
         )}
-        {icon && <View style={{ width: s.iconSize, height: s.iconSize }}>{icon}</View>}
+        {renderedIcon && <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>}
         {textBlock}
         {children}
       </>
@@ -258,7 +267,7 @@ export function Card({
     // sm — horizontal row
     inner = (
       <>
-        {icon && <View style={{ width: s.iconSize, height: s.iconSize }}>{icon}</View>}
+        {renderedIcon && <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>}
         {textBlock}
         {s.showChevron && (
           <Ionicons
@@ -275,7 +284,7 @@ export function Card({
     // md / lg — vertical column
     inner = (
       <>
-        {icon && <View style={{ width: s.iconSize, height: s.iconSize }}>{icon}</View>}
+        {renderedIcon && <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>}
         {textBlock}
         {children}
         {buttonIcon && (

@@ -1,5 +1,25 @@
 export type IconSize = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
 
+export type IconName =
+  | 'UserRoundIcon'
+  | 'GlobeIcon'
+  | 'HandshakeIcon'
+  | 'HeartHandshakeIcon'
+  | 'AtomIcon'
+  | 'HazeIcon'
+  | 'HourglassIcon'
+  | 'GraduationCapIcon'
+  | 'HandHeartIcon'
+  | 'IdCardIcon'
+  | 'MessageCirclePlusIcon'
+  | 'StethoscopeIcon'
+  | 'BinocularsIcon'
+  | 'FlagIcon'
+  | 'MountainSnowIcon'
+  | 'SnowflakeIcon'
+  | 'FileChartColumnIncreasingIcon'
+  | 'WheatIcon';
+
 export interface IconProps {
   size?: IconSize;
   color?: string;

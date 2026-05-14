@@ -1,4 +1,4 @@
-export type { IconProps, IconSize } from './types';
+export type { IconProps, IconSize, IconName } from './types';
 
 export { UserRoundIcon } from './UserRoundIcon';
 export { GlobeIcon } from './GlobeIcon';
@@ -18,3 +18,46 @@ export { MountainSnowIcon } from './MountainSnowIcon';
 export { SnowflakeIcon } from './SnowflakeIcon';
 export { FileChartColumnIncreasingIcon } from './FileChartColumnIncreasingIcon';
 export { WheatIcon } from './WheatIcon';
+
+import { UserRoundIcon } from './UserRoundIcon';
+import { GlobeIcon } from './GlobeIcon';
+import { HandshakeIcon } from './HandshakeIcon';
+import { HeartHandshakeIcon } from './HeartHandshakeIcon';
+import { AtomIcon } from './AtomIcon';
+import { HazeIcon } from './HazeIcon';
+import { HourglassIcon } from './HourglassIcon';
+import { GraduationCapIcon } from './GraduationCapIcon';
+import { HandHeartIcon } from './HandHeartIcon';
+import { IdCardIcon } from './IdCardIcon';
+import { MessageCirclePlusIcon } from './MessageCirclePlusIcon';
+import { StethoscopeIcon } from './StethoscopeIcon';
+import { BinocularsIcon } from './BinocularsIcon';
+import { FlagIcon } from './FlagIcon';
+import { MountainSnowIcon } from './MountainSnowIcon';
+import { SnowflakeIcon } from './SnowflakeIcon';
+import { FileChartColumnIncreasingIcon } from './FileChartColumnIncreasingIcon';
+import { WheatIcon } from './WheatIcon';
+import type { IconName, IconProps } from './types';
+
+type IconComponent = (props: IconProps) => React.JSX.Element;
+
+export const ICON_MAP: Record<IconName, IconComponent> = {
+  UserRoundIcon,
+  GlobeIcon,
+  HandshakeIcon,
+  HeartHandshakeIcon,
+  AtomIcon,
+  HazeIcon,
+  HourglassIcon,
+  GraduationCapIcon,
+  HandHeartIcon,
+  IdCardIcon,
+  MessageCirclePlusIcon,
+  StethoscopeIcon,
+  BinocularsIcon,
+  FlagIcon,
+  MountainSnowIcon,
+  SnowflakeIcon,
+  FileChartColumnIncreasingIcon,
+  WheatIcon,
+};

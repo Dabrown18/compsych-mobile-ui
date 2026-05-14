@@ -97,4 +97,5 @@ export {
   FileChartColumnIncreasingIcon,
   WheatIcon,
 } from './icons';
-export type { IconProps, IconSize } from './icons';
+export type { IconProps, IconSize, IconName } from './icons';
+export { ICON_MAP } from './icons';
