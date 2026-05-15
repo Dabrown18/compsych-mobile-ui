@@ -1,7 +1,7 @@
 import Svg, { Path } from 'react-native-svg';
-import { COMMON, SIZE_MAP, type IconProps } from './types';
+import { COMMON, SIZE_MAP, DEFAULT_ICON_COLOR, type IconProps } from './types';
 
-export function HandHeartIcon({ size = 'medium', color = '#000000' }: IconProps) {
+export function HandHeartIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">

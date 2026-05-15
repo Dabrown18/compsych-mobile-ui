@@ -52,6 +52,9 @@ export type { RadioButtonProps, RadioButtonSize } from './RadioButton';
 export { SegmentedControl } from './SegmentedControl';
 export type { SegmentedControlProps, SegmentedControlOption } from './SegmentedControl';
 
+export { ScreenContainer } from './ScreenContainer';
+export type { ScreenContainerProps } from './ScreenContainer';
+
 export { Slider } from './Slider';
 export type { SliderProps } from './Slider';
 

@@ -94,9 +94,9 @@ const VARIANT_TOKENS: Record<
     borderColor: 'transparent',
     borderWidth: 0,
     elevated: false,
-    titleColor: '#ffffff',
+    titleColor: cr.surface.surface.sysInverseOnSurface,
     descColor: cr.transparent.neutral.sysWhite80,
-    chevronColor: '#ffffff',
+    chevronColor: cr.surface.surface.sysInverseOnSurface,
   },
 };
 
@@ -168,8 +168,9 @@ export function Card({
   const isRow = s.layout === 'row';
 
   const IconComponent = icon ? ICON_MAP[icon] : null;
+  const iconColor = v.iconBadgeColor ?? v.titleColor;
   const renderedIcon = IconComponent
-    ? <IconComponent size={s.iconSizeName} color={v.titleColor} />
+    ? <IconComponent size={s.iconSizeName} color={iconColor} />
     : null;
 
   const outerStyle = [

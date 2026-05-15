@@ -20,6 +20,10 @@ export type IconName =
   | 'FileChartColumnIncreasingIcon'
   | 'WheatIcon';
 
+import { sys } from '../tokens';
+
+export const DEFAULT_ICON_COLOR = sys.colorRoles.surface.surface.sysOnSurface;
+
 export interface IconProps {
   size?: IconSize;
   color?: string;
