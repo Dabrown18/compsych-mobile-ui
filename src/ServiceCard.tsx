@@ -13,12 +13,12 @@ import { sys } from './tokens';
 import { BodyText } from './BodyText';
 import { ICON_MAP, type IconName } from './icons';
 
-export type CardVariant = 'outlined' | 'tonal' | 'filled' | 'doubled' | 'image';
-export type CardSize = 'sm' | 'md' | 'lg';
+export type ServiceCardVariant = 'outlined' | 'tonal' | 'filled' | 'doubled' | 'image';
+export type ServiceCardSize = 'sm' | 'md' | 'lg';
 
-export interface CardProps {
-  variant?: CardVariant;
-  size?: CardSize;
+export interface ServiceCardProps {
+  variant?: ServiceCardVariant;
+  size?: ServiceCardSize;
   title?: React.ReactNode;
   description?: React.ReactNode;
   icon?: IconName;
@@ -38,7 +38,7 @@ const { colorRoles: cr, dimensions: dim } = sys;
 // ── Variant tokens ────────────────────────────────────────────────────────────
 
 const VARIANT_TOKENS: Record<
-  CardVariant,
+  ServiceCardVariant,
   {
     bg: string;
     borderColor: string;
@@ -151,7 +151,7 @@ const ELEVATION = {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function Card({
+export function ServiceCard({
   variant = 'outlined',
   size = 'lg',
   title,
@@ -166,7 +166,7 @@ export function Card({
   accessibilityLabel,
   fullWidth = false,
   style,
-}: CardProps) {
+}: ServiceCardProps) {
   const v = VARIANT_TOKENS[variant];
   const s = SIZE_TOKENS[size];
   const isRow = s.layout === 'row';

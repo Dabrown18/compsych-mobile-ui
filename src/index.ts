@@ -16,8 +16,8 @@ export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbSize } from './Breadcru
 export { Button } from './Button';
 export type { ButtonProps, ButtonVariant, ButtonSize } from './Button';
 
-export { Card } from './Card';
-export type { CardProps, CardVariant, CardSize } from './Card';
+export { ServiceCard } from './ServiceCard';
+export type { ServiceCardProps, ServiceCardVariant, ServiceCardSize } from './ServiceCard';
 
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps, CheckboxSize, CheckboxCheckedState } from './Checkbox';
