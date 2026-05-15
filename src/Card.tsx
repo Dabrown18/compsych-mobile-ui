@@ -72,12 +72,12 @@ const VARIANT_TOKENS: Record<
     chevronColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
   },
   filled: {
-    bg: cr.accent.primary.sysPrimary,
+    bg: cr.accent.primary.sysPrimaryContainer,
     borderColor: 'transparent',
     borderWidth: 0,
-    elevated: true,
+    elevated: false,
     titleColor: cr.accent.primary.sysOnPrimary,
-    descColor: cr.accent.primary.sysOnPrimary,
+    descColor: cr.transparent.neutral.sysWhite80,
     chevronColor: cr.accent.primary.sysOnPrimary,
   },
   doubled: {
@@ -203,7 +203,7 @@ export function Card({
         </BodyText>
       )}
       {!isRow && description && (
-        <BodyText variant="medium" color={v.descColor}>
+        <BodyText variant="small" color={v.descColor}>
           {description}
         </BodyText>
       )}
@@ -223,7 +223,7 @@ export function Card({
             borderRadius: s.borderRadius,
             paddingHorizontal: s.paddingH,
             paddingVertical: s.paddingV,
-            gap: s.gap,
+            gap: dim.spacing.padding.sysPadding24,
           },
         ]}
       >
