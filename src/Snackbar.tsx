@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   Pressable,
+  StyleProp,
   StyleSheet,
   View,
+  ViewStyle,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
@@ -18,6 +20,7 @@ export interface SnackbarProps {
   actionLabel?: string;
   onAction?: () => void;
   onClose?: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
@@ -29,6 +32,7 @@ export function Snackbar({
   actionLabel,
   onAction,
   onClose,
+  style,
 }: SnackbarProps) {
   const translateY = useRef(new Animated.Value(100)).current;
   const opacity = useRef(new Animated.Value(0)).current;
@@ -85,6 +89,7 @@ export function Snackbar({
       style={[
         styles.wrapper,
         { opacity, transform: [{ translateY }] },
+        style,
       ]}
       pointerEvents={visible ? 'box-none' : 'none'}
     >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 
 export type DividerVariant = 'horizontal' | 'vertical';
@@ -9,6 +9,7 @@ export interface DividerProps {
   variant?: DividerVariant;
   weight?: DividerWeight;
   dashed?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
@@ -17,6 +18,7 @@ export function Divider({
   variant = 'horizontal',
   weight = 'thin',
   dashed = false,
+  style,
 }: DividerProps) {
   const thickness =
     weight === 'thin'
@@ -28,7 +30,7 @@ export function Divider({
   if (variant === 'horizontal') {
     return (
       <View
-        style={{
+        style={[{
           // Zero height — the line is drawn as a top border
           height: 0,
           // Stretch to fill parent width
@@ -36,7 +38,7 @@ export function Divider({
           borderTopWidth: thickness,
           borderTopColor: color,
           borderStyle: dashed ? 'dashed' : 'solid',
-        }}
+        }, style]}
         accessible={false}
       />
     );
@@ -45,7 +47,7 @@ export function Divider({
   // Vertical
   return (
     <View
-      style={{
+      style={[{
         // Zero width — the line is drawn as a left border
         width: 0,
         // Stretch to fill parent height
@@ -53,7 +55,7 @@ export function Divider({
         borderLeftWidth: thickness,
         borderLeftColor: color,
         borderStyle: dashed ? 'dashed' : 'solid',
-      }}
+      }, style]}
       accessible={false}
     />
   );

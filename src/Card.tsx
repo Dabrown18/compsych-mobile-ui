@@ -3,8 +3,10 @@ import {
   Image,
   type ImageSourcePropType,
   Pressable,
+  StyleProp,
   StyleSheet,
   View,
+  ViewStyle,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
@@ -28,6 +30,7 @@ export interface CardProps {
   children?: React.ReactNode;
   accessibilityLabel?: string;
   fullWidth?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
@@ -162,6 +165,7 @@ export function Card({
   children,
   accessibilityLabel,
   fullWidth = false,
+  style,
 }: CardProps) {
   const v = VARIANT_TOKENS[variant];
   const s = SIZE_TOKENS[size];
@@ -187,6 +191,7 @@ export function Card({
     fullWidth && { alignSelf: 'stretch' as const },
     isRow ? styles.rowRoot : styles.colRoot,
     !isRow && { gap: s.gap },
+    style,
   ];
 
   // ── Text block ──────────────────────────────────────────────────────────────

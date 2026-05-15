@@ -3,9 +3,11 @@ import React from 'react';
 import {
   Pressable,
   ScrollView,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from 'react-native';
 import { sys } from './tokens';
 
@@ -30,6 +32,7 @@ export interface BreadcrumbItem {
 export interface BreadcrumbProps {
   items: BreadcrumbItem[];
   size?: BreadcrumbSize;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -55,7 +58,7 @@ const SIZE_TOKENS = {
   },
 };
 
-export function Breadcrumb({ items, size = 'lg' }: BreadcrumbProps) {
+export function Breadcrumb({ items, size = 'lg', style }: BreadcrumbProps) {
   const s = SIZE_TOKENS[size];
 
   return (
@@ -64,6 +67,7 @@ export function Breadcrumb({ items, size = 'lg' }: BreadcrumbProps) {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.row}
+      style={style}
     >
       {items.map((item, index) => {
         const isLast = index === items.length - 1;

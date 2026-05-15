@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 
 export type CheckboxSize = 'sm' | 'md';
@@ -15,6 +15,7 @@ export interface CheckboxProps {
   description?: string;
   disabled?: boolean;
   invalid?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -33,6 +34,7 @@ export function Checkbox({
   description,
   disabled = false,
   invalid = false,
+  style,
 }: CheckboxProps) {
   const [internalChecked, setInternalChecked] = useState<boolean>(defaultChecked);
   const isControlled = checkedProp !== undefined;
@@ -77,6 +79,7 @@ export function Checkbox({
       style={({ pressed }) => [
         styles.root,
         disabled && styles.disabled,
+        style,
       ]}
     >
       {({ pressed }) => (

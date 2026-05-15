@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
 import { BodyText } from './BodyText';
@@ -19,6 +19,7 @@ export interface ListItemProps {
 export interface ListProps {
   items: Omit<ListItemProps, 'showDivider'>[];
   type?: ListItemType;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
@@ -132,9 +133,9 @@ export function ListItem({
 
 // ── List ──────────────────────────────────────────────────────────────────────
 
-export function List({ items, type = 'simple' }: ListProps) {
+export function List({ items, type = 'simple', style }: ListProps) {
   return (
-    <View>
+    <View style={style}>
       {items.map((item, index) => (
         <ListItem
           key={index}

@@ -2,9 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from 'react-native';
 import { sys } from './tokens';
 
@@ -35,6 +37,7 @@ export interface AlertProps {
   /** Show dismiss (×) button */
   dismissible?: boolean;
   onDismiss?: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -135,6 +138,7 @@ export function Alert({
   onAction,
   dismissible = false,
   onDismiss,
+  style,
 }: AlertProps) {
   const c = getVariantColors(variant);
   const isLg = size === 'lg';
@@ -162,6 +166,7 @@ export function Alert({
             : dim.borderRadius.sysRadiusMd,
         },
         c.elevated && styles.elevated,
+        style,
       ]}
     >
       {/* ── Content row ─────────────────────────────────────────────────── */}

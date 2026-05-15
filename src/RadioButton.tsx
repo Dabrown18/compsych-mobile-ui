@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 
 export type RadioButtonSize = 'sm' | 'md';
@@ -13,6 +13,7 @@ export interface RadioButtonProps {
   description?: string;
   disabled?: boolean;
   invalid?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -46,6 +47,7 @@ export function RadioButton({
   description,
   disabled = false,
   invalid = false,
+  style,
 }: RadioButtonProps) {
   const [internalChecked, setInternalChecked] = useState<boolean>(defaultChecked);
   const isControlled = checkedProp !== undefined;
@@ -78,6 +80,7 @@ export function RadioButton({
       style={({ pressed }) => [
         styles.root,
         disabled && styles.disabled,
+        style,
       ]}
     >
       {({ pressed }) => (

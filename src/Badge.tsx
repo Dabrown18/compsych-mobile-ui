@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 
 export type BadgeSize = 'sm' | 'md' | 'lg';
@@ -16,6 +16,7 @@ export interface BadgeProps {
   label?: number | string;
   size?: BadgeSize;
   badgeStyle?: BadgeStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -105,6 +106,7 @@ export function Badge({
   label,
   size = 'md',
   badgeStyle = 'filled',
+  style,
 }: BadgeProps) {
   const s = SIZE_TOKENS[size];
   const c = getStyleColors(badgeStyle);
@@ -114,13 +116,13 @@ export function Badge({
     return (
       <View
         accessible={false}
-        style={{
+        style={[{
           width: s.outerSize,
           height: s.outerSize,
           borderRadius: s.outerSize / 2,
           alignItems: 'center',
           justifyContent: 'center',
-        }}
+        }, style]}
       >
         <View
           style={{
@@ -152,6 +154,7 @@ export function Badge({
           backgroundColor: c.bg,
         },
         c.elevated && styles.elevated,
+        style,
       ]}
     >
       <Text

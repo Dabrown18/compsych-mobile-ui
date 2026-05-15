@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -60,6 +60,7 @@ export interface ProgressTrackerProps {
   size?: ProgressTrackerSize;
   /** Show step labels — default true */
   showLabels?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const SIZE_TOKENS = {
@@ -91,11 +92,12 @@ export function ProgressTracker({
   steps,
   size = 'lg',
   showLabels = true,
+  style,
 }: ProgressTrackerProps) {
   const s = SIZE_TOKENS[size];
 
   return (
-    <View style={[styles.row, { gap: s.stepGap }]}>
+    <View style={[styles.row, { gap: s.stepGap }, style]}>
       {steps.map((step, i) => {
         const isActive = step.state !== 'pending';
         const labelColor = isActive

@@ -3,9 +3,11 @@ import {
   AccessibilityInfo,
   LayoutChangeEvent,
   PanResponder,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from 'react-native';
 import { sys } from './tokens';
 
@@ -28,6 +30,7 @@ export interface SliderProps {
   showMinMax?: boolean;
   disabled?: boolean;
   accessibilityLabel?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -61,6 +64,7 @@ export function Slider({
   showMinMax = true,
   disabled = false,
   accessibilityLabel,
+  style,
 }: SliderProps) {
   const isControlled = valueProp !== undefined;
   const [internalValue, setInternalValue] = useState<number>(
@@ -172,7 +176,7 @@ export function Slider({
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
     <View
-      style={styles.root}
+      style={[styles.root, style]}
       accessible
       accessibilityRole="adjustable"
       accessibilityLabel={accessibilityLabel ?? label}

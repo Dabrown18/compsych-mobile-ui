@@ -3,9 +3,11 @@ import {
   LayoutAnimation,
   Platform,
   Pressable,
+  StyleProp,
   StyleSheet,
   UIManager,
   View,
+  ViewStyle,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
@@ -167,6 +169,7 @@ export interface PlanCardProps {
   expanded?: boolean;
   onToggle?: () => void;
   children?: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
 }
 
 export function PlanCard({
@@ -177,6 +180,7 @@ export function PlanCard({
   expanded = false,
   onToggle,
   children,
+  style,
 }: PlanCardProps) {
   function handleToggle() {
     if (Platform.OS !== 'web') {
@@ -188,7 +192,7 @@ export function PlanCard({
   const hasContent = expanded && (children || (items && items.length > 0));
 
   return (
-    <View style={cardStyles.card}>
+    <View style={[cardStyles.card, style]}>
       {/* Header */}
       <View style={cardStyles.header}>
         {/* Left: icon + title stacked */}

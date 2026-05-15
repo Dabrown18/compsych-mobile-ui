@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 
 export type TooltipVariant = 'filled' | 'elevated';
@@ -19,6 +19,7 @@ export interface TooltipProps {
   text: string;
   variant?: TooltipVariant;
   direction?: TooltipDirection;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -33,6 +34,7 @@ export function Tooltip({
   text,
   variant = 'filled',
   direction = 'none',
+  style,
 }: TooltipProps) {
   const isFilled = variant === 'filled';
 
@@ -152,12 +154,12 @@ export function Tooltip({
 
   // ── Layout — arrow position determines stacking order ────────────────────
   if (direction === 'none') {
-    return bubble;
+    return <View style={style}>{bubble}</View>;
   }
 
   if (direction === 'bottom') {
     return (
-      <View style={styles.colCenter}>
+      <View style={[styles.colCenter, style]}>
         {bubble}
         {renderArrow()}
       </View>
@@ -166,7 +168,7 @@ export function Tooltip({
 
   if (direction === 'top') {
     return (
-      <View style={styles.colCenter}>
+      <View style={[styles.colCenter, style]}>
         {renderArrow()}
         {bubble}
       </View>
@@ -175,7 +177,7 @@ export function Tooltip({
 
   if (direction === 'right') {
     return (
-      <View style={styles.rowCenter}>
+      <View style={[styles.rowCenter, style]}>
         {bubble}
         {renderArrow()}
       </View>
@@ -184,7 +186,7 @@ export function Tooltip({
 
   // left
   return (
-    <View style={styles.rowCenter}>
+    <View style={[styles.rowCenter, style]}>
       {renderArrow()}
       {bubble}
     </View>

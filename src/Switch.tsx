@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Pressable,
+  StyleProp,
   StyleSheet,
   View,
+  ViewStyle,
 } from 'react-native';
 import { sys } from './tokens';
 
@@ -16,6 +18,7 @@ export interface SwitchProps {
   onValueChange?: (value: boolean) => void;
   disabled?: boolean;
   accessibilityLabel?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
@@ -38,6 +41,7 @@ export function Switch({
   onValueChange,
   disabled = false,
   accessibilityLabel,
+  style,
 }: SwitchProps) {
   // Controlled vs uncontrolled
   const isControlled = valueProp !== undefined;
@@ -97,7 +101,7 @@ export function Switch({
       accessibilityRole="switch"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ checked: toggled, disabled }}
-      style={styles.pressable}
+      style={[styles.pressable, style]}
     >
       {/* ── Focus ring (outside track by 1px) ─────────────────────────────── */}
       {focused && (

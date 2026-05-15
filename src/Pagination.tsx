@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 
 export type PaginationSize = 'sm' | 'lg';
@@ -29,6 +29,7 @@ export interface PaginationProps {
   siblingCount?: number;
   /** On mobile/compact layouts — renders only prev + next arrows (no page numbers) */
   compact?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -255,6 +256,7 @@ export function Pagination({
   onPageChange,
   siblingCount = 1,
   compact = false,
+  style,
 }: PaginationProps) {
   const s = SIZE_TOKENS[size];
   const pages = buildPageRange(totalPages, currentPage, siblingCount);
@@ -326,6 +328,7 @@ export function Pagination({
             borderColor: cr.outline.sysOutline,
             borderWidth: dim.borderWidth.sysStrokeThin,
           },
+          style,
         ]}
       >
         {content}
@@ -333,7 +336,8 @@ export function Pagination({
     );
   }
 
-  return content;
+  // sm — wrap content in a View so style can be applied
+  return <View style={style}>{content}</View>;
 }
 
 const styles = StyleSheet.create({

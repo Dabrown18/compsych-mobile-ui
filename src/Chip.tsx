@@ -2,9 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from 'react-native';
 import { sys } from './tokens';
 
@@ -22,6 +24,7 @@ export interface ChipProps {
   onDismiss?: () => void;
   /** Renders a small count badge after the label */
   badge?: number | string;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -163,6 +166,7 @@ export function Chip({
   dismissible = false,
   onDismiss,
   badge,
+  style,
 }: ChipProps) {
   const s = SIZE_TOKENS[size];
   const c = getUsageColors(usage);
@@ -182,6 +186,7 @@ export function Chip({
           backgroundColor: c.bg,
         },
         c.elevated && styles.elevated,
+        style,
       ]}
     >
       {/* Leading icon */}

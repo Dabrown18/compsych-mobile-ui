@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { sys } from './tokens';
 import { BodyText } from './BodyText';
 
@@ -15,6 +15,7 @@ export interface SegmentedControlProps {
   value: string;
   onChange: (value: string) => void;
   fullWidth?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
@@ -24,9 +25,10 @@ export function SegmentedControl({
   value,
   onChange,
   fullWidth = false,
+  style,
 }: SegmentedControlProps) {
   return (
-    <View style={[styles.container, fullWidth && styles.fullWidth]}>
+    <View style={[styles.container, fullWidth && styles.fullWidth, style]}>
       {options.map((option) => {
         const isActive = option.value === value;
         const isDisabled = option.disabled ?? false;

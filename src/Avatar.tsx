@@ -3,9 +3,11 @@ import React from 'react';
 import {
   Image,
   ImageSourcePropType,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from 'react-native';
 import { sys } from './tokens';
 
@@ -27,6 +29,7 @@ export interface AvatarProps {
   presenceBadge?: boolean;
   /** Accessible label announced by screen readers */
   accessibilityLabel?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -127,6 +130,7 @@ export function Avatar({
   activityRing = false,
   presenceBadge = false,
   accessibilityLabel,
+  style,
 }: AvatarProps) {
   const s = SIZE_TOKENS[size];
   const r = s.diameter / 2;
@@ -141,7 +145,7 @@ export function Avatar({
       accessible
       accessibilityRole="image"
       accessibilityLabel={accessibilityLabel ?? defaultLabel}
-      style={{ width: s.diameter, height: s.diameter }}
+      style={[{ width: s.diameter, height: s.diameter }, style]}
     >
 
       {/* ── Avatar circle ─────────────────────────────────────────────── */}

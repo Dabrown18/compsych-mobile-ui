@@ -3,8 +3,10 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  StyleProp,
   StyleSheet,
   View,
+  ViewStyle,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
@@ -23,6 +25,7 @@ export interface ActionSheetProps {
   children?: React.ReactNode;
   primaryAction?: ActionSheetAction;
   secondaryAction?: ActionSheetAction;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim } = sys;
@@ -34,6 +37,7 @@ export function ActionSheet({
   children,
   primaryAction,
   secondaryAction,
+  style,
 }: ActionSheetProps) {
   return (
     <Modal
@@ -47,7 +51,7 @@ export function ActionSheet({
       <Pressable style={styles.backdrop} onPress={onClose} accessible={false} />
 
       {/* Sheet */}
-      <View style={styles.sheetWrapper} pointerEvents="box-none">
+      <View style={[styles.sheetWrapper, style]} pointerEvents="box-none">
         <View style={styles.sheet}>
 
           {/* Toolbar */}

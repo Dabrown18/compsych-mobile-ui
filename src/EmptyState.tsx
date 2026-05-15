@@ -2,9 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from 'react-native';
 import { sys } from './tokens';
 
@@ -29,6 +31,7 @@ export interface EmptyStateProps {
   onAction?: () => void;
   /** Whether the action button is shown (default: true when actionLabel is set) */
   showAction?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -190,12 +193,13 @@ export function EmptyState({
   actionLabel,
   onAction,
   showAction,
+  containerStyle,
 }: EmptyStateProps) {
   const vp = VIEWPORT[viewport];
   const hasAction = showAction !== undefined ? showAction : !!actionLabel;
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, containerStyle]}>
       {/* ── Graphic ───────────────────────────────────────────────────────── */}
       {style === 'illustration' ? (
         <EmptyIllustration />
