@@ -11,6 +11,7 @@ import { ButtonScreen } from './src/screens/ButtonScreen';
 import { AlertScreen } from './src/screens/AlertScreen';
 import { BadgeScreen } from './src/screens/BadgeScreen';
 import { CardScreen } from './src/screens/CardScreen';
+import { PromotionCardScreen } from './src/screens/PromotionCardScreen';
 import { CheckboxScreen } from './src/screens/CheckboxScreen';
 import { SnackbarScreen } from './src/screens/SnackbarScreen';
 import { SwitchScreen } from './src/screens/SwitchScreen';
@@ -68,7 +69,8 @@ export default function App() {
           <Stack.Screen name="Tooltip"         component={PlaceholderScreen} options={{ title: 'Tooltip' }} />
           <Stack.Screen name="ActionSheet"     component={PlaceholderScreen} options={{ title: 'Action Sheet' }} />
           <Stack.Screen name="List"            component={PlaceholderScreen} options={{ title: 'List' }} />
-          <Stack.Screen name="PlanCard"        component={PlaceholderScreen} options={{ title: 'Plan Card' }} />
+          <Stack.Screen name="PlanCard"        component={PlaceholderScreen}    options={{ title: 'Plan Card' }} />
+          <Stack.Screen name="PromotionCard"   component={PromotionCardScreen}  options={{ title: 'Promotion Card' }} />
           <Stack.Screen name="HeaderText"      component={PlaceholderScreen} options={{ title: 'Header Text' }} />
           <Stack.Screen name="BodyText"        component={PlaceholderScreen} options={{ title: 'Body Text' }} />
         </Stack.Navigator>

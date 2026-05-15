@@ -19,6 +19,9 @@ export type { ButtonProps, ButtonVariant, ButtonSize } from './Button';
 export { ServiceCard } from './ServiceCard';
 export type { ServiceCardProps, ServiceCardVariant, ServiceCardSize } from './ServiceCard';
 
+export { PromotionCard } from './PromotionCard';
+export type { PromotionCardProps, PromotionCardVariant, PromotionCardUsage } from './PromotionCard';
+
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps, CheckboxSize, CheckboxCheckedState } from './Checkbox';
 

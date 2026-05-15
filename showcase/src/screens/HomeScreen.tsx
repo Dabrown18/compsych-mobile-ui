@@ -58,6 +58,7 @@ const SECTIONS: { title: string; eyebrow: string; data: NavItem[] }[] = [
       { name: 'Action Sheet',     screen: 'ActionSheet',      description: 'Bottom sheet modal' },
       { name: 'List',             screen: 'List',             description: 'Simple + detailed rows' },
       { name: 'Plan Card',        screen: 'PlanCard',         description: 'Expandable plan item' },
+      { name: 'Promotion Card',   screen: 'PromotionCard',    description: '2 styles · 6 usages · progress timer', ready: true },
     ],
   },
   {

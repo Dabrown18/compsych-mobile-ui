@@ -24,6 +24,7 @@ export type RootStackParamList = {
   ActionSheet: undefined;
   List: undefined;
   PlanCard: undefined;
+  PromotionCard: undefined;
   // Typography
   HeaderText: undefined;
   BodyText: undefined;
