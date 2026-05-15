@@ -9,6 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { sys } from './tokens';
 import { BodyText } from './BodyText';
+import { HeaderText } from './HeaderText';
 import { ICON_MAP, type IconName } from './icons';
 
 export type SelectionCardSize = 'sm' | 'md';
@@ -27,6 +28,14 @@ export interface SelectionCardProps {
 
 const { colorRoles: cr, dimensions: dim } = sys;
 
+const SELECTED_RING = {
+  shadowColor: cr.accent.primary.sysPrimary,
+  shadowOffset: { width: 1, height: 2 },
+  shadowOpacity: 1,
+  shadowRadius: 0,
+  elevation: 2,
+};
+
 export function SelectionCard({
   title,
   icon,
@@ -40,32 +49,25 @@ export function SelectionCard({
 }: SelectionCardProps) {
   const IconComponent = icon ? ICON_MAP[icon] : null;
 
-  const contentColor = selected
-    ? cr.accent.primary.sysPrimary
-    : cr.surface.surface.sysOnSurface;
-
-  const borderColor = selected
-    ? cr.accent.primary.sysPrimary
-    : cr.outline.sysOutline;
-
-  const checkColor = selected ? cr.accent.primary.sysPrimary : cr.outline.sysOutline;
-  const borderWidth = selected ? 2 : 1;
-
-  const checkboxNode = multiSelect ? (
-    <Ionicons
-      name={selected ? 'checkbox' : 'square-outline'}
-      size={20}
-      color={checkColor}
-      accessible={false}
-    />
-  ) : null;
-
   const a11yState = {
     disabled,
     ...(multiSelect ? { checked: selected } : { selected }),
   };
 
+  const checkboxNode = (
+    <Ionicons
+      name={selected ? 'checkbox' : 'square-outline'}
+      size={20}
+      color={selected ? cr.accent.primary.sysPrimary : cr.outline.sysOutline}
+      accessible={false}
+    />
+  );
+
   if (size === 'sm') {
+    const iconColor = selected
+      ? cr.accent.primary.sysPrimary
+      : cr.surface.surface.sysOnSurface;
+
     return (
       <Pressable
         onPress={disabled ? undefined : onPress}
@@ -74,23 +76,47 @@ export function SelectionCard({
         accessibilityState={a11yState}
         style={({ pressed }) => [
           styles.smRoot,
-          { borderColor, borderWidth, opacity: disabled ? 0.38 : 1 },
+          {
+            borderColor: selected ? cr.accent.primary.sysPrimary : cr.outline.sysOutline,
+            borderWidth: selected
+              ? dim.borderWidth.sysStrokeMedium
+              : dim.borderWidth.sysStrokeThin,
+            opacity: disabled ? 0.38 : 1,
+          },
+          selected && SELECTED_RING,
           pressed && !disabled && styles.pressed,
           style,
         ]}
       >
         {IconComponent && (
           <View style={styles.smIconWrap}>
-            <IconComponent size="small" color={contentColor} />
+            <IconComponent size="small" color={iconColor} />
           </View>
         )}
-        <BodyText variant="medium" color={contentColor} style={styles.smTitle}>
+        <BodyText variant="labelLarge" color={cr.surface.surface.sysOnSurface} emphasized={selected} style={styles.smTitle}>
           {title}
         </BodyText>
-        {checkboxNode}
+        {multiSelect && checkboxNode}
       </Pressable>
     );
   }
+
+  // ── Medium ──────────────────────────────────────────────────────────────────
+  const iconBgColor = selected
+    ? cr.accent.primary.sysPrimary
+    : cr.surface.surfaceContainer.sysSurfaceContainer;
+  const iconColor = selected
+    ? cr.accent.primary.sysOnPrimary
+    : cr.surface.surface.sysOnSurface;
+  const titleColor = selected
+    ? cr.accent.primary.sysPrimary
+    : cr.surface.surface.sysOnSurface;
+
+  const iconCircle = IconComponent ? (
+    <View style={[styles.mdIconCircle, { backgroundColor: iconBgColor }]}>
+      <IconComponent size="small" color={iconColor} />
+    </View>
+  ) : null;
 
   return (
     <Pressable
@@ -100,24 +126,29 @@ export function SelectionCard({
       accessibilityState={a11yState}
       style={({ pressed }) => [
         styles.mdRoot,
-        { borderColor, borderWidth, opacity: disabled ? 0.38 : 1 },
+        {
+          borderColor: selected ? cr.accent.primary.sysPrimary : cr.outline.sysOutline,
+          borderWidth: selected
+            ? dim.borderWidth.sysStrokeThick
+            : dim.borderWidth.sysStrokeMedium,
+          opacity: disabled ? 0.38 : 1,
+        },
+        selected && SELECTED_RING,
         pressed && !disabled && styles.pressed,
         style,
       ]}
     >
-      {multiSelect && (
-        <View style={styles.mdCheckboxWrap} pointerEvents="none">
+      {multiSelect ? (
+        <View style={styles.mdIconCheckboxRow}>
+          {iconCircle}
           {checkboxNode}
         </View>
+      ) : (
+        iconCircle
       )}
-      {IconComponent && (
-        <View style={styles.mdIconWrap}>
-          <IconComponent size="medium" color={contentColor} />
-        </View>
-      )}
-      <BodyText variant="medium" color={contentColor}>
+      <HeaderText variant="titleSmall" color={titleColor} emphasized={selected}>
         {title}
-      </BodyText>
+      </HeaderText>
     </Pressable>
   );
 }
@@ -125,39 +156,39 @@ export function SelectionCard({
 const styles = StyleSheet.create({
   mdRoot: {
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: dim.spacing.padding.sysPadding16,
-    paddingVertical: dim.spacing.padding.sysPadding16,
-    gap: dim.spacing.padding.sysPadding8,
-    borderRadius: dim.borderRadius.sysRadiusMd,
+    alignItems: 'flex-start',
+    padding: dim.spacing.padding.sysPadding24,
+    gap: dim.spacing.padding.sysPadding24,
+    borderRadius: dim.borderRadius.sysRadiusLg,
     backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     overflow: 'hidden',
   },
-  mdIconWrap: {
-    width: 32,
-    height: 32,
+  mdIconCircle: {
     alignItems: 'center',
     justifyContent: 'center',
+    padding: dim.spacing.padding.sysPadding12,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    overflow: 'hidden',
   },
-  mdCheckboxWrap: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
+  mdIconCheckboxRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   smRoot: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: dim.spacing.padding.sysPadding8,
-    paddingHorizontal: dim.spacing.padding.sysPadding12,
-    paddingVertical: dim.spacing.padding.sysPadding8,
+    gap: dim.spacing.padding.sysPadding12,
+    paddingHorizontal: dim.spacing.padding.sysPadding20,
+    paddingVertical: dim.spacing.padding.sysPadding16,
     borderRadius: dim.borderRadius.sysRadiusMd,
     backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     overflow: 'hidden',
   },
   smIconWrap: {
-    width: 20,
-    height: 20,
+    width: 24,
+    height: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },
