@@ -22,8 +22,10 @@ export type PromotionCardUsage =
   | 'danger'
   | 'warning'
   | 'image';
+export type PromotionCardSize = 'md' | 'lg';
 
 export interface PromotionCardProps {
+  size?: PromotionCardSize;
   variant?: PromotionCardVariant;
   usage?: PromotionCardUsage;
   title?: string;
@@ -193,12 +195,28 @@ const TOKENS: Record<PromotionCardVariant, Record<PromotionCardUsage, VariantTok
   },
 };
 
-const CARD_HEIGHT = 197;
-const BUTTON_SIZE = 32;
-const RING_R = 14;
-const RING_CIRCUMFERENCE = 2 * Math.PI * RING_R;
+// lg tokens: neutral uses filled, others use tonal
+function getLgTokens(usage: PromotionCardUsage): VariantTokens {
+  if (usage === 'neutral') return TOKENS.filled.neutral;
+  return TOKENS.tonal[usage];
+}
+
+const MD_HEIGHT = 197;
+const LG_HEIGHT = 363;
+const MD_BUTTON = 32;
+const LG_BUTTON = 48;
+const MD_RING_R = 14;
+const LG_RING_R = 21;
+const MD_RING_C = 2 * Math.PI * MD_RING_R;
+const LG_RING_C = 2 * Math.PI * LG_RING_R;
+const LG_DOTS_BOTTOM = 53;
+const LG_DOTS_LEFT = 32;
+const LG_DOT_SIZE = 6;
+const LG_DOT_GAP = 4;
+const LG_DOT_COUNT = 5;
 
 export function PromotionCard({
+  size = 'md',
   variant = 'filled',
   usage = 'neutral',
   title,
@@ -214,16 +232,22 @@ export function PromotionCard({
   accessibilityLabel,
   style,
 }: PromotionCardProps) {
-  const t = TOKENS[variant][usage];
+  const isLg = size === 'lg';
+  const t = isLg ? getLgTokens(usage) : TOKENS[variant][usage];
   const isImage = usage === 'image';
+  const p = Math.max(0, Math.min(1, progress));
+
+  const buttonSize = isLg ? LG_BUTTON : MD_BUTTON;
+  const ringR = isLg ? LG_RING_R : MD_RING_R;
+  const ringC = isLg ? LG_RING_C : MD_RING_C;
+  const ringArcLength = ringC * p;
 
   const containerStyle = [
     styles.card,
+    isLg ? styles.cardLg : styles.cardMd,
     { backgroundColor: t.cardBg, opacity: disabled ? 0.48 : 1 },
     style,
   ];
-
-  const ringArcLength = RING_CIRCUMFERENCE * Math.max(0, Math.min(1, progress));
 
   const inner = (
     <>
@@ -231,14 +255,20 @@ export function PromotionCard({
         <>
           <Image
             source={image}
-            style={[StyleSheet.absoluteFillObject, { borderRadius: dim.borderRadius.sysRadiusLg }]}
+            style={[
+              StyleSheet.absoluteFillObject,
+              { borderRadius: isLg ? dim.borderRadius.sysRadiusXl : dim.borderRadius.sysRadiusLg },
+            ]}
             resizeMode="cover"
             accessible={false}
           />
           <View
             style={[
               StyleSheet.absoluteFillObject,
-              { borderRadius: dim.borderRadius.sysRadiusLg, backgroundColor: 'rgba(0,0,0,0.35)' },
+              {
+                borderRadius: isLg ? dim.borderRadius.sysRadiusXl : dim.borderRadius.sysRadiusLg,
+                backgroundColor: 'rgba(0,0,0,0.35)',
+              },
             ]}
             pointerEvents="none"
           />
@@ -247,8 +277,10 @@ export function PromotionCard({
 
       {/* Chip */}
       {chipLabel && (
-        <View style={[styles.chip, { backgroundColor: t.chipBg }]}>
-          {chipIcon && <View style={styles.chipIconWrap}>{chipIcon}</View>}
+        <View style={[isLg ? styles.chipLg : styles.chipMd, { backgroundColor: t.chipBg }]}>
+          {chipIcon && (
+            <View style={isLg ? styles.chipIconWrapLg : styles.chipIconWrapMd}>{chipIcon}</View>
+          )}
           <BodyText variant="labelMedium" color={t.chipTextColor}>
             {chipLabel}
           </BodyText>
@@ -256,15 +288,15 @@ export function PromotionCard({
       )}
 
       {/* Content (title + description) */}
-      <View style={styles.content}>
+      <View style={isLg ? styles.contentLg : styles.contentMd}>
         {title && (
-          <HeaderText variant="titleSmall" color={t.titleColor}>
-            {title}
-          </HeaderText>
+          isLg
+            ? <HeaderText variant="titleLarge" color={t.titleColor}>{title}</HeaderText>
+            : <HeaderText variant="titleSmall" color={t.titleColor}>{title}</HeaderText>
         )}
         {description && (
           <View style={{ opacity: t.descOpacity }}>
-            <BodyText variant="small" color={t.descColor}>
+            <BodyText variant={isLg ? 'medium' : 'small'} color={t.descColor}>
               {description}
             </BodyText>
           </View>
@@ -272,45 +304,83 @@ export function PromotionCard({
       </View>
 
       {/* Arrow button (absolute, bottom-right) */}
-      <View style={styles.buttonWrap}>
-        <View style={[styles.button, { backgroundColor: t.buttonBg }]}>
+      <View
+        style={[
+          styles.buttonWrap,
+          {
+            bottom: isLg
+              ? dim.spacing.padding.sysPadding32
+              : dim.spacing.padding.sysPadding16,
+            right: isLg
+              ? dim.spacing.padding.sysPadding32
+              : dim.spacing.padding.sysPadding16,
+            width: buttonSize,
+            height: buttonSize,
+          },
+        ]}
+      >
+        <View style={[styles.button, { width: buttonSize, height: buttonSize, backgroundColor: t.buttonBg }]}>
           <Ionicons
             name="arrow-forward"
-            size={16}
+            size={isLg ? 24 : 16}
             color={t.buttonIconColor}
             accessible={false}
           />
         </View>
         {showRingTimer && (
           <Svg
-            width={BUTTON_SIZE}
-            height={BUTTON_SIZE}
+            width={buttonSize}
+            height={buttonSize}
             style={StyleSheet.absoluteFillObject}
           >
             <SvgCircle
-              cx={BUTTON_SIZE / 2}
-              cy={BUTTON_SIZE / 2}
-              r={RING_R}
+              cx={buttonSize / 2}
+              cy={buttonSize / 2}
+              r={ringR}
               stroke={t.progressColor}
               strokeWidth={2}
               fill="transparent"
-              strokeDasharray={`${ringArcLength} ${RING_CIRCUMFERENCE - ringArcLength}`}
+              strokeDasharray={`${ringArcLength} ${ringC - ringArcLength}`}
               strokeLinecap="round"
               rotation={-90}
-              origin={`${BUTTON_SIZE / 2}, ${BUTTON_SIZE / 2}`}
+              origin={`${buttonSize / 2}, ${buttonSize / 2}`}
             />
           </Svg>
         )}
       </View>
 
+      {/* Pagination dots (lg only) */}
+      {isLg && (
+        <View style={styles.dotsRow}>
+          {Array.from({ length: LG_DOT_COUNT }).map((_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.dot,
+                {
+                  backgroundColor: i === 0 ? t.progressColor : 'transparent',
+                  borderColor: t.progressColor,
+                  borderWidth: i === 0 ? 0 : 1.5,
+                  opacity: i === 0 ? 1 : 0.4,
+                },
+              ]}
+            />
+          ))}
+        </View>
+      )}
+
       {/* Progress bar */}
       {showProgressBar && (
-        <View style={styles.progressTrack} pointerEvents="none">
+        <View
+          style={[styles.progressTrack, { height: isLg ? 4 : 2 }]}
+          pointerEvents="none"
+        >
           <View
             style={[
               styles.progressFill,
               {
-                width: `${Math.max(0, Math.min(1, progress)) * 100}%`,
+                width: `${p * 100}%` as any,
+                height: isLg ? 4 : 2,
                 backgroundColor: t.progressColor,
               },
             ]}
@@ -342,15 +412,24 @@ export function PromotionCard({
 
 const styles = StyleSheet.create({
   card: {
-    height: CARD_HEIGHT,
+    overflow: 'hidden',
+    alignSelf: 'stretch',
+  },
+  cardMd: {
+    height: MD_HEIGHT,
     borderRadius: sys.dimensions.borderRadius.sysRadiusLg,
     paddingHorizontal: sys.dimensions.spacing.padding.sysPadding16,
     paddingVertical: sys.dimensions.spacing.padding.sysPadding16,
-    overflow: 'hidden',
-    alignSelf: 'stretch',
     justifyContent: 'space-between',
   },
-  chip: {
+  cardLg: {
+    height: LG_HEIGHT,
+    borderRadius: sys.dimensions.borderRadius.sysRadiusXl,
+    padding: sys.dimensions.spacing.padding.sysPadding32,
+    flexDirection: 'column',
+    gap: sys.dimensions.spacing.padding.sysPadding24,
+  },
+  chipMd: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
@@ -360,42 +439,66 @@ const styles = StyleSheet.create({
     gap: sys.dimensions.spacing.padding.sysPadding4,
     height: 24,
   },
-  chipIconWrap: {
+  chipLg: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    borderRadius: sys.dimensions.borderRadius.sysRadiusFull,
+    paddingHorizontal: sys.dimensions.spacing.padding.sysPadding16,
+    paddingVertical: sys.dimensions.spacing.padding.sysPadding4,
+    gap: sys.dimensions.spacing.padding.sysPadding8,
+    height: 32,
+  },
+  chipIconWrapMd: {
     width: 16,
     height: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  content: {
+  chipIconWrapLg: {
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contentMd: {
     gap: sys.dimensions.spacing.padding.sysPadding4,
     maxWidth: '78%',
   },
+  contentLg: {
+    gap: sys.dimensions.spacing.padding.sysPadding8,
+    flex: 1,
+  },
   buttonWrap: {
     position: 'absolute',
-    bottom: sys.dimensions.spacing.padding.sysPadding16,
-    right: sys.dimensions.spacing.padding.sysPadding16,
-    width: BUTTON_SIZE,
-    height: BUTTON_SIZE,
   },
   button: {
-    width: BUTTON_SIZE,
-    height: BUTTON_SIZE,
     borderRadius: sys.dimensions.borderRadius.sysRadiusFull,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+  },
+  dotsRow: {
+    position: 'absolute',
+    bottom: LG_DOTS_BOTTOM,
+    left: LG_DOTS_LEFT,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: LG_DOT_GAP,
+  },
+  dot: {
+    width: LG_DOT_SIZE,
+    height: LG_DOT_SIZE,
+    borderRadius: LG_DOT_SIZE / 2,
   },
   progressTrack: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: 2,
     backgroundColor: 'rgba(0,0,0,0.08)',
   },
-  progressFill: {
-    height: 2,
-  },
+  progressFill: {},
   pressed: {
     opacity: 0.84,
   },
