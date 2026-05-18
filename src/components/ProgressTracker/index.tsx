@@ -37,7 +37,7 @@ export function ProgressBar({ progress }: ProgressBarProps) {
 export type StepState = 'completed' | 'active' | 'pending';
 
 export interface TrackerStep {
-  label: string;
+  label?: string;
   /**
    * `completed` → full green fill (100 %)
    * `active`    → partial green fill (25 %) — in-progress indicator
