@@ -29,7 +29,7 @@ describe('Pagination', () => {
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
-  it.each(['sm', 'md'] as const)('renders size "%s" without crashing', (size) => {
+  it.each(['sm', 'lg'] as const)('renders size "%s" without crashing', (size) => {
     const { toJSON } = render(
       <Pagination currentPage={1} totalPages={5} onPageChange={jest.fn()} size={size} />
     );

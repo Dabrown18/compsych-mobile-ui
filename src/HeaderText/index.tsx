@@ -49,9 +49,9 @@ export function HeaderText({
   ...rest
 }: HeaderTextProps) {
   const [fontsLoaded] = useFonts({
-    GoogleSans_400Regular: require('./fonts/GoogleSans_400Regular.ttf'),
-    GoogleSans_500Medium: require('./fonts/GoogleSans_500Medium.ttf'),
-    GoogleSans_600SemiBold: require('./fonts/GoogleSans_600SemiBold.ttf'),
+    GoogleSans_400Regular: require('../fonts/GoogleSans_400Regular.ttf'),
+    GoogleSans_500Medium: require('../fonts/GoogleSans_500Medium.ttf'),
+    GoogleSans_600SemiBold: require('../fonts/GoogleSans_600SemiBold.ttf'),
   });
 
   const token = ts[VARIANT_TOKEN_KEY[variant]];

@@ -25,9 +25,16 @@ describe('EmptyState', () => {
     expect(onAction).toHaveBeenCalledTimes(1);
   });
 
-  it.each(['compact', 'full'] as const)('renders viewport "%s" without crashing', (viewport) => {
+  it.each(['desktop', 'mobile'] as const)('renders viewport "%s" without crashing', (viewport) => {
     const { getByText } = render(
       <EmptyState title="Empty" description="Nothing to show" viewport={viewport} />
+    );
+    expect(getByText('Empty')).toBeTruthy();
+  });
+
+  it.each(['icon', 'illustration'] as const)('renders style "%s" without crashing', (emptyStyle) => {
+    const { getByText } = render(
+      <EmptyState title="Empty" description="Nothing" emptyStyle={emptyStyle} />
     );
     expect(getByText('Empty')).toBeTruthy();
   });

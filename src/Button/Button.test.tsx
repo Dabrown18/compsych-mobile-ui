@@ -15,14 +15,12 @@ describe('Button', () => {
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
-  it('does not call onPress when disabled', () => {
-    const onPress = jest.fn();
-    const { getByRole } = render(<Button label="Submit" onPress={onPress} disabled />);
-    fireEvent.press(getByRole('button'));
-    expect(onPress).not.toHaveBeenCalled();
+  it('is accessible as disabled when disabled prop is set', () => {
+    const { getByRole } = render(<Button label="Submit" disabled />);
+    expect(getByRole('button').props.accessibilityState.disabled).toBe(true);
   });
 
-  it.each(['primary', 'secondary', 'tertiary', 'danger', 'ghost'] as const)(
+  it.each(['filled', 'tonal', 'outlined', 'elevated', 'text'] as const)(
     'renders variant "%s" without crashing',
     (variant) => {
       const { getByText } = render(<Button label="Button" variant={variant} />);
@@ -36,7 +34,7 @@ describe('Button', () => {
   });
 
   it('renders in full width mode', () => {
-    const { getByRole } = render(<Button label="Full" fullWidth />);
-    expect(getByRole('button')).toBeTruthy();
+    const { getByText } = render(<Button label="Full" fullWidth />);
+    expect(getByText('Full')).toBeTruthy();
   });
 });

@@ -13,7 +13,7 @@ describe('Badge', () => {
     expect(getByText('Badge')).toBeTruthy();
   });
 
-  it.each(['filled', 'outlined', 'ghost'] as const)(
+  it.each(['filled', 'positive', 'danger', 'elevated', 'tonal'] as const)(
     'renders style "%s" without crashing',
     (badgeStyle) => {
       const { getByText } = render(<Badge label="Badge" badgeStyle={badgeStyle} />);

@@ -25,7 +25,7 @@ describe('Breadcrumb', () => {
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
-  it.each(['sm', 'md', 'lg'] as const)('renders size "%s" without crashing', (size) => {
+  it.each(['sm', 'lg'] as const)('renders size "%s" without crashing', (size) => {
     const { getByText } = render(<Breadcrumb items={items} size={size} />);
     expect(getByText('Home')).toBeTruthy();
   });

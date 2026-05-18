@@ -1,7 +1,17 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ActionSheet } from './index';
+
+jest.mock('react-native/Libraries/Modal/Modal', () => {
+  const mockModal = ({ children, visible }: { children: any; visible: boolean }) => {
+    const { View } = jest.requireActual('react-native');
+    const { createElement } = require('react');
+    return visible ? createElement(View, null, children) : null;
+  };
+  mockModal.displayName = 'Modal';
+  return { default: mockModal };
+});
 
 describe('ActionSheet', () => {
   it('renders title when visible', () => {
@@ -20,10 +30,10 @@ describe('ActionSheet', () => {
 
   it('calls onClose when close button is pressed', () => {
     const onClose = jest.fn();
-    const { getByRole } = render(
+    const { getByLabelText } = render(
       <ActionSheet visible title="Options" onClose={onClose} />
     );
-    fireEvent.press(getByRole('button', { name: 'Close' }));
+    fireEvent.press(getByLabelText('Close'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 

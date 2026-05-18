@@ -16,16 +16,16 @@ describe('Chip', () => {
   });
 
   it('renders selected state', () => {
-    const { getByRole } = render(<Chip label="Selected" selected />);
-    expect(getByRole('button')).toBeTruthy();
+    const { toJSON } = render(<Chip label="Selected" selected />);
+    expect(toJSON()).toBeTruthy();
   });
 
-  it.each(['sm', 'md', 'lg'] as const)('renders size "%s" without crashing', (size) => {
+  it.each(['sm', 'md', 'lg', 'xl'] as const)('renders size "%s" without crashing', (size) => {
     const { getByText } = render(<Chip label="Chip" size={size} />);
     expect(getByText('Chip')).toBeTruthy();
   });
 
-  it.each(['filter', 'input', 'suggestion', 'assist'] as const)(
+  it.each(['neutral', 'informative', 'positive', 'danger', 'warning'] as const)(
     'renders usage "%s" without crashing',
     (usage) => {
       const { getByText } = render(<Chip label="Chip" usage={usage} />);

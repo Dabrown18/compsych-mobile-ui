@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import { PlanCard, PlanCardDropdownItem } from './index';
+import { PlanCard } from './index';
 
 const items = [
   { id: '1', title: 'Session 1', subtitle: 'Introduction', checked: false },
@@ -28,8 +28,13 @@ describe('PlanCard', () => {
 
   it('calls onToggle when header is pressed', () => {
     const onToggle = jest.fn();
-    const { getByText } = render(<PlanCard title="Plan" onToggle={onToggle} />);
-    fireEvent.press(getByText('Plan'));
+    const { getByLabelText } = render(<PlanCard title="Plan" onToggle={onToggle} />);
+    fireEvent.press(getByLabelText('Expand'));
     expect(onToggle).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders without items', () => {
+    const { toJSON } = render(<PlanCard title="Empty Plan" />);
+    expect(toJSON()).toBeTruthy();
   });
 });
