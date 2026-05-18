@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { Breadcrumb } from './index';
 
 const items = [
@@ -19,7 +21,7 @@ describe('Breadcrumb', () => {
   it('calls onPress for a tappable item', () => {
     const onPress = jest.fn();
     const { getByText } = render(
-      <Breadcrumb items={[{ label: 'Home', onPress }, { label: 'Current' }]} />
+      <Breadcrumb items={[{ label: 'Home', onPress }, { label: 'Current' }]} />,
     );
     fireEvent.press(getByText('Home'));
     expect(onPress).toHaveBeenCalledTimes(1);

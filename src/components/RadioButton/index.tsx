@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+
 import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
 import { sys } from '../../tokens';
 
 export type RadioButtonSize = 'sm' | 'md';
@@ -66,8 +68,8 @@ export function RadioButton({
   const borderColor = invalid
     ? cr.error.sysError
     : isChecked
-    ? cr.accent.primary.sysPrimary
-    : cr.outline.sysOutlineFixed;
+      ? cr.accent.primary.sysPrimary
+      : cr.outline.sysOutlineFixed;
 
   const circleBg = isChecked ? cr.accent.primary.sysPrimary : 'transparent';
 
@@ -77,11 +79,7 @@ export function RadioButton({
       accessibilityRole="radio"
       accessibilityLabel={label}
       accessibilityState={{ checked: isChecked, disabled }}
-      style={({ pressed }) => [
-        styles.root,
-        disabled && styles.disabled,
-        style,
-      ]}
+      style={({ pressed }) => [styles.root, disabled && styles.disabled, style]}
     >
       {({ pressed }) => (
         <>
@@ -94,9 +92,7 @@ export function RadioButton({
                 height: s.hitArea,
                 borderRadius: s.hitArea / 2,
                 backgroundColor:
-                  pressed && !disabled
-                    ? cr.transparent.neutral.sysBlack10
-                    : 'transparent',
+                  pressed && !disabled ? cr.transparent.neutral.sysBlack10 : 'transparent',
               },
             ]}
           >

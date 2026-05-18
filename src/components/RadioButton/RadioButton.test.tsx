@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { RadioButton } from './index';
 
 describe('RadioButton', () => {
@@ -10,7 +12,7 @@ describe('RadioButton', () => {
 
   it('renders description when provided', () => {
     const { getByText } = render(
-      <RadioButton label="Option A" description="Best for most users" />
+      <RadioButton label="Option A" description="Best for most users" />,
     );
     expect(getByText('Best for most users')).toBeTruthy();
   });
@@ -18,7 +20,7 @@ describe('RadioButton', () => {
   it('calls onChange when pressed', () => {
     const onChange = jest.fn();
     const { getByRole } = render(
-      <RadioButton label="Option A" checked={false} onChange={onChange} />
+      <RadioButton label="Option A" checked={false} onChange={onChange} />,
     );
     fireEvent.press(getByRole('radio'));
     expect(onChange).toHaveBeenCalledWith(true);
@@ -27,7 +29,7 @@ describe('RadioButton', () => {
   it('does not call onChange when disabled', () => {
     const onChange = jest.fn();
     const { getByRole } = render(
-      <RadioButton label="Option A" checked={false} onChange={onChange} disabled />
+      <RadioButton label="Option A" checked={false} onChange={onChange} disabled />,
     );
     fireEvent.press(getByRole('radio'));
     expect(onChange).not.toHaveBeenCalled();

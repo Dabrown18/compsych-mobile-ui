@@ -1,5 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+
 import {
   Image,
   ImageSourcePropType,
@@ -9,6 +9,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
@@ -135,8 +138,7 @@ export function Avatar({
   const s = SIZE_TOKENS[size];
   const r = s.diameter / 2;
 
-  const defaultLabel =
-    variant === 'text' ? `Avatar: ${initials}` : 'Avatar';
+  const defaultLabel = variant === 'text' ? `Avatar: ${initials}` : 'Avatar';
 
   return (
     // Outer wrapper — same footprint as avatar, does NOT clip so ring/badge
@@ -147,7 +149,6 @@ export function Avatar({
       accessibilityLabel={accessibilityLabel ?? defaultLabel}
       style={[{ width: s.diameter, height: s.diameter }, style]}
     >
-
       {/* ── Avatar circle ─────────────────────────────────────────────── */}
       <View
         style={[
@@ -156,10 +157,7 @@ export function Avatar({
             width: s.diameter,
             height: s.diameter,
             borderRadius: r,
-            backgroundColor:
-              variant !== 'image'
-                ? cr.custom.info.sysInfoContainer
-                : undefined,
+            backgroundColor: variant !== 'image' ? cr.custom.info.sysInfoContainer : undefined,
           },
         ]}
       >
@@ -187,15 +185,10 @@ export function Avatar({
           />
         )}
 
-        {variant === 'icon' && (
-          icon ?? (
-            <Ionicons
-              name="person"
-              size={s.iconSize}
-              color={cr.custom.info.sysOnInfoContainer}
-            />
-          )
-        )}
+        {variant === 'icon' &&
+          (icon ?? (
+            <Ionicons name="person" size={s.iconSize} color={cr.custom.info.sysOnInfoContainer} />
+          ))}
       </View>
 
       {/* ── Activity ring ─────────────────────────────────────────────── */}
@@ -228,8 +221,7 @@ export function Avatar({
               borderRadius: s.badgeSize / 2,
               bottom: s.badgeOffset,
               right: s.badgeOffset,
-              backgroundColor:
-                cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+              backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
             },
           ]}
         >

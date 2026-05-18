@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { render } from '@testing-library/react-native';
+
 import { Tooltip } from './index';
 
 describe('Tooltip', () => {
@@ -18,6 +20,6 @@ describe('Tooltip', () => {
     (direction) => {
       const { getByText } = render(<Tooltip text="Hint" direction={direction} />);
       expect(getByText('Hint')).toBeTruthy();
-    }
+    },
   );
 });

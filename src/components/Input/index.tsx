@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import {
-  TextInput,
-  TextInputProps,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
+
 import { sys } from '../../tokens';
 
 export type InputSize = 'sm' | 'md' | 'lg';
@@ -78,15 +74,14 @@ export function Input({
   const hasError = invalid || !!errorText;
 
   // ── Border ──────────────────────────────────────────────────────────────
-  const borderWidth = isFocused || hasError
-    ? dim.borderWidth.sysStrokeMedium
-    : dim.borderWidth.sysStrokeThin;
+  const borderWidth =
+    isFocused || hasError ? dim.borderWidth.sysStrokeMedium : dim.borderWidth.sysStrokeThin;
 
   const borderColor = hasError
     ? cr.error.sysError
     : isFocused
-    ? cr.accent.primary.sysPrimary
-    : cr.outline.sysOutlineVariant;
+      ? cr.accent.primary.sysPrimary
+      : cr.outline.sysOutlineVariant;
 
   // ── Text colours ─────────────────────────────────────────────────────────
   const textColor = cr.surface.surface.sysOnSurface;
@@ -94,9 +89,7 @@ export function Input({
 
   // ── Helper / error text ──────────────────────────────────────────────────
   const supportingText = errorText ?? helperText;
-  const supportingColor = hasError
-    ? cr.error.sysError
-    : cr.surface.surface.sysOnSurfaceVariant;
+  const supportingColor = hasError ? cr.error.sysError : cr.surface.surface.sysOnSurfaceVariant;
 
   return (
     <View style={[styles.wrapper, isDisabled && styles.disabled]}>
@@ -106,9 +99,7 @@ export function Input({
           style={[
             styles.label,
             {
-              color: hasError
-                ? cr.error.sysError
-                : cr.surface.surface.sysOnSurfaceVariant,
+              color: hasError ? cr.error.sysError : cr.surface.surface.sysOnSurfaceVariant,
               fontSize: ts.labelMedium.sysFontSize,
               lineHeight: ts.labelMedium.sysLineHeight,
             },
@@ -124,9 +115,7 @@ export function Input({
           padding: RING_SIZE,
           borderRadius: s.radius + RING_SIZE,
           backgroundColor:
-            isFocused && !hasError
-              ? cr.transparent.primary.sysPrimary08
-              : 'transparent',
+            isFocused && !hasError ? cr.transparent.primary.sysPrimary08 : 'transparent',
         }}
       >
         {/* Input container */}
@@ -147,7 +136,15 @@ export function Input({
         >
           {/* Leading icon */}
           {leadingIcon && (
-            <View style={{ width: s.iconSize, height: s.iconSize, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <View
+              style={{
+                width: s.iconSize,
+                height: s.iconSize,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
               {leadingIcon}
             </View>
           )}
@@ -182,7 +179,15 @@ export function Input({
 
           {/* Trailing icon */}
           {trailingIcon && (
-            <View style={{ width: s.iconSize, height: s.iconSize, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <View
+              style={{
+                width: s.iconSize,
+                height: s.iconSize,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
               {trailingIcon}
             </View>
           )}

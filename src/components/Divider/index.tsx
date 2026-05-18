@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { StyleProp, View, ViewStyle } from 'react-native';
+
 import { sys } from '../../tokens';
 
 export type DividerVariant = 'horizontal' | 'vertical';
@@ -21,24 +23,25 @@ export function Divider({
   style,
 }: DividerProps) {
   const thickness =
-    weight === 'thin'
-      ? dim.borderWidth.sysStrokeThin
-      : dim.borderWidth.sysStrokeThick;
+    weight === 'thin' ? dim.borderWidth.sysStrokeThin : dim.borderWidth.sysStrokeThick;
 
   const color = cr.outline.sysOutlineVariant;
 
   if (variant === 'horizontal') {
     return (
       <View
-        style={[{
-          // Zero height — the line is drawn as a top border
-          height: 0,
-          // Stretch to fill parent width
-          alignSelf: 'stretch',
-          borderTopWidth: thickness,
-          borderTopColor: color,
-          borderStyle: dashed ? 'dashed' : 'solid',
-        }, style]}
+        style={[
+          {
+            // Zero height — the line is drawn as a top border
+            height: 0,
+            // Stretch to fill parent width
+            alignSelf: 'stretch',
+            borderTopWidth: thickness,
+            borderTopColor: color,
+            borderStyle: dashed ? 'dashed' : 'solid',
+          },
+          style,
+        ]}
         accessible={false}
       />
     );
@@ -47,15 +50,18 @@ export function Divider({
   // Vertical
   return (
     <View
-      style={[{
-        // Zero width — the line is drawn as a left border
-        width: 0,
-        // Stretch to fill parent height
-        alignSelf: 'stretch',
-        borderLeftWidth: thickness,
-        borderLeftColor: color,
-        borderStyle: dashed ? 'dashed' : 'solid',
-      }, style]}
+      style={[
+        {
+          // Zero width — the line is drawn as a left border
+          width: 0,
+          // Stretch to fill parent height
+          alignSelf: 'stretch',
+          borderLeftWidth: thickness,
+          borderLeftColor: color,
+          borderStyle: dashed ? 'dashed' : 'solid',
+        },
+        style,
+      ]}
       accessible={false}
     />
   );

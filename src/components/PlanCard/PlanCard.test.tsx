@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { PlanCard } from './index';
 
 const items = [
@@ -19,9 +21,7 @@ describe('PlanCard', () => {
   });
 
   it('renders items when expanded', () => {
-    const { getByText } = render(
-      <PlanCard title="Plan" items={items} expanded />
-    );
+    const { getByText } = render(<PlanCard title="Plan" items={items} expanded />);
     expect(getByText('Session 1')).toBeTruthy();
     expect(getByText('Session 2')).toBeTruthy();
   });

@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+
+import { Modal, Pressable, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
-import { HeaderText } from '../HeaderText';
 import { Button } from '../Button';
+import { HeaderText } from '../HeaderText';
 
 export interface ActionSheetAction {
   label: string;
@@ -53,7 +48,6 @@ export function ActionSheet({
       {/* Sheet */}
       <View style={[styles.sheetWrapper, style]} pointerEvents="box-none">
         <View style={styles.sheet}>
-
           {/* Toolbar */}
           <View style={styles.toolbar}>
             {/* Grabber */}
@@ -86,11 +80,7 @@ export function ActionSheet({
                   pressed && styles.closePresseed,
                 ]}
               >
-                <Ionicons
-                  name="close"
-                  size={20}
-                  color={cr.surface.surface.sysOnSurface}
-                />
+                <Ionicons name="close" size={20} color={cr.surface.surface.sysOnSurface} />
               </Pressable>
             </View>
           </View>
@@ -129,7 +119,6 @@ export function ActionSheet({
               )}
             </View>
           )}
-
         </View>
       </View>
     </Modal>

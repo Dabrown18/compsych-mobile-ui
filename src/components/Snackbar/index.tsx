@@ -1,13 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  Animated,
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+
+import { Animated, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
@@ -71,12 +67,8 @@ export function Snackbar({
   const isFilled = variant === 'filled';
 
   const containerStyle = isFilled ? styles.containerFilled : styles.containerOutlined;
-  const labelColor = isFilled
-    ? cr.accent.primary.sysOnPrimary
-    : cr.surface.surface.sysOnSurface;
-  const actionColor = isFilled
-    ? cr.accent.primary.sysOnPrimary
-    : cr.accent.primary.sysPrimary;
+  const labelColor = isFilled ? cr.accent.primary.sysOnPrimary : cr.surface.surface.sysOnSurface;
+  const actionColor = isFilled ? cr.accent.primary.sysOnPrimary : cr.accent.primary.sysPrimary;
   const closeBg = isFilled
     ? cr.transparent.neutral.sysWhite10
     : cr.surface.surfaceContainer.sysSurfaceContainer;
@@ -86,20 +78,11 @@ export function Snackbar({
 
   return (
     <Animated.View
-      style={[
-        styles.wrapper,
-        { opacity, transform: [{ translateY }] },
-        style,
-      ]}
+      style={[styles.wrapper, { opacity, transform: [{ translateY }] }, style]}
       pointerEvents={visible ? 'box-none' : 'none'}
     >
       <View style={[styles.container, containerStyle]}>
-        <BodyText
-          variant="medium"
-          color={labelColor}
-          style={styles.label}
-          numberOfLines={2}
-        >
+        <BodyText variant="medium" color={labelColor} style={styles.label} numberOfLines={2}>
           {message}
         </BodyText>
 
@@ -109,10 +92,7 @@ export function Snackbar({
               onPress={onAction}
               accessibilityRole="button"
               accessibilityLabel={actionLabel}
-              style={({ pressed }) => [
-                styles.actionButton,
-                pressed && styles.pressed,
-              ]}
+              style={({ pressed }) => [styles.actionButton, pressed && styles.pressed]}
             >
               <BodyText variant="small" emphasized color={actionColor}>
                 {actionLabel}

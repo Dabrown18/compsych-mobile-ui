@@ -1,6 +1,9 @@
 import React from 'react';
+
 import { Text, View } from 'react-native';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { ActionSheet } from './index';
 
 jest.mock('react-native/Libraries/Modal/Modal', () => {
@@ -16,23 +19,21 @@ jest.mock('react-native/Libraries/Modal/Modal', () => {
 describe('ActionSheet', () => {
   it('renders title when visible', () => {
     const { getByText } = render(
-      <ActionSheet visible title="Choose an option" onClose={jest.fn()} />
+      <ActionSheet visible title="Choose an option" onClose={jest.fn()} />,
     );
     expect(getByText('Choose an option')).toBeTruthy();
   });
 
   it('does not render content when not visible', () => {
     const { queryByText } = render(
-      <ActionSheet visible={false} title="Choose an option" onClose={jest.fn()} />
+      <ActionSheet visible={false} title="Choose an option" onClose={jest.fn()} />,
     );
     expect(queryByText('Choose an option')).toBeNull();
   });
 
   it('calls onClose when close button is pressed', () => {
     const onClose = jest.fn();
-    const { getByLabelText } = render(
-      <ActionSheet visible title="Options" onClose={onClose} />
-    );
+    const { getByLabelText } = render(<ActionSheet visible title="Options" onClose={onClose} />);
     fireEvent.press(getByLabelText('Close'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
@@ -45,7 +46,7 @@ describe('ActionSheet', () => {
         title="Options"
         onClose={jest.fn()}
         primaryAction={{ label: 'Confirm', onPress }}
-      />
+      />,
     );
     fireEvent.press(getByText('Confirm'));
     expect(onPress).toHaveBeenCalledTimes(1);
@@ -59,7 +60,7 @@ describe('ActionSheet', () => {
         title="Options"
         onClose={jest.fn()}
         secondaryAction={{ label: 'Cancel', onPress }}
-      />
+      />,
     );
     fireEvent.press(getByText('Cancel'));
     expect(onPress).toHaveBeenCalledTimes(1);
@@ -69,7 +70,7 @@ describe('ActionSheet', () => {
     const { getByText } = render(
       <ActionSheet visible title="Options" onClose={jest.fn()}>
         <Text>Custom content</Text>
-      </ActionSheet>
+      </ActionSheet>,
     );
     expect(getByText('Custom content')).toBeTruthy();
   });

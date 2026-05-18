@@ -1,27 +1,25 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { PromotionCard } from './index';
 
 describe('PromotionCard', () => {
   it('renders title and description', () => {
-    const { getByText } = render(
-      <PromotionCard title="New feature" description="Check it out" />
-    );
+    const { getByText } = render(<PromotionCard title="New feature" description="Check it out" />);
     expect(getByText('New feature')).toBeTruthy();
     expect(getByText('Check it out')).toBeTruthy();
   });
 
   it('renders chip label when provided', () => {
-    const { getByText } = render(
-      <PromotionCard title="Card" chipLabel="NEW" />
-    );
+    const { getByText } = render(<PromotionCard title="Card" chipLabel="NEW" />);
     expect(getByText('NEW')).toBeTruthy();
   });
 
   it('calls onPress when tapped', () => {
     const onPress = jest.fn();
     const { getByRole } = render(
-      <PromotionCard title="Promo" accessibilityLabel="Promo card" onPress={onPress} />
+      <PromotionCard title="Promo" accessibilityLabel="Promo card" onPress={onPress} />,
     );
     fireEvent.press(getByRole('button', { name: 'Promo card' }));
     expect(onPress).toHaveBeenCalledTimes(1);
@@ -29,7 +27,7 @@ describe('PromotionCard', () => {
 
   it('renders disabled state without crashing', () => {
     const { toJSON } = render(
-      <PromotionCard title="Promo" accessibilityLabel="Promo card" onPress={jest.fn()} disabled />
+      <PromotionCard title="Promo" accessibilityLabel="Promo card" onPress={jest.fn()} disabled />,
     );
     expect(toJSON()).toBeTruthy();
   });
@@ -49,6 +47,6 @@ describe('PromotionCard', () => {
     (usage) => {
       const { toJSON } = render(<PromotionCard title="Card" usage={usage} />);
       expect(toJSON()).toBeTruthy();
-    }
+    },
   );
 });

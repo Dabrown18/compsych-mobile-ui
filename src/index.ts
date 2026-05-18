@@ -17,10 +17,19 @@ export { Button } from './components/Button';
 export type { ButtonProps, ButtonVariant, ButtonSize } from './components/Button';
 
 export { ServiceCard } from './components/ServiceCard';
-export type { ServiceCardProps, ServiceCardVariant, ServiceCardSize } from './components/ServiceCard';
+export type {
+  ServiceCardProps,
+  ServiceCardVariant,
+  ServiceCardSize,
+} from './components/ServiceCard';
 
 export { PromotionCard } from './components/PromotionCard';
-export type { PromotionCardProps, PromotionCardVariant, PromotionCardUsage, PromotionCardSize } from './components/PromotionCard';
+export type {
+  PromotionCardProps,
+  PromotionCardVariant,
+  PromotionCardUsage,
+  PromotionCardSize,
+} from './components/PromotionCard';
 
 export { Checkbox } from './components/Checkbox';
 export type { CheckboxProps, CheckboxSize, CheckboxCheckedState } from './components/Checkbox';
@@ -47,7 +56,13 @@ export { Pagination } from './components/Pagination';
 export type { PaginationProps, PaginationSize } from './components/Pagination';
 
 export { ProgressTracker, ProgressBar } from './components/ProgressTracker';
-export type { ProgressTrackerProps, ProgressTrackerSize, ProgressBarProps, TrackerStep, StepState } from './components/ProgressTracker';
+export type {
+  ProgressTrackerProps,
+  ProgressTrackerSize,
+  ProgressBarProps,
+  TrackerStep,
+  StepState,
+} from './components/ProgressTracker';
 
 export { RadioButton } from './components/RadioButton';
 export type { RadioButtonProps, RadioButtonSize } from './components/RadioButton';

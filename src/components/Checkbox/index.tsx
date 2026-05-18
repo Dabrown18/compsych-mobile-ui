@@ -1,6 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
+
 import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 
 export type CheckboxSize = 'sm' | 'md';
@@ -21,8 +24,20 @@ export interface CheckboxProps {
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
 
 const SIZE_TOKENS = {
-  sm: { box: 20, hitArea: 36, fontSize: ts.bodySmall.sysFontSize, lineHeight: ts.bodySmall.sysLineHeight, iconSize: 13 },
-  md: { box: 24, hitArea: 40, fontSize: ts.bodyMedium.sysFontSize, lineHeight: ts.bodyMedium.sysLineHeight, iconSize: 16 },
+  sm: {
+    box: 20,
+    hitArea: 36,
+    fontSize: ts.bodySmall.sysFontSize,
+    lineHeight: ts.bodySmall.sysLineHeight,
+    iconSize: 13,
+  },
+  md: {
+    box: 24,
+    hitArea: 40,
+    fontSize: ts.bodyMedium.sysFontSize,
+    lineHeight: ts.bodyMedium.sysLineHeight,
+    iconSize: 16,
+  },
 };
 
 export function Checkbox({
@@ -58,8 +73,8 @@ export function Checkbox({
   const borderColor = invalid
     ? cr.error.sysError
     : isSelected
-    ? 'transparent'
-    : cr.outline.sysOutlineFixed;
+      ? 'transparent'
+      : cr.outline.sysOutlineFixed;
 
   const boxBg = isSelected
     ? invalid
@@ -76,11 +91,7 @@ export function Checkbox({
         checked: isIndeterminate ? 'mixed' : isChecked,
         disabled,
       }}
-      style={({ pressed }) => [
-        styles.root,
-        disabled && styles.disabled,
-        style,
-      ]}
+      style={({ pressed }) => [styles.root, disabled && styles.disabled, style]}
     >
       {({ pressed }) => (
         <>
@@ -93,9 +104,7 @@ export function Checkbox({
                 height: s.hitArea,
                 borderRadius: s.hitArea / 2,
                 backgroundColor:
-                  pressed && !disabled
-                    ? cr.transparent.neutral.sysBlack10
-                    : 'transparent',
+                  pressed && !disabled ? cr.transparent.neutral.sysBlack10 : 'transparent',
               },
             ]}
           >

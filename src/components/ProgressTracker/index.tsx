@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
 import { sys } from '../../tokens';
 
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
@@ -82,9 +84,12 @@ const SIZE_TOKENS = {
 
 function stepProgress(state: StepState): number {
   switch (state) {
-    case 'completed': return 100;
-    case 'active':    return 25;
-    case 'pending':   return 0;
+    case 'completed':
+      return 100;
+    case 'active':
+      return 25;
+    case 'pending':
+      return 0;
   }
 }
 

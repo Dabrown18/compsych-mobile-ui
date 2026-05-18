@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { render } from '@testing-library/react-native';
+
 import { Divider } from './index';
 
 describe('Divider', () => {
@@ -13,7 +15,7 @@ describe('Divider', () => {
     (variant) => {
       const { toJSON } = render(<Divider variant={variant} />);
       expect(toJSON()).toBeTruthy();
-    }
+    },
   );
 
   it.each(['thin', 'medium', 'thick'] as const)(
@@ -21,6 +23,6 @@ describe('Divider', () => {
     (weight) => {
       const { toJSON } = render(<Divider weight={weight} />);
       expect(toJSON()).toBeTruthy();
-    }
+    },
   );
 });

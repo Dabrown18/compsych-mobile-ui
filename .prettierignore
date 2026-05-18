@@ -1,0 +1,8 @@
+node_modules
+dist
+*.ttf
+*.otf
+*.png
+*.jpg
+*.svg
+package-lock.json

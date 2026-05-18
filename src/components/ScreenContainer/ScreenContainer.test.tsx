@@ -1,6 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+
 import { Text } from 'react-native';
+
+import { render } from '@testing-library/react-native';
+
 import { ScreenContainer } from './index';
 
 describe('ScreenContainer', () => {
@@ -8,7 +11,7 @@ describe('ScreenContainer', () => {
     const { getByText } = render(
       <ScreenContainer>
         <Text>Screen content</Text>
-      </ScreenContainer>
+      </ScreenContainer>,
     );
     expect(getByText('Screen content')).toBeTruthy();
   });
@@ -18,7 +21,7 @@ describe('ScreenContainer', () => {
       <ScreenContainer>
         <Text>First</Text>
         <Text>Second</Text>
-      </ScreenContainer>
+      </ScreenContainer>,
     );
     expect(getByText('First')).toBeTruthy();
     expect(getByText('Second')).toBeTruthy();

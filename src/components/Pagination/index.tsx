@@ -1,6 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+
 import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 
 export type PaginationSize = 'sm' | 'lg';
@@ -69,11 +72,7 @@ const SIZE_TOKENS = {
 
 // ── Pagination range logic ────────────────────────────────────────────────────
 
-function buildPageRange(
-  total: number,
-  current: number,
-  siblings: number,
-): (number | '...')[] {
+function buildPageRange(total: number, current: number, siblings: number): (number | '...')[] {
   // Always show: 1, last, current, siblings
   const range: (number | '...')[] = [];
 
@@ -117,9 +116,7 @@ interface PageItemProps {
 function PageItem({ s, page, isActive, onPress }: PageItemProps) {
   const borderWidth = isActive ? dim.borderWidth.sysStrokeMedium : 0;
   const borderColor = isActive ? cr.accent.primary.sysPrimary : 'transparent';
-  const textColor = isActive
-    ? cr.custom.info.sysOnInfoContainer
-    : cr.surface.surface.sysOnSurface;
+  const textColor = isActive ? cr.custom.info.sysOnInfoContainer : cr.surface.surface.sysOnSurface;
   const fontWeight = isActive ? s.activeWeight : s.inactiveWeight;
 
   return (
@@ -136,9 +133,7 @@ function PageItem({ s, page, isActive, onPress }: PageItemProps) {
           style={{
             padding: RING_SIZE,
             borderRadius: s.itemSize / 2 + RING_SIZE,
-            backgroundColor: isActive
-              ? cr.transparent.primary.sysPrimary08
-              : 'transparent',
+            backgroundColor: isActive ? cr.transparent.primary.sysPrimary08 : 'transparent',
           }}
         >
           <View
@@ -150,9 +145,8 @@ function PageItem({ s, page, isActive, onPress }: PageItemProps) {
               borderColor,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: pressed && !isActive
-                ? cr.transparent.neutral.sysBlack10
-                : 'transparent',
+              backgroundColor:
+                pressed && !isActive ? cr.transparent.neutral.sysBlack10 : 'transparent',
             }}
           >
             <Text
@@ -212,8 +206,7 @@ interface NavButtonProps {
 }
 
 function NavButton({ s, direction, disabled, onPress }: NavButtonProps) {
-  const iconName =
-    direction === 'prev' ? 'chevron-back' : 'chevron-forward';
+  const iconName = direction === 'prev' ? 'chevron-back' : 'chevron-forward';
 
   return (
     <Pressable
@@ -231,16 +224,11 @@ function NavButton({ s, direction, disabled, onPress }: NavButtonProps) {
             borderRadius: s.itemSize / 2,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: pressed && !disabled
-              ? cr.transparent.neutral.sysBlack10
-              : 'transparent',
+            backgroundColor:
+              pressed && !disabled ? cr.transparent.neutral.sysBlack10 : 'transparent',
           }}
         >
-          <Ionicons
-            name={iconName}
-            size={s.iconSize}
-            color={cr.surface.surface.sysOnSurface}
-          />
+          <Ionicons name={iconName} size={s.iconSize} color={cr.surface.surface.sysOnSurface} />
         </View>
       )}
     </Pressable>

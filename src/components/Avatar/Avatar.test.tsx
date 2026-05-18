@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { render } from '@testing-library/react-native';
+
 import { Avatar } from './index';
 
 describe('Avatar', () => {
@@ -14,15 +16,13 @@ describe('Avatar', () => {
         variant="image"
         source={{ uri: 'https://example.com/avatar.jpg' }}
         accessibilityLabel="User avatar"
-      />
+      />,
     );
     expect(getByLabelText('User avatar')).toBeTruthy();
   });
 
   it('renders icon variant without crashing', () => {
-    const { getByLabelText } = render(
-      <Avatar variant="icon" accessibilityLabel="Icon avatar" />
-    );
+    const { getByLabelText } = render(<Avatar variant="icon" accessibilityLabel="Icon avatar" />);
     expect(getByLabelText('Icon avatar')).toBeTruthy();
   });
 
@@ -31,12 +31,12 @@ describe('Avatar', () => {
     (size) => {
       const { getByText } = render(<Avatar variant="text" initials="AB" size={size} />);
       expect(getByText('AB')).toBeTruthy();
-    }
+    },
   );
 
   it('renders activity ring when activityRing is true', () => {
     const { getByLabelText } = render(
-      <Avatar variant="text" initials="CP" activityRing accessibilityLabel="Active user" />
+      <Avatar variant="text" initials="CP" activityRing accessibilityLabel="Active user" />,
     );
     expect(getByLabelText('Active user')).toBeTruthy();
   });

@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { SegmentedControl } from './index';
 
 const options = [
@@ -11,7 +13,7 @@ const options = [
 describe('SegmentedControl', () => {
   it('renders all option labels', () => {
     const { getByText } = render(
-      <SegmentedControl options={options} value="day" onChange={jest.fn()} />
+      <SegmentedControl options={options} value="day" onChange={jest.fn()} />,
     );
     expect(getByText('Day')).toBeTruthy();
     expect(getByText('Week')).toBeTruthy();
@@ -21,7 +23,7 @@ describe('SegmentedControl', () => {
   it('calls onChange with the tapped option value', () => {
     const onChange = jest.fn();
     const { getByText } = render(
-      <SegmentedControl options={options} value="day" onChange={onChange} />
+      <SegmentedControl options={options} value="day" onChange={onChange} />,
     );
     fireEvent.press(getByText('Week'));
     expect(onChange).toHaveBeenCalledWith('week');
@@ -34,7 +36,7 @@ describe('SegmentedControl', () => {
       { value: 'b', label: 'B', disabled: true },
     ];
     const { getByText } = render(
-      <SegmentedControl options={disabledOptions} value="a" onChange={onChange} />
+      <SegmentedControl options={disabledOptions} value="a" onChange={onChange} />,
     );
     fireEvent.press(getByText('B'));
     expect(onChange).not.toHaveBeenCalled();
@@ -42,7 +44,7 @@ describe('SegmentedControl', () => {
 
   it('renders full width when fullWidth is true', () => {
     const { toJSON } = render(
-      <SegmentedControl options={options} value="day" onChange={jest.fn()} fullWidth />
+      <SegmentedControl options={options} value="day" onChange={jest.fn()} fullWidth />,
     );
     expect(toJSON()).toBeTruthy();
   });

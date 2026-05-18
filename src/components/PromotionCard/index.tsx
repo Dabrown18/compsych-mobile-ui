@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Image,
   type ImageSourcePropType,
@@ -8,8 +9,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import Svg, { Circle as SvgCircle } from 'react-native-svg';
+
 import { Ionicons } from '@expo/vector-icons';
+import Svg, { Circle as SvgCircle } from 'react-native-svg';
+
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 import { HeaderText } from '../HeaderText';
@@ -289,11 +292,16 @@ export function PromotionCard({
 
       {/* Content (title + description) */}
       <View style={isLg ? styles.contentLg : styles.contentMd}>
-        {title && (
-          isLg
-            ? <HeaderText variant="titleLarge" color={t.titleColor}>{title}</HeaderText>
-            : <HeaderText variant="titleSmall" color={t.titleColor}>{title}</HeaderText>
-        )}
+        {title &&
+          (isLg ? (
+            <HeaderText variant="titleLarge" color={t.titleColor}>
+              {title}
+            </HeaderText>
+          ) : (
+            <HeaderText variant="titleSmall" color={t.titleColor}>
+              {title}
+            </HeaderText>
+          ))}
         {description && (
           <View style={{ opacity: t.descOpacity }}>
             <BodyText variant={isLg ? 'medium' : 'small'} color={t.descColor}>
@@ -308,18 +316,19 @@ export function PromotionCard({
         style={[
           styles.buttonWrap,
           {
-            bottom: isLg
-              ? dim.spacing.padding.sysPadding32
-              : dim.spacing.padding.sysPadding16,
-            right: isLg
-              ? dim.spacing.padding.sysPadding32
-              : dim.spacing.padding.sysPadding16,
+            bottom: isLg ? dim.spacing.padding.sysPadding32 : dim.spacing.padding.sysPadding16,
+            right: isLg ? dim.spacing.padding.sysPadding32 : dim.spacing.padding.sysPadding16,
             width: buttonSize,
             height: buttonSize,
           },
         ]}
       >
-        <View style={[styles.button, { width: buttonSize, height: buttonSize, backgroundColor: t.buttonBg }]}>
+        <View
+          style={[
+            styles.button,
+            { width: buttonSize, height: buttonSize, backgroundColor: t.buttonBg },
+          ]}
+        >
           <Ionicons
             name="arrow-forward"
             size={isLg ? 24 : 16}
@@ -328,11 +337,7 @@ export function PromotionCard({
           />
         </View>
         {showRingTimer && (
-          <Svg
-            width={buttonSize}
-            height={buttonSize}
-            style={StyleSheet.absoluteFillObject}
-          >
+          <Svg width={buttonSize} height={buttonSize} style={StyleSheet.absoluteFillObject}>
             <SvgCircle
               cx={buttonSize / 2}
               cy={buttonSize / 2}
@@ -371,10 +376,7 @@ export function PromotionCard({
 
       {/* Progress bar */}
       {showProgressBar && (
-        <View
-          style={[styles.progressTrack, { height: isLg ? 4 : 2 }]}
-          pointerEvents="none"
-        >
+        <View style={[styles.progressTrack, { height: isLg ? 4 : 2 }]} pointerEvents="none">
           <View
             style={[
               styles.progressFill,

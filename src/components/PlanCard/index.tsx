@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   LayoutAnimation,
   Platform,
@@ -9,7 +10,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
@@ -94,7 +97,11 @@ export function PlanCardDropdownItem({
               accessibilityLabel="Open"
               style={({ pressed }) => [itemStyles.actionBtn, pressed && itemStyles.pressed]}
             >
-              <Ionicons name="arrow-up-circle-outline" size={16} color={cr.surface.surface.sysOnSurface} />
+              <Ionicons
+                name="arrow-up-circle-outline"
+                size={16}
+                color={cr.surface.surface.sysOnSurface}
+              />
             </Pressable>
           )}
         </View>
@@ -199,13 +206,14 @@ export function PlanCard({
         <View style={cardStyles.left}>
           <View style={cardStyles.iconCircle}>
             {icon ?? (
-              <Ionicons name="document-text-outline" size={16} color={cr.accent.primary.sysOnPrimary} />
+              <Ionicons
+                name="document-text-outline"
+                size={16}
+                color={cr.accent.primary.sysOnPrimary}
+              />
             )}
           </View>
-          <BodyText
-            variant="medium"
-            color={cr.surface.surface.sysOnSurface}
-          >
+          <BodyText variant="medium" color={cr.surface.surface.sysOnSurface}>
             {title}
           </BodyText>
         </View>
@@ -223,10 +231,7 @@ export function PlanCard({
             onPress={handleToggle}
             accessibilityRole="button"
             accessibilityLabel={expanded ? 'Collapse' : 'Expand'}
-            style={({ pressed }) => [
-              cardStyles.toggleBtn,
-              pressed && cardStyles.pressed,
-            ]}
+            style={({ pressed }) => [cardStyles.toggleBtn, pressed && cardStyles.pressed]}
           >
             <Ionicons
               name={expanded ? 'remove' : 'add'}

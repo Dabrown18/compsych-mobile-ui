@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { Input } from './index';
 
 describe('Input', () => {
@@ -14,16 +16,14 @@ describe('Input', () => {
   });
 
   it('renders error text when invalid', () => {
-    const { getByText } = render(
-      <Input label="Email" invalid errorText="Invalid email address" />
-    );
+    const { getByText } = render(<Input label="Email" invalid errorText="Invalid email address" />);
     expect(getByText('Invalid email address')).toBeTruthy();
   });
 
   it('calls onChangeText when text changes', () => {
     const onChangeText = jest.fn();
     const { getByDisplayValue } = render(
-      <Input label="Name" value="" onChangeText={onChangeText} />
+      <Input label="Name" value="" onChangeText={onChangeText} />,
     );
     fireEvent.changeText(getByDisplayValue(''), 'John');
     expect(onChangeText).toHaveBeenCalledWith('John');

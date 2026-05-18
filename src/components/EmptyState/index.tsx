@@ -1,13 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import {
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
+
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 
 export type EmptyStateStyle = 'icon' | 'illustration';
@@ -82,7 +78,7 @@ const ILLUS_H = 157;
 const SCALE = ILLUS_W / 398; // ≈ 0.703
 
 const CARD_W = Math.round(160 * SCALE); // 112
-const CARD_H = Math.round(98 * SCALE);  // 69
+const CARD_H = Math.round(98 * SCALE); // 69
 
 function scaledPos(left: number, top: number) {
   return {
@@ -275,11 +271,7 @@ export function EmptyState({
               pressed && { opacity: 0.76 },
             ]}
           >
-            <Ionicons
-              name="add"
-              size={16}
-              color={cr.surface.surface.sysOnSurface}
-            />
+            <Ionicons name="add" size={16} color={cr.surface.surface.sysOnSurface} />
             <Text
               style={{
                 color: cr.surface.surface.sysOnSurface,

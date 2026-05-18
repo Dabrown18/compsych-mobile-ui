@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Image,
   type ImageSourcePropType,
@@ -8,10 +9,12 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+
+import { ICON_MAP, type IconName } from '../../icons';
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
-import { ICON_MAP, type IconName } from '../../icons';
 
 export type ServiceCardVariant = 'outlined' | 'tonal' | 'filled' | 'doubled' | 'image';
 export type ServiceCardSize = 'sm' | 'md' | 'lg';
@@ -173,9 +176,9 @@ export function ServiceCard({
 
   const IconComponent = icon ? ICON_MAP[icon] : null;
   const iconColor = v.iconBadgeColor ?? v.titleColor;
-  const renderedIcon = IconComponent
-    ? <IconComponent size={s.iconSizeName} color={iconColor} />
-    : null;
+  const renderedIcon = IconComponent ? (
+    <IconComponent size={s.iconSizeName} color={iconColor} />
+  ) : null;
 
   const outerStyle = [
     {
@@ -195,20 +198,21 @@ export function ServiceCard({
   ];
 
   // ── Text block ──────────────────────────────────────────────────────────────
-  const textBlock = (title || description) ? (
-    <View style={isRow ? styles.rowTextBlock : undefined}>
-      {title && (
-        <BodyText variant={s.titleVariant} color={v.titleColor}>
-          {title}
-        </BodyText>
-      )}
-      {!isRow && description && (
-        <BodyText variant="small" color={v.descColor}>
-          {description}
-        </BodyText>
-      )}
-    </View>
-  ) : null;
+  const textBlock =
+    title || description ? (
+      <View style={isRow ? styles.rowTextBlock : undefined}>
+        {title && (
+          <BodyText variant={s.titleVariant} color={v.titleColor}>
+            {title}
+          </BodyText>
+        )}
+        {!isRow && description && (
+          <BodyText variant="small" color={v.descColor}>
+            {description}
+          </BodyText>
+        )}
+      </View>
+    ) : null;
 
   // ── Inner content by variant ────────────────────────────────────────────────
   let inner: React.ReactNode;
@@ -264,7 +268,9 @@ export function ServiceCard({
             />
           </>
         )}
-        {renderedIcon && <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>}
+        {renderedIcon && (
+          <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>
+        )}
         {textBlock}
         {children}
       </>
@@ -273,15 +279,12 @@ export function ServiceCard({
     // sm — horizontal row
     inner = (
       <>
-        {renderedIcon && <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>}
+        {renderedIcon && (
+          <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>
+        )}
         {textBlock}
         {s.showChevron && (
-          <Ionicons
-            name="chevron-forward"
-            size={20}
-            color={v.chevronColor}
-            accessible={false}
-          />
+          <Ionicons name="chevron-forward" size={20} color={v.chevronColor} accessible={false} />
         )}
         {children}
       </>
@@ -290,7 +293,9 @@ export function ServiceCard({
     // md / lg — vertical column
     inner = (
       <>
-        {renderedIcon && <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>}
+        {renderedIcon && (
+          <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>
+        )}
         {textBlock}
         {children}
         {buttonIcon && (
@@ -328,11 +333,7 @@ export function ServiceCard({
     );
   }
 
-  return (
-    <View style={[styles.overflow, ...outerStyle]}>
-      {inner}
-    </View>
-  );
+  return <View style={[styles.overflow, ...outerStyle]}>{inner}</View>;
 }
 
 const styles = StyleSheet.create({

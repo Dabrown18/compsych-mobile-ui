@@ -1,5 +1,6 @@
 import Svg, { Path } from 'react-native-svg';
-import { COMMON, SIZE_MAP, DEFAULT_ICON_COLOR, type IconProps } from './types';
+
+import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
 export function SnowflakeIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];

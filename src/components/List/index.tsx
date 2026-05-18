@@ -1,6 +1,9 @@
 import React from 'react';
+
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
@@ -55,11 +58,7 @@ export function ListItem({
       )}
 
       <View style={styles.textBlock}>
-        <BodyText
-          variant="medium"
-          emphasized={isDetailed}
-          color={cr.surface.surface.sysOnSurface}
-        >
+        <BodyText variant="medium" emphasized={isDetailed} color={cr.surface.surface.sysOnSurface}>
           {label}
         </BodyText>
         {isDetailed && subLabel && (

@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { Chip } from './index';
 
 describe('Chip', () => {
@@ -30,6 +32,6 @@ describe('Chip', () => {
     (usage) => {
       const { getByText } = render(<Chip label="Chip" usage={usage} />);
       expect(getByText('Chip')).toBeTruthy();
-    }
+    },
   );
 });

@@ -1,13 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import {
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
+
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 
 export type ChipSize = 'sm' | 'md' | 'lg' | 'xl';
@@ -256,20 +252,14 @@ export function Chip({
             width: s.closeBtnSize,
             height: s.closeBtnSize,
             borderRadius: s.closeBtnSize / 2,
-            backgroundColor: pressed
-              ? cr.transparent.neutral.sysBlack10
-              : c.closeBg,
+            backgroundColor: pressed ? cr.transparent.neutral.sysBlack10 : c.closeBg,
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
             overflow: 'hidden',
           })}
         >
-          <Ionicons
-            name="close"
-            size={s.closeIconSize}
-            color={c.text}
-          />
+          <Ionicons name="close" size={s.closeIconSize} color={c.text} />
         </Pressable>
       )}
     </View>
@@ -287,7 +277,7 @@ const styles = StyleSheet.create({
   elevated: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.10,
+    shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 2,
     // overflow must be visible for shadow on iOS — override here

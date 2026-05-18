@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { render } from '@testing-library/react-native';
+
 import { Badge } from './index';
 
 describe('Badge', () => {
@@ -18,6 +20,6 @@ describe('Badge', () => {
     (badgeStyle) => {
       const { getByText } = render(<Badge label="Badge" badgeStyle={badgeStyle} />);
       expect(getByText('Badge')).toBeTruthy();
-    }
+    },
   );
 });

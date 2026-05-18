@@ -1,12 +1,14 @@
 import React from 'react';
+
 import {
   ActivityIndicator,
   Pressable,
+  type PressableProps,
   StyleSheet,
   Text,
   View,
-  type PressableProps,
 } from 'react-native';
+
 import { sys } from '../../tokens';
 
 export type ButtonVariant =
@@ -153,18 +155,18 @@ export function Button({
           ...(iconOnly
             ? { width: s.height, height: s.height }
             : variant === 'text'
-            ? {
-                // Text variant is content-height (no fixed container). Figma:
-                // sm=26px, md=28px, lg=31px, xl=32px — each resolves to
-                // lineHeight + 2×paddingV, not the standard fixed height.
-                paddingHorizontal: 0,
-                paddingVertical: s.paddingV,
-              }
-            : {
-                height: s.height,
-                paddingHorizontal: paddingH,
-                paddingVertical: s.paddingV,
-              }),
+              ? {
+                  // Text variant is content-height (no fixed container). Figma:
+                  // sm=26px, md=28px, lg=31px, xl=32px — each resolves to
+                  // lineHeight + 2×paddingV, not the standard fixed height.
+                  paddingHorizontal: 0,
+                  paddingVertical: s.paddingV,
+                }
+              : {
+                  height: s.height,
+                  paddingHorizontal: paddingH,
+                  paddingVertical: s.paddingV,
+                }),
           ...(fullWidth && !iconOnly ? { alignSelf: 'stretch' } : {}),
           opacity: isDisabled ? 0.48 : pressed ? 0.82 : 1,
           ...(variant === 'elevated'
@@ -183,7 +185,14 @@ export function Button({
         {loading ? (
           <ActivityIndicator size={s.iconSize} color={v.label} />
         ) : leadingIcon ? (
-          <View style={{ width: s.iconSize, height: s.iconSize, alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{
+              width: s.iconSize,
+              height: s.iconSize,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             {leadingIcon}
           </View>
         ) : null}
@@ -204,7 +213,14 @@ export function Button({
         )}
 
         {trailingIcon && (
-          <View style={{ width: s.iconSize, height: s.iconSize, alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{
+              width: s.iconSize,
+              height: s.iconSize,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             {trailingIcon}
           </View>
         )}

@@ -1,13 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import {
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
+
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import { sys } from '../../tokens';
 
 export type AlertVariant =
@@ -107,9 +103,7 @@ function getVariantColors(variant: AlertVariant): VariantColors {
 
 // ── Default icon per variant ─────────────────────────────────────────────────
 
-function defaultIconName(
-  variant: AlertVariant,
-): React.ComponentProps<typeof Ionicons>['name'] {
+function defaultIconName(variant: AlertVariant): React.ComponentProps<typeof Ionicons>['name'] {
   switch (variant) {
     case 'default':
     case 'elevated':
@@ -146,11 +140,7 @@ export function Alert({
   const resolvedIcon =
     !hideIcon &&
     (icon ?? (
-      <Ionicons
-        name={defaultIconName(variant)}
-        size={isLg ? 24 : 20}
-        color={c.iconColor}
-      />
+      <Ionicons name={defaultIconName(variant)} size={isLg ? 24 : 20} color={c.iconColor} />
     ));
 
   return (
@@ -161,9 +151,7 @@ export function Alert({
         styles.root,
         {
           backgroundColor: c.bg,
-          borderRadius: isLg
-            ? dim.borderRadius.sysRadiusLg
-            : dim.borderRadius.sysRadiusMd,
+          borderRadius: isLg ? dim.borderRadius.sysRadiusLg : dim.borderRadius.sysRadiusMd,
         },
         c.elevated && styles.elevated,
         style,
@@ -180,9 +168,7 @@ export function Alert({
             paddingVertical: isLg
               ? dim.spacing.padding.sysPadding16
               : dim.spacing.padding.sysPadding16,
-            gap: isLg
-              ? dim.spacing.padding.sysPadding16
-              : dim.spacing.padding.sysPadding12,
+            gap: isLg ? dim.spacing.padding.sysPadding16 : dim.spacing.padding.sysPadding12,
             alignItems: isLg ? 'flex-start' : 'center',
           },
         ]}
@@ -219,12 +205,8 @@ export function Alert({
             <Text
               style={{
                 color: c.text,
-                fontSize: isLg
-                  ? ts.bodyMedium.sysFontSize
-                  : ts.bodySmall.sysFontSize,
-                lineHeight: isLg
-                  ? ts.bodyMedium.sysLineHeight
-                  : ts.bodySmall.sysLineHeight,
+                fontSize: isLg ? ts.bodyMedium.sysFontSize : ts.bodySmall.sysFontSize,
+                lineHeight: isLg ? ts.bodyMedium.sysLineHeight : ts.bodySmall.sysLineHeight,
                 fontWeight: '400',
                 includeFontPadding: false,
               }}
@@ -234,8 +216,8 @@ export function Alert({
           </View>
 
           {/* Action button */}
-          {actionLabel && (
-            isLg ? (
+          {actionLabel &&
+            (isLg ? (
               // lg: pill button with white bg + shadow (or border for elevated)
               <Pressable
                 onPress={onAction}
@@ -279,8 +261,7 @@ export function Alert({
                   {actionLabel}
                 </Text>
               </Pressable>
-            )
-          )}
+            ))}
         </View>
 
         {/* Dismiss button */}
@@ -295,11 +276,7 @@ export function Alert({
               pressed && { opacity: 0.6 },
             ]}
           >
-            <Ionicons
-              name="close"
-              size={16}
-              color={c.iconColor}
-            />
+            <Ionicons name="close" size={16} color={c.iconColor} />
           </Pressable>
         )}
       </View>

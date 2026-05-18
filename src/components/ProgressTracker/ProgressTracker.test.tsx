@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { render } from '@testing-library/react-native';
-import { ProgressTracker, ProgressBar } from './index';
+
+import { ProgressBar, ProgressTracker } from './index';
 
 const steps = [
   { label: 'Start', state: 'completed' as const },

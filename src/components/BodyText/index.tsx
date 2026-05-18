@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Text, type TextProps } from 'react-native';
+
 import { useFonts } from 'expo-font';
 
 import { sys } from '../../tokens';

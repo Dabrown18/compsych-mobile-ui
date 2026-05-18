@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import {
   AccessibilityInfo,
   LayoutChangeEvent,
@@ -9,6 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+
 import { sys } from '../../tokens';
 
 export interface SliderProps {
@@ -42,7 +44,7 @@ const THUMB_HALF = THUMB_SIZE / 2; // 12
 const HIT_HEIGHT = 48; // symbol height from Figma — contains track + thumb
 // Vertical offsets within the 48px container
 const TRACK_TOP = (HIT_HEIGHT - TRACK_HEIGHT) / 2; // 20
-const THUMB_TOP = (HIT_HEIGHT - THUMB_SIZE) / 2;   // 12
+const THUMB_TOP = (HIT_HEIGHT - THUMB_SIZE) / 2; // 12
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -67,9 +69,7 @@ export function Slider({
   style,
 }: SliderProps) {
   const isControlled = valueProp !== undefined;
-  const [internalValue, setInternalValue] = useState<number>(
-    defaultValue ?? min,
-  );
+  const [internalValue, setInternalValue] = useState<number>(defaultValue ?? min);
   const displayValue = isControlled ? valueProp! : internalValue;
 
   const [focused, setFocused] = useState(false);
@@ -129,20 +129,14 @@ export function Slider({
       },
 
       onPanResponderMove: (_, gs) => {
-        const newFrac = clamp(
-          panStartFraction.current + gs.dx / trackWidthRef.current,
-          0, 1,
-        );
+        const newFrac = clamp(panStartFraction.current + gs.dx / trackWidthRef.current, 0, 1);
         const v = fractionToValue(newFrac);
         commitValue(v, false);
       },
 
       onPanResponderRelease: (_, gs) => {
         setPressed(false);
-        const newFrac = clamp(
-          panStartFraction.current + gs.dx / trackWidthRef.current,
-          0, 1,
-        );
+        const newFrac = clamp(panStartFraction.current + gs.dx / trackWidthRef.current, 0, 1);
         commitValue(fractionToValue(newFrac), true);
       },
 
@@ -194,21 +188,12 @@ export function Slider({
       onBlur={() => setFocused(false)}
     >
       {/* ── Optional label ────────────────────────────────────────────────── */}
-      {label && (
-        <Text style={styles.label}>{label}</Text>
-      )}
+      {label && <Text style={styles.label}>{label}</Text>}
 
       {/* ── Slider row ────────────────────────────────────────────────────── */}
-      <View
-        style={[
-          styles.row,
-          disabled && styles.rowDisabled,
-        ]}
-      >
+      <View style={[styles.row, disabled && styles.rowDisabled]}>
         {/* Min label */}
-        {showMinMax && (
-          <Text style={styles.rangeLabel}>{min}</Text>
-        )}
+        {showMinMax && <Text style={styles.rangeLabel}>{min}</Text>}
 
         {/* ── Track container — the gesture zone ──────────────────────────── */}
         <View
@@ -220,21 +205,10 @@ export function Slider({
           <View style={styles.trackBg} />
 
           {/* Track fill (filled — up to thumb center) */}
-          <View
-            style={[
-              styles.trackFill,
-              { width: fillWidth },
-            ]}
-          />
+          <View style={[styles.trackFill, { width: fillWidth }]} />
 
           {/* ── Thumb ─────────────────────────────────────────────────────── */}
-          <View
-            style={[
-              styles.thumb,
-              { left: thumbLeft },
-              thumbShadow,
-            ]}
-          >
+          <View style={[styles.thumb, { left: thumbLeft }, thumbShadow]}>
             {/* Focus ring — 1px outside thumb (26×26 centered over 24×24) */}
             {focused && (
               <View
@@ -252,9 +226,7 @@ export function Slider({
         </View>
 
         {/* Max label */}
-        {showMinMax && (
-          <Text style={styles.rangeLabel}>{max}</Text>
-        )}
+        {showMinMax && <Text style={styles.rangeLabel}>{max}</Text>}
       </View>
     </View>
   );

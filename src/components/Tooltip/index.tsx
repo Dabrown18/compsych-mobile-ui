@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+
 import { sys } from '../../tokens';
 
 export type TooltipVariant = 'filled' | 'elevated';
@@ -30,12 +32,7 @@ const ARROW_HEIGHT = 6; // px — narrow axis
 
 // ── Component ────────────────────────────────────────────────────────────────
 
-export function Tooltip({
-  text,
-  variant = 'filled',
-  direction = 'none',
-  style,
-}: TooltipProps) {
+export function Tooltip({ text, variant = 'filled', direction = 'none', style }: TooltipProps) {
   const isFilled = variant === 'filled';
 
   const bg = isFilled

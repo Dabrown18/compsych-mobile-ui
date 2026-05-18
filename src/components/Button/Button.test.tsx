@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
+import { fireEvent, render } from '@testing-library/react-native';
+
 import { Button } from './index';
 
 describe('Button', () => {
@@ -25,7 +27,7 @@ describe('Button', () => {
     (variant) => {
       const { getByText } = render(<Button label="Button" variant={variant} />);
       expect(getByText('Button')).toBeTruthy();
-    }
+    },
   );
 
   it.each(['sm', 'md', 'lg', 'xl'] as const)('renders size "%s" without crashing', (size) => {

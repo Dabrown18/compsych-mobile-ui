@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
@@ -53,16 +55,12 @@ export function SegmentedControl({
               isDisabled && styles.disabled,
             ]}
           >
-            {option.icon && (
-              <View style={styles.iconSlot}>{option.icon}</View>
-            )}
+            {option.icon && <View style={styles.iconSlot}>{option.icon}</View>}
             <BodyText
               variant="small"
               emphasized={isActive}
               color={
-                isActive
-                  ? cr.accent.primary.sysOnPrimary
-                  : cr.surface.surface.sysOnSurfaceVariant
+                isActive ? cr.accent.primary.sysOnPrimary : cr.surface.surface.sysOnSurfaceVariant
               }
               numberOfLines={1}
             >

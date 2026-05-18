@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Animated,
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+
+import { Animated, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+
 import { sys } from '../../tokens';
 
 export interface SwitchProps {
@@ -119,11 +114,7 @@ export function Switch({
 
       {/* ── Track ─────────────────────────────────────────────────────────── */}
       <Animated.View
-        style={[
-          styles.track,
-          { backgroundColor: trackBg },
-          disabled && styles.trackDisabled,
-        ]}
+        style={[styles.track, { backgroundColor: trackBg }, disabled && styles.trackDisabled]}
       >
         {/* ── Thumb ───────────────────────────────────────────────────────── */}
         <Animated.View
@@ -178,7 +169,7 @@ const styles = StyleSheet.create({
   // Focus ring: 1px outside the track on all sides
   focusRing: {
     position: 'absolute',
-    top: -2,    // 1px gap + sysStrokeMedium (1.5px) ≈ 2px
+    top: -2, // 1px gap + sysStrokeMedium (1.5px) ≈ 2px
     left: -2,
     right: -2,
     bottom: -2,

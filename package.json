@@ -12,7 +12,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "prepare": "husky"
   },
   "keywords": [
     "react-native",
@@ -21,6 +22,9 @@
     "components",
     "expo"
   ],
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "prettier --write"
+  },
   "license": "UNLICENSED",
   "peerDependencies": {
     "@expo/vector-icons": ">=15.0.0",
@@ -37,12 +41,16 @@
     "@babel/preset-typescript": "^7.25.2",
     "@react-native/jest-preset": "^0.85.3",
     "@testing-library/react-native": "^13.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.0",
     "@types/react": "~19.1.0",
     "@types/react-test-renderer": "^19.0.0",
     "babel-jest": "^29.7.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-expo": "^55.0.17",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.8.3",
     "react": "^19.2.3",
     "react-test-renderer": "^19.2.3",
     "typescript": "~5.9.2"

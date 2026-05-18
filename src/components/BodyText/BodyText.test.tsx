@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { render } from '@testing-library/react-native';
+
 import { BodyText } from './index';
 
 describe('BodyText', () => {
@@ -13,7 +15,7 @@ describe('BodyText', () => {
     (variant) => {
       const { getByText } = render(<BodyText variant={variant}>Text</BodyText>);
       expect(getByText('Text')).toBeTruthy();
-    }
+    },
   );
 
   it('applies custom color', () => {
