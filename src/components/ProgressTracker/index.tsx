@@ -7,7 +7,7 @@ import { sys } from '../../tokens';
 const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ProgressBar — standalone horizontal bar
+// ProgressBar — standalone horizontal fill bar (0–100)
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface ProgressBarProps {
@@ -25,22 +25,13 @@ export function ProgressBar({ progress }: ProgressBarProps) {
       accessibilityValue={{ min: 0, max: 100, now: clamped }}
       style={styles.track}
     >
-      {clamped > 0 && (
-        <View
-          style={[
-            styles.fill,
-            // Use percentage width — relies on the parent having a defined
-            // width (which it always does as flex-stretch in the tracker).
-            { width: `${clamped}%` },
-          ]}
-        />
-      )}
+      {clamped > 0 && <View style={[styles.fill, { width: `${clamped}%` }]} />}
     </View>
   );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ProgressTracker — multi-step labelled tracker
+// ProgressTracker — multi-step bar tracker
 // ─────────────────────────────────────────────────────────────────────────────
 
 export type StepState = 'completed' | 'active' | 'pending';
@@ -48,9 +39,9 @@ export type StepState = 'completed' | 'active' | 'pending';
 export interface TrackerStep {
   label: string;
   /**
-   * `completed` → full green bar
-   * `active`    → partial green bar (25 % fill — the "in-progress" indicator)
-   * `pending`   → empty track
+   * `completed` → dark green bar (`sysSuccess`)
+   * `active`    → dark green bar (`sysSuccess`) — visually the same as completed
+   * `pending`   → light green bar (`sysSuccessContainer`)
    */
   state: StepState;
 }
@@ -60,7 +51,7 @@ export type ProgressTrackerSize = 'sm' | 'lg';
 export interface ProgressTrackerProps {
   steps: TrackerStep[];
   size?: ProgressTrackerSize;
-  /** Show step labels — default true */
+  /** Render step labels above each bar. Default false. */
   showLabels?: boolean;
   style?: StyleProp<ViewStyle>;
 }
@@ -82,21 +73,20 @@ const SIZE_TOKENS = {
   },
 };
 
-function stepProgress(state: StepState): number {
+function stepBarColor(state: StepState): string {
   switch (state) {
     case 'completed':
-      return 100;
     case 'active':
-      return 25;
+      return cr.custom.success.sysSuccess;
     case 'pending':
-      return 0;
+      return cr.custom.success.sysSuccessContainer;
   }
 }
 
 export function ProgressTracker({
   steps,
   size = 'lg',
-  showLabels = true,
+  showLabels = false,
   style,
 }: ProgressTrackerProps) {
   const s = SIZE_TOKENS[size];
@@ -126,7 +116,15 @@ export function ProgressTracker({
                 {step.label}
               </Text>
             )}
-            <ProgressBar progress={stepProgress(step.state)} />
+            <View
+              accessible
+              accessibilityRole="progressbar"
+              accessibilityValue={{ min: 0, max: steps.length - 1, now: i }}
+              style={[
+                styles.bar,
+                { backgroundColor: stepBarColor(step.state) },
+              ]}
+            />
           </View>
         );
       })}
@@ -163,5 +161,10 @@ const styles = StyleSheet.create({
   step: {
     flex: 1,
     minWidth: 0,
+  },
+  bar: {
+    height: 4,
+    width: '100%',
+    borderRadius: 9999,
   },
 });
