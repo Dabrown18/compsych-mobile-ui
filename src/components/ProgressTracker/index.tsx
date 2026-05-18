@@ -39,9 +39,9 @@ export type StepState = 'completed' | 'active' | 'pending';
 export interface TrackerStep {
   label: string;
   /**
-   * `completed` → dark green bar (`sysSuccess`)
-   * `active`    → dark green bar (`sysSuccess`) — visually the same as completed
-   * `pending`   → light green bar (`sysSuccessContainer`)
+   * `completed` → full green fill (100 %)
+   * `active`    → partial green fill (25 %) — in-progress indicator
+   * `pending`   → gray track only (0 % fill)
    */
   state: StepState;
 }
@@ -73,13 +73,14 @@ const SIZE_TOKENS = {
   },
 };
 
-function stepBarColor(state: StepState): string {
+function stepProgress(state: StepState): number {
   switch (state) {
     case 'completed':
+      return 100;
     case 'active':
-      return cr.custom.success.sysSuccess;
+      return 25;
     case 'pending':
-      return cr.custom.success.sysSuccessContainer;
+      return 0;
   }
 }
 
@@ -116,15 +117,7 @@ export function ProgressTracker({
                 {step.label}
               </Text>
             )}
-            <View
-              accessible
-              accessibilityRole="progressbar"
-              accessibilityValue={{ min: 0, max: steps.length - 1, now: i }}
-              style={[
-                styles.bar,
-                { backgroundColor: stepBarColor(step.state) },
-              ]}
-            />
+            <ProgressBar progress={stepProgress(step.state)} />
           </View>
         );
       })}
@@ -161,10 +154,5 @@ const styles = StyleSheet.create({
   step: {
     flex: 1,
     minWidth: 0,
-  },
-  bar: {
-    height: 4,
-    width: '100%',
-    borderRadius: 9999,
   },
 });
