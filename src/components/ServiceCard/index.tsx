@@ -16,7 +16,12 @@ import { ICON_MAP, type IconName } from '../../icons';
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
-export type ServiceCardVariant = 'outlined' | 'tonal' | 'filled' | 'doubled' | 'image';
+export type ServiceCardVariant =
+  | 'outlined'
+  | 'tonal'
+  | 'filled'
+  | 'doubled'
+  | 'image';
 export type ServiceCardSize = 'sm' | 'md' | 'lg';
 
 export interface ServiceCardProps {
@@ -185,9 +190,12 @@ export function ServiceCard({
       backgroundColor: variant === 'doubled' ? v.bg : v.bg,
       borderColor: v.borderColor,
       borderWidth: v.borderWidth,
-      borderRadius: variant === 'doubled' ? dim.borderRadius.sysRadiusXl : s.borderRadius,
-      paddingHorizontal: variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingH,
-      paddingVertical: variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingV,
+      borderRadius:
+        variant === 'doubled' ? dim.borderRadius.sysRadiusXl : s.borderRadius,
+      paddingHorizontal:
+        variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingH,
+      paddingVertical:
+        variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingV,
       opacity: disabled ? 0.48 : 1,
     },
     v.elevated && ELEVATION,
@@ -255,21 +263,29 @@ export function ServiceCard({
           <>
             <Image
               source={image}
-              style={[StyleSheet.absoluteFillObject, { borderRadius: s.borderRadius }]}
+              style={[
+                StyleSheet.absoluteFillObject,
+                { borderRadius: s.borderRadius },
+              ]}
               resizeMode="cover"
               accessible={false}
             />
             <View
               style={[
                 StyleSheet.absoluteFillObject,
-                { borderRadius: s.borderRadius, backgroundColor: 'rgba(0,0,0,0.30)' },
+                {
+                  borderRadius: s.borderRadius,
+                  backgroundColor: 'rgba(0,0,0,0.30)',
+                },
               ]}
               pointerEvents="none"
             />
           </>
         )}
         {renderedIcon && (
-          <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>
+          <View style={{ width: s.iconSize, height: s.iconSize }}>
+            {renderedIcon}
+          </View>
         )}
         {textBlock}
         {children}
@@ -280,11 +296,18 @@ export function ServiceCard({
     inner = (
       <>
         {renderedIcon && (
-          <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>
+          <View style={{ width: s.iconSize, height: s.iconSize }}>
+            {renderedIcon}
+          </View>
         )}
         {textBlock}
         {s.showChevron && (
-          <Ionicons name="chevron-forward" size={20} color={v.chevronColor} accessible={false} />
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={v.chevronColor}
+            accessible={false}
+          />
         )}
         {children}
       </>
@@ -294,7 +317,9 @@ export function ServiceCard({
     inner = (
       <>
         {renderedIcon && (
-          <View style={{ width: s.iconSize, height: s.iconSize }}>{renderedIcon}</View>
+          <View style={{ width: s.iconSize, height: s.iconSize }}>
+            {renderedIcon}
+          </View>
         )}
         {textBlock}
         {children}
@@ -320,7 +345,9 @@ export function ServiceCard({
       <Pressable
         onPress={disabled ? undefined : onPress}
         accessibilityRole="button"
-        accessibilityLabel={accessibilityLabel ?? (typeof title === 'string' ? title : undefined)}
+        accessibilityLabel={
+          accessibilityLabel ?? (typeof title === 'string' ? title : undefined)
+        }
         accessibilityState={{ disabled }}
         style={({ pressed }) => [
           styles.overflow,

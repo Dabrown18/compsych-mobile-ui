@@ -2,14 +2,32 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function HazeIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function HazeIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
-      <Path d="M10.4 12.4L13.2 15.2" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M10.4 12.4L13.2 15.2"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path d="M4 26H8" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
-      <Path d="M40 26H44" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
-      <Path d="M34.8 15.2L37.6 12.4" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M40 26H44"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
+      <Path
+        d="M34.8 15.2L37.6 12.4"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path d="M44 34H4" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
       <Path d="M44 42H4" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
       <Path

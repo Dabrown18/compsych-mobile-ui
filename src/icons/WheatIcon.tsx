@@ -2,11 +2,19 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function WheatIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function WheatIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
-      <Path d="M4 44L32 16" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M4 44L32 16"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path
         d="M6.94006 25.06L10.0001 22L13.0601 25.06C14.3669 26.372 15.1006 28.1483 15.1006 30C15.1006 31.8517 14.3669 33.628 13.0601 34.94L10.0001 38L6.94006 34.94C5.63326 33.628 4.89954 31.8517 4.89954 30C4.89954 28.1483 5.63326 26.372 6.94006 25.06Z"
         stroke={color}

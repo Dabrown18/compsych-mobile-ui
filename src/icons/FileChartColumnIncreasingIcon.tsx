@@ -21,9 +21,24 @@ export function FileChartColumnIncreasingIcon({
         strokeWidth={strokeWidth}
         {...COMMON}
       />
-      <Path d="M16 36V32" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
-      <Path d="M24 36V28" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
-      <Path d="M32 36V24" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M16 36V32"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
+      <Path
+        d="M24 36V28"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
+      <Path
+        d="M32 36V24"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
     </Svg>
   );
 }

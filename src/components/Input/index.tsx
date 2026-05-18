@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native';
 
 import { sys } from '../../tokens';
 
@@ -75,7 +81,9 @@ export function Input({
 
   // ── Border ──────────────────────────────────────────────────────────────
   const borderWidth =
-    isFocused || hasError ? dim.borderWidth.sysStrokeMedium : dim.borderWidth.sysStrokeThin;
+    isFocused || hasError
+      ? dim.borderWidth.sysStrokeMedium
+      : dim.borderWidth.sysStrokeThin;
 
   const borderColor = hasError
     ? cr.error.sysError
@@ -89,7 +97,9 @@ export function Input({
 
   // ── Helper / error text ──────────────────────────────────────────────────
   const supportingText = errorText ?? helperText;
-  const supportingColor = hasError ? cr.error.sysError : cr.surface.surface.sysOnSurfaceVariant;
+  const supportingColor = hasError
+    ? cr.error.sysError
+    : cr.surface.surface.sysOnSurfaceVariant;
 
   return (
     <View style={[styles.wrapper, isDisabled && styles.disabled]}>
@@ -99,7 +109,9 @@ export function Input({
           style={[
             styles.label,
             {
-              color: hasError ? cr.error.sysError : cr.surface.surface.sysOnSurfaceVariant,
+              color: hasError
+                ? cr.error.sysError
+                : cr.surface.surface.sysOnSurfaceVariant,
               fontSize: ts.labelMedium.sysFontSize,
               lineHeight: ts.labelMedium.sysLineHeight,
             },
@@ -115,7 +127,9 @@ export function Input({
           padding: RING_SIZE,
           borderRadius: s.radius + RING_SIZE,
           backgroundColor:
-            isFocused && !hasError ? cr.transparent.primary.sysPrimary08 : 'transparent',
+            isFocused && !hasError
+              ? cr.transparent.primary.sysPrimary08
+              : 'transparent',
         }}
       >
         {/* Input container */}
@@ -125,7 +139,8 @@ export function Input({
             borderRadius: s.radius,
             borderWidth,
             borderColor,
-            backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+            backgroundColor:
+              cr.surface.surfaceContainer.sysSurfaceContainerLowest,
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: s.paddingH,

@@ -11,12 +11,16 @@ describe('Input', () => {
   });
 
   it('renders helper text', () => {
-    const { getByText } = render(<Input label="Email" helperText="Enter your work email" />);
+    const { getByText } = render(
+      <Input label="Email" helperText="Enter your work email" />,
+    );
     expect(getByText('Enter your work email')).toBeTruthy();
   });
 
   it('renders error text when invalid', () => {
-    const { getByText } = render(<Input label="Email" invalid errorText="Invalid email address" />);
+    const { getByText } = render(
+      <Input label="Email" invalid errorText="Invalid email address" />,
+    );
     expect(getByText('Invalid email address')).toBeTruthy();
   });
 
@@ -29,8 +33,11 @@ describe('Input', () => {
     expect(onChangeText).toHaveBeenCalledWith('John');
   });
 
-  it.each(['sm', 'md', 'lg'] as const)('renders size "%s" without crashing', (size) => {
-    const { getByText } = render(<Input label="Field" size={size} />);
-    expect(getByText('Field')).toBeTruthy();
-  });
+  it.each(['sm', 'md', 'lg'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { getByText } = render(<Input label="Field" size={size} />);
+      expect(getByText('Field')).toBeTruthy();
+    },
+  );
 });

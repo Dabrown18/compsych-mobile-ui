@@ -11,12 +11,16 @@ describe('Alert', () => {
   });
 
   it('renders title when size is lg', () => {
-    const { getByText } = render(<Alert size="lg" title="Heads up" description="Details here" />);
+    const { getByText } = render(
+      <Alert size="lg" title="Heads up" description="Details here" />,
+    );
     expect(getByText('Heads up')).toBeTruthy();
   });
 
   it('does not render title when size is sm', () => {
-    const { queryByText } = render(<Alert size="sm" title="Heads up" description="Details here" />);
+    const { queryByText } = render(
+      <Alert size="sm" title="Heads up" description="Details here" />,
+    );
     expect(queryByText('Heads up')).toBeNull();
   });
 
@@ -38,13 +42,17 @@ describe('Alert', () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 
-  it.each(['default', 'elevated', 'informative', 'warning', 'positive', 'danger'] as const)(
-    'renders variant "%s" without crashing',
-    (variant) => {
-      const { toJSON } = render(<Alert variant={variant} description="Test" />);
-      expect(toJSON()).toBeTruthy();
-    },
-  );
+  it.each([
+    'default',
+    'elevated',
+    'informative',
+    'warning',
+    'positive',
+    'danger',
+  ] as const)('renders variant "%s" without crashing', (variant) => {
+    const { toJSON } = render(<Alert variant={variant} description="Test" />);
+    expect(toJSON()).toBeTruthy();
+  });
 
   it('hides icon when hideIcon is true', () => {
     const { toJSON } = render(<Alert description="No icon" hideIcon />);

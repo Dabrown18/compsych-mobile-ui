@@ -23,10 +23,13 @@ describe('ProgressTracker', () => {
     expect(toJSON()).toBeTruthy();
   });
 
-  it.each(['sm', 'lg'] as const)('renders size "%s" without crashing', (size) => {
-    const { toJSON } = render(<ProgressTracker steps={steps} size={size} />);
-    expect(toJSON()).toBeTruthy();
-  });
+  it.each(['sm', 'lg'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { toJSON } = render(<ProgressTracker steps={steps} size={size} />);
+      expect(toJSON()).toBeTruthy();
+    },
+  );
 });
 
 describe('ProgressBar', () => {

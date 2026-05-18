@@ -2,7 +2,10 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function HandHeartIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function HandHeartIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
@@ -18,7 +21,12 @@ export function HandHeartIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: I
         strokeWidth={strokeWidth}
         {...COMMON}
       />
-      <Path d="M4 30L16 42" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M4 30L16 42"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path
         d="M14 40.0005L17.2 37.2005C17.8 36.4005 18.8 36.0005 20 36.0005H28C30.2 36.0005 32.2 35.2005 33.6 33.6005L42.8 24.8005C43.5718 24.0712 44.0222 23.0651 44.0522 22.0037C44.0822 20.9422 43.6893 19.9123 42.96 19.1405C42.2307 18.3688 41.2246 17.9183 40.1631 17.8883C39.1017 17.8583 38.0718 18.2512 37.3 18.9805"
         stroke={color}

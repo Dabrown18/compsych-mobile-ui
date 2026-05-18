@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -72,7 +79,11 @@ const SIZE_TOKENS = {
 
 // ── Pagination range logic ────────────────────────────────────────────────────
 
-function buildPageRange(total: number, current: number, siblings: number): (number | '...')[] {
+function buildPageRange(
+  total: number,
+  current: number,
+  siblings: number,
+): (number | '...')[] {
   // Always show: 1, last, current, siblings
   const range: (number | '...')[] = [];
 
@@ -116,7 +127,9 @@ interface PageItemProps {
 function PageItem({ s, page, isActive, onPress }: PageItemProps) {
   const borderWidth = isActive ? dim.borderWidth.sysStrokeMedium : 0;
   const borderColor = isActive ? cr.accent.primary.sysPrimary : 'transparent';
-  const textColor = isActive ? cr.custom.info.sysOnInfoContainer : cr.surface.surface.sysOnSurface;
+  const textColor = isActive
+    ? cr.custom.info.sysOnInfoContainer
+    : cr.surface.surface.sysOnSurface;
   const fontWeight = isActive ? s.activeWeight : s.inactiveWeight;
 
   return (
@@ -133,7 +146,9 @@ function PageItem({ s, page, isActive, onPress }: PageItemProps) {
           style={{
             padding: RING_SIZE,
             borderRadius: s.itemSize / 2 + RING_SIZE,
-            backgroundColor: isActive ? cr.transparent.primary.sysPrimary08 : 'transparent',
+            backgroundColor: isActive
+              ? cr.transparent.primary.sysPrimary08
+              : 'transparent',
           }}
         >
           <View
@@ -146,7 +161,9 @@ function PageItem({ s, page, isActive, onPress }: PageItemProps) {
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor:
-                pressed && !isActive ? cr.transparent.neutral.sysBlack10 : 'transparent',
+                pressed && !isActive
+                  ? cr.transparent.neutral.sysBlack10
+                  : 'transparent',
             }}
           >
             <Text
@@ -225,10 +242,16 @@ function NavButton({ s, direction, disabled, onPress }: NavButtonProps) {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor:
-              pressed && !disabled ? cr.transparent.neutral.sysBlack10 : 'transparent',
+              pressed && !disabled
+                ? cr.transparent.neutral.sysBlack10
+                : 'transparent',
           }}
         >
-          <Ionicons name={iconName} size={s.iconSize} color={cr.surface.surface.sysOnSurface} />
+          <Ionicons
+            name={iconName}
+            size={s.iconSize}
+            color={cr.surface.surface.sysOnSurface}
+          />
         </View>
       )}
     </Pressable>
@@ -312,7 +335,8 @@ export function Pagination({
           {
             paddingHorizontal: s.pillPaddingH,
             paddingVertical: s.pillPaddingV,
-            backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+            backgroundColor:
+              cr.surface.surfaceContainer.sysSurfaceContainerLowest,
             borderColor: cr.outline.sysOutline,
             borderWidth: dim.borderWidth.sysStrokeThin,
           },

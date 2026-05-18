@@ -2,11 +2,19 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function HourglassIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function HourglassIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
-      <Path d="M10 44H38" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M10 44H38"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path d="M10 4H38" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
       <Path
         d="M34 44V35.656C33.9998 34.5952 33.5782 33.578 32.828 32.828L24 24L15.172 32.828C14.4218 33.578 14.0002 34.5952 14 35.656V44"

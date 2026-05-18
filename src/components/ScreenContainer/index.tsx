@@ -19,7 +19,11 @@ export function ScreenContainer({
   return (
     <ScrollView
       style={[
-        { flex: 1, backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest },
+        {
+          flex: 1,
+          backgroundColor:
+            cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+        },
         style,
       ]}
       contentContainerStyle={[

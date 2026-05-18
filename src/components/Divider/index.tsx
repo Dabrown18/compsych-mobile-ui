@@ -23,7 +23,9 @@ export function Divider({
   style,
 }: DividerProps) {
   const thickness =
-    weight === 'thin' ? dim.borderWidth.sysStrokeThin : dim.borderWidth.sysStrokeThick;
+    weight === 'thin'
+      ? dim.borderWidth.sysStrokeThin
+      : dim.borderWidth.sysStrokeThick;
 
   const color = cr.outline.sysOutlineVariant;
 

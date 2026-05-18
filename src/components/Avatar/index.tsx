@@ -157,7 +157,8 @@ export function Avatar({
             width: s.diameter,
             height: s.diameter,
             borderRadius: r,
-            backgroundColor: variant !== 'image' ? cr.custom.info.sysInfoContainer : undefined,
+            backgroundColor:
+              variant !== 'image' ? cr.custom.info.sysInfoContainer : undefined,
           },
         ]}
       >
@@ -187,7 +188,11 @@ export function Avatar({
 
         {variant === 'icon' &&
           (icon ?? (
-            <Ionicons name="person" size={s.iconSize} color={cr.custom.info.sysOnInfoContainer} />
+            <Ionicons
+              name="person"
+              size={s.iconSize}
+              color={cr.custom.info.sysOnInfoContainer}
+            />
           ))}
       </View>
 
@@ -221,7 +226,8 @@ export function Avatar({
               borderRadius: s.badgeSize / 2,
               bottom: s.badgeOffset,
               right: s.badgeOffset,
-              backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+              backgroundColor:
+                cr.surface.surfaceContainer.sysSurfaceContainerLowest,
             },
           ]}
         >

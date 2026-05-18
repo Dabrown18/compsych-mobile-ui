@@ -30,10 +30,13 @@ describe('Button', () => {
     },
   );
 
-  it.each(['sm', 'md', 'lg', 'xl'] as const)('renders size "%s" without crashing', (size) => {
-    const { getByText } = render(<Button label="Button" size={size} />);
-    expect(getByText('Button')).toBeTruthy();
-  });
+  it.each(['sm', 'md', 'lg', 'xl'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { getByText } = render(<Button label="Button" size={size} />);
+      expect(getByText('Button')).toBeTruthy();
+    },
+  );
 
   it('renders in full width mode', () => {
     const { getByText } = render(<Button label="Full" fullWidth />);

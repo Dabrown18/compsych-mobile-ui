@@ -2,12 +2,25 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function IdCardIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function IdCardIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
-      <Path d="M32 20H36" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
-      <Path d="M32 28H36" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M32 20H36"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
+      <Path
+        d="M32 28H36"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path
         d="M12.34 30C12.7522 28.828 13.5182 27.8129 14.532 27.0948C15.5458 26.3768 16.7576 25.9911 18 25.9911C19.2423 25.9911 20.4541 26.3768 21.4679 27.0948C22.4818 27.8129 23.2477 28.828 23.66 30"
         stroke={color}

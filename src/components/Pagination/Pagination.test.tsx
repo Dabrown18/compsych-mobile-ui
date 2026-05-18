@@ -16,7 +16,11 @@ describe('Pagination', () => {
   it('calls onPageChange with next page when next is pressed', () => {
     const onPageChange = jest.fn();
     const { getByLabelText } = render(
-      <Pagination currentPage={3} totalPages={10} onPageChange={onPageChange} />,
+      <Pagination
+        currentPage={3}
+        totalPages={10}
+        onPageChange={onPageChange}
+      />,
     );
     fireEvent.press(getByLabelText('Next page'));
     expect(onPageChange).toHaveBeenCalledWith(4);
@@ -25,16 +29,28 @@ describe('Pagination', () => {
   it('calls onPageChange with previous page when prev is pressed', () => {
     const onPageChange = jest.fn();
     const { getByLabelText } = render(
-      <Pagination currentPage={3} totalPages={10} onPageChange={onPageChange} />,
+      <Pagination
+        currentPage={3}
+        totalPages={10}
+        onPageChange={onPageChange}
+      />,
     );
     fireEvent.press(getByLabelText('Previous page'));
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
-  it.each(['sm', 'lg'] as const)('renders size "%s" without crashing', (size) => {
-    const { toJSON } = render(
-      <Pagination currentPage={1} totalPages={5} onPageChange={jest.fn()} size={size} />,
-    );
-    expect(toJSON()).toBeTruthy();
-  });
+  it.each(['sm', 'lg'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { toJSON } = render(
+        <Pagination
+          currentPage={1}
+          totalPages={5}
+          onPageChange={jest.fn()}
+          size={size}
+        />,
+      );
+      expect(toJSON()).toBeTruthy();
+    },
+  );
 });

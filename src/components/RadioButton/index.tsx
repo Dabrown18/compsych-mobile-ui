@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 
-import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { sys } from '../../tokens';
 
@@ -51,9 +58,12 @@ export function RadioButton({
   invalid = false,
   style,
 }: RadioButtonProps) {
-  const [internalChecked, setInternalChecked] = useState<boolean>(defaultChecked);
+  const [internalChecked, setInternalChecked] =
+    useState<boolean>(defaultChecked);
   const isControlled = checkedProp !== undefined;
-  const isChecked: boolean = isControlled ? (checkedProp as boolean) : internalChecked;
+  const isChecked: boolean = isControlled
+    ? (checkedProp as boolean)
+    : internalChecked;
 
   const s = SIZE_TOKENS[size];
 
@@ -92,7 +102,9 @@ export function RadioButton({
                 height: s.hitArea,
                 borderRadius: s.hitArea / 2,
                 backgroundColor:
-                  pressed && !disabled ? cr.transparent.neutral.sysBlack10 : 'transparent',
+                  pressed && !disabled
+                    ? cr.transparent.neutral.sysBlack10
+                    : 'transparent',
               },
             ]}
           >

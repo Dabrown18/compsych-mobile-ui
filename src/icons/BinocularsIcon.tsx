@@ -2,11 +2,19 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function BinocularsIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function BinocularsIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
-      <Path d="M20 20H28" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M20 20H28"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path
         d="M38 14V8C38 7.46957 37.7893 6.96086 37.4142 6.58579C37.0391 6.21071 36.5304 6 36 6H32C31.4696 6 30.9609 6.21071 30.5858 6.58579C30.2107 6.96086 30 7.46957 30 8V14"
         stroke={color}

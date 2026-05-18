@@ -72,7 +72,10 @@ export function PlanCardDropdownItem({
             {title}
           </BodyText>
           {subtitle && (
-            <BodyText variant="small" color={cr.surface.surface.sysOnSurfaceVariant}>
+            <BodyText
+              variant="small"
+              color={cr.surface.surface.sysOnSurfaceVariant}
+            >
               {subtitle}
             </BodyText>
           )}
@@ -85,9 +88,16 @@ export function PlanCardDropdownItem({
               onPress={onAudio}
               accessibilityRole="button"
               accessibilityLabel="Listen"
-              style={({ pressed }) => [itemStyles.actionBtn, pressed && itemStyles.pressed]}
+              style={({ pressed }) => [
+                itemStyles.actionBtn,
+                pressed && itemStyles.pressed,
+              ]}
             >
-              <Ionicons name="headset-outline" size={16} color={cr.surface.surface.sysOnSurface} />
+              <Ionicons
+                name="headset-outline"
+                size={16}
+                color={cr.surface.surface.sysOnSurface}
+              />
             </Pressable>
           )}
           {onOpen && (
@@ -95,7 +105,10 @@ export function PlanCardDropdownItem({
               onPress={onOpen}
               accessibilityRole="button"
               accessibilityLabel="Open"
-              style={({ pressed }) => [itemStyles.actionBtn, pressed && itemStyles.pressed]}
+              style={({ pressed }) => [
+                itemStyles.actionBtn,
+                pressed && itemStyles.pressed,
+              ]}
             >
               <Ionicons
                 name="arrow-up-circle-outline"
@@ -222,7 +235,10 @@ export function PlanCard({
         <View style={cardStyles.right}>
           {tag && (
             <View style={cardStyles.chip}>
-              <BodyText variant="small" color={cr.custom.info.sysOnInfoContainer}>
+              <BodyText
+                variant="small"
+                color={cr.custom.info.sysOnInfoContainer}
+              >
                 {tag}
               </BodyText>
             </View>
@@ -231,7 +247,10 @@ export function PlanCard({
             onPress={handleToggle}
             accessibilityRole="button"
             accessibilityLabel={expanded ? 'Collapse' : 'Expand'}
-            style={({ pressed }) => [cardStyles.toggleBtn, pressed && cardStyles.pressed]}
+            style={({ pressed }) => [
+              cardStyles.toggleBtn,
+              pressed && cardStyles.pressed,
+            ]}
           >
             <Ionicons
               name={expanded ? 'remove' : 'add'}

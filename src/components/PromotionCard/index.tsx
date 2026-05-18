@@ -59,7 +59,10 @@ type VariantTokens = {
   progressColor: string;
 };
 
-const TOKENS: Record<PromotionCardVariant, Record<PromotionCardUsage, VariantTokens>> = {
+const TOKENS: Record<
+  PromotionCardVariant,
+  Record<PromotionCardUsage, VariantTokens>
+> = {
   filled: {
     neutral: {
       cardBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
@@ -260,7 +263,11 @@ export function PromotionCard({
             source={image}
             style={[
               StyleSheet.absoluteFillObject,
-              { borderRadius: isLg ? dim.borderRadius.sysRadiusXl : dim.borderRadius.sysRadiusLg },
+              {
+                borderRadius: isLg
+                  ? dim.borderRadius.sysRadiusXl
+                  : dim.borderRadius.sysRadiusLg,
+              },
             ]}
             resizeMode="cover"
             accessible={false}
@@ -269,7 +276,9 @@ export function PromotionCard({
             style={[
               StyleSheet.absoluteFillObject,
               {
-                borderRadius: isLg ? dim.borderRadius.sysRadiusXl : dim.borderRadius.sysRadiusLg,
+                borderRadius: isLg
+                  ? dim.borderRadius.sysRadiusXl
+                  : dim.borderRadius.sysRadiusLg,
                 backgroundColor: 'rgba(0,0,0,0.35)',
               },
             ]}
@@ -280,9 +289,16 @@ export function PromotionCard({
 
       {/* Chip */}
       {chipLabel && (
-        <View style={[isLg ? styles.chipLg : styles.chipMd, { backgroundColor: t.chipBg }]}>
+        <View
+          style={[
+            isLg ? styles.chipLg : styles.chipMd,
+            { backgroundColor: t.chipBg },
+          ]}
+        >
           {chipIcon && (
-            <View style={isLg ? styles.chipIconWrapLg : styles.chipIconWrapMd}>{chipIcon}</View>
+            <View style={isLg ? styles.chipIconWrapLg : styles.chipIconWrapMd}>
+              {chipIcon}
+            </View>
           )}
           <BodyText variant="labelMedium" color={t.chipTextColor}>
             {chipLabel}
@@ -316,8 +332,12 @@ export function PromotionCard({
         style={[
           styles.buttonWrap,
           {
-            bottom: isLg ? dim.spacing.padding.sysPadding32 : dim.spacing.padding.sysPadding16,
-            right: isLg ? dim.spacing.padding.sysPadding32 : dim.spacing.padding.sysPadding16,
+            bottom: isLg
+              ? dim.spacing.padding.sysPadding32
+              : dim.spacing.padding.sysPadding16,
+            right: isLg
+              ? dim.spacing.padding.sysPadding32
+              : dim.spacing.padding.sysPadding16,
             width: buttonSize,
             height: buttonSize,
           },
@@ -326,7 +346,11 @@ export function PromotionCard({
         <View
           style={[
             styles.button,
-            { width: buttonSize, height: buttonSize, backgroundColor: t.buttonBg },
+            {
+              width: buttonSize,
+              height: buttonSize,
+              backgroundColor: t.buttonBg,
+            },
           ]}
         >
           <Ionicons
@@ -337,7 +361,11 @@ export function PromotionCard({
           />
         </View>
         {showRingTimer && (
-          <Svg width={buttonSize} height={buttonSize} style={StyleSheet.absoluteFillObject}>
+          <Svg
+            width={buttonSize}
+            height={buttonSize}
+            style={StyleSheet.absoluteFillObject}
+          >
             <SvgCircle
               cx={buttonSize / 2}
               cy={buttonSize / 2}
@@ -376,7 +404,10 @@ export function PromotionCard({
 
       {/* Progress bar */}
       {showProgressBar && (
-        <View style={[styles.progressTrack, { height: isLg ? 4 : 2 }]} pointerEvents="none">
+        <View
+          style={[styles.progressTrack, { height: isLg ? 4 : 2 }]}
+          pointerEvents="none"
+        >
           <View
             style={[
               styles.progressFill,

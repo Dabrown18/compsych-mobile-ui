@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Modal, Pressable, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -76,11 +84,18 @@ export function ActionSheet({
                 accessibilityLabel="Close"
                 style={({ pressed }) => [
                   styles.closeButton,
-                  { backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer },
+                  {
+                    backgroundColor:
+                      cr.surface.surfaceContainer.sysSurfaceContainer,
+                  },
                   pressed && styles.closePresseed,
                 ]}
               >
-                <Ionicons name="close" size={20} color={cr.surface.surface.sysOnSurface} />
+                <Ionicons
+                  name="close"
+                  size={20}
+                  color={cr.surface.surface.sysOnSurface}
+                />
               </Pressable>
             </View>
           </View>

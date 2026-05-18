@@ -51,7 +51,9 @@ export function BodyText({
   });
 
   const token = ts[VARIANT_TOKEN_KEY[variant]];
-  const weight = emphasized ? token.sysFontWeightEmphasized : token.sysFontWeight;
+  const weight = emphasized
+    ? token.sysFontWeightEmphasized
+    : token.sysFontWeight;
 
   return (
     <Text

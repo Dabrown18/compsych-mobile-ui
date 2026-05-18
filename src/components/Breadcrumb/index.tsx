@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Pressable, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -80,7 +88,9 @@ export function Breadcrumb({ items, size = 'lg', style }: BreadcrumbProps) {
               styles.content,
               {
                 paddingHorizontal: s.paddingH,
-                paddingVertical: item.isHome ? dim.spacing.padding.sysPadding2 : s.paddingV,
+                paddingVertical: item.isHome
+                  ? dim.spacing.padding.sysPadding2
+                  : s.paddingV,
                 gap: item.isHome ? 0 : dim.spacing.padding.sysPadding4,
               },
               item.disabled && styles.disabled,
@@ -118,7 +128,10 @@ export function Breadcrumb({ items, size = 'lg', style }: BreadcrumbProps) {
                 onPress={item.onPress}
                 accessibilityRole="link"
                 accessibilityLabel={item.isHome ? 'Home' : item.label}
-                style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
+                style={({ pressed }) => [
+                  styles.pressable,
+                  pressed && styles.pressed,
+                ]}
               >
                 {content}
               </Pressable>
@@ -133,7 +146,10 @@ export function Breadcrumb({ items, size = 'lg', style }: BreadcrumbProps) {
 
             {/* Divider — shown after every item except the last */}
             {!isLast && (
-              <View accessible={false} style={[styles.divider, { width: s.dividerWidth }]}>
+              <View
+                accessible={false}
+                style={[styles.divider, { width: s.dividerWidth }]}
+              >
                 <Text
                   style={{
                     color: cr.surface.surface.sysOnSurfaceVariant,

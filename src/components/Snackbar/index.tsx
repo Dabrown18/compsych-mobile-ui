@@ -1,6 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 
-import { Animated, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  Animated,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -66,9 +73,15 @@ export function Snackbar({
 
   const isFilled = variant === 'filled';
 
-  const containerStyle = isFilled ? styles.containerFilled : styles.containerOutlined;
-  const labelColor = isFilled ? cr.accent.primary.sysOnPrimary : cr.surface.surface.sysOnSurface;
-  const actionColor = isFilled ? cr.accent.primary.sysOnPrimary : cr.accent.primary.sysPrimary;
+  const containerStyle = isFilled
+    ? styles.containerFilled
+    : styles.containerOutlined;
+  const labelColor = isFilled
+    ? cr.accent.primary.sysOnPrimary
+    : cr.surface.surface.sysOnSurface;
+  const actionColor = isFilled
+    ? cr.accent.primary.sysOnPrimary
+    : cr.accent.primary.sysPrimary;
   const closeBg = isFilled
     ? cr.transparent.neutral.sysWhite10
     : cr.surface.surfaceContainer.sysSurfaceContainer;
@@ -82,7 +95,12 @@ export function Snackbar({
       pointerEvents={visible ? 'box-none' : 'none'}
     >
       <View style={[styles.container, containerStyle]}>
-        <BodyText variant="medium" color={labelColor} style={styles.label} numberOfLines={2}>
+        <BodyText
+          variant="medium"
+          color={labelColor}
+          style={styles.label}
+          numberOfLines={2}
+        >
           {message}
         </BodyText>
 
@@ -92,7 +110,10 @@ export function Snackbar({
               onPress={onAction}
               accessibilityRole="button"
               accessibilityLabel={actionLabel}
-              style={({ pressed }) => [styles.actionButton, pressed && styles.pressed]}
+              style={({ pressed }) => [
+                styles.actionButton,
+                pressed && styles.pressed,
+              ]}
             >
               <BodyText variant="small" emphasized color={actionColor}>
                 {actionLabel}

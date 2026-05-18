@@ -36,7 +36,11 @@ describe('SegmentedControl', () => {
       { value: 'b', label: 'B', disabled: true },
     ];
     const { getByText } = render(
-      <SegmentedControl options={disabledOptions} value="a" onChange={onChange} />,
+      <SegmentedControl
+        options={disabledOptions}
+        value="a"
+        onChange={onChange}
+      />,
     );
     fireEvent.press(getByText('B'));
     expect(onChange).not.toHaveBeenCalled();
@@ -44,7 +48,12 @@ describe('SegmentedControl', () => {
 
   it('renders full width when fullWidth is true', () => {
     const { toJSON } = render(
-      <SegmentedControl options={options} value="day" onChange={jest.fn()} fullWidth />,
+      <SegmentedControl
+        options={options}
+        value="day"
+        onChange={jest.fn()}
+        fullWidth
+      />,
     );
     expect(toJSON()).toBeTruthy();
   });

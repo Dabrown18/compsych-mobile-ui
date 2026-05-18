@@ -32,7 +32,12 @@ const ARROW_HEIGHT = 6; // px — narrow axis
 
 // ── Component ────────────────────────────────────────────────────────────────
 
-export function Tooltip({ text, variant = 'filled', direction = 'none', style }: TooltipProps) {
+export function Tooltip({
+  text,
+  variant = 'filled',
+  direction = 'none',
+  style,
+}: TooltipProps) {
   const isFilled = variant === 'filled';
 
   const bg = isFilled

@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
@@ -60,7 +66,9 @@ export function SegmentedControl({
               variant="small"
               emphasized={isActive}
               color={
-                isActive ? cr.accent.primary.sysOnPrimary : cr.surface.surface.sysOnSurfaceVariant
+                isActive
+                  ? cr.accent.primary.sysOnPrimary
+                  : cr.surface.surface.sysOnSurfaceVariant
               }
               numberOfLines={1}
             >

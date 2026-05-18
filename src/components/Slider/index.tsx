@@ -69,7 +69,9 @@ export function Slider({
   style,
 }: SliderProps) {
   const isControlled = valueProp !== undefined;
-  const [internalValue, setInternalValue] = useState<number>(defaultValue ?? min);
+  const [internalValue, setInternalValue] = useState<number>(
+    defaultValue ?? min,
+  );
   const displayValue = isControlled ? valueProp! : internalValue;
 
   const [focused, setFocused] = useState(false);
@@ -114,7 +116,8 @@ export function Slider({
 
   const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponder: () => !disabled && trackWidthRef.current > 0,
+      onStartShouldSetPanResponder: () =>
+        !disabled && trackWidthRef.current > 0,
       onMoveShouldSetPanResponder: () => !disabled && trackWidthRef.current > 0,
       // Don't let parent ScrollView steal the gesture once we've started
       onPanResponderTerminationRequest: () => false,
@@ -122,21 +125,33 @@ export function Slider({
       onPanResponderGrant: (evt) => {
         setPressed(true);
         // Jump thumb to the tapped position on the track
-        const tapped = clamp(evt.nativeEvent.locationX, 0, trackWidthRef.current);
+        const tapped = clamp(
+          evt.nativeEvent.locationX,
+          0,
+          trackWidthRef.current,
+        );
         panStartFraction.current = tapped / trackWidthRef.current;
         const v = fractionToValue(panStartFraction.current);
         commitValue(v, false);
       },
 
       onPanResponderMove: (_, gs) => {
-        const newFrac = clamp(panStartFraction.current + gs.dx / trackWidthRef.current, 0, 1);
+        const newFrac = clamp(
+          panStartFraction.current + gs.dx / trackWidthRef.current,
+          0,
+          1,
+        );
         const v = fractionToValue(newFrac);
         commitValue(v, false);
       },
 
       onPanResponderRelease: (_, gs) => {
         setPressed(false);
-        const newFrac = clamp(panStartFraction.current + gs.dx / trackWidthRef.current, 0, 1);
+        const newFrac = clamp(
+          panStartFraction.current + gs.dx / trackWidthRef.current,
+          0,
+          1,
+        );
         commitValue(fractionToValue(newFrac), true);
       },
 

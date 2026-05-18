@@ -29,14 +29,22 @@ describe('RadioButton', () => {
   it('does not call onChange when disabled', () => {
     const onChange = jest.fn();
     const { getByRole } = render(
-      <RadioButton label="Option A" checked={false} onChange={onChange} disabled />,
+      <RadioButton
+        label="Option A"
+        checked={false}
+        onChange={onChange}
+        disabled
+      />,
     );
     fireEvent.press(getByRole('radio'));
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it.each(['sm', 'md'] as const)('renders size "%s" without crashing', (size) => {
-    const { getByText } = render(<RadioButton label="Option" size={size} />);
-    expect(getByText('Option')).toBeTruthy();
-  });
+  it.each(['sm', 'md'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { getByText } = render(<RadioButton label="Option" size={size} />);
+      expect(getByText('Option')).toBeTruthy();
+    },
+  );
 });

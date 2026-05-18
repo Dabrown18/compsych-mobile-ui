@@ -21,14 +21,18 @@ describe('PlanCard', () => {
   });
 
   it('renders items when expanded', () => {
-    const { getByText } = render(<PlanCard title="Plan" items={items} expanded />);
+    const { getByText } = render(
+      <PlanCard title="Plan" items={items} expanded />,
+    );
     expect(getByText('Session 1')).toBeTruthy();
     expect(getByText('Session 2')).toBeTruthy();
   });
 
   it('calls onToggle when header is pressed', () => {
     const onToggle = jest.fn();
-    const { getByLabelText } = render(<PlanCard title="Plan" onToggle={onToggle} />);
+    const { getByLabelText } = render(
+      <PlanCard title="Plan" onToggle={onToggle} />,
+    );
     fireEvent.press(getByLabelText('Expand'));
     expect(onToggle).toHaveBeenCalledTimes(1);
   });

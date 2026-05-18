@@ -6,7 +6,9 @@ import { Snackbar } from './index';
 
 describe('Snackbar', () => {
   it('renders message when visible', () => {
-    const { getByText } = render(<Snackbar visible message="Changes saved" onClose={jest.fn()} />);
+    const { getByText } = render(
+      <Snackbar visible message="Changes saved" onClose={jest.fn()} />,
+    );
     expect(getByText('Changes saved')).toBeTruthy();
   });
 
@@ -35,15 +37,25 @@ describe('Snackbar', () => {
 
   it('calls onClose when dismiss button is pressed', () => {
     const onClose = jest.fn();
-    const { getByLabelText } = render(<Snackbar visible message="Done" onClose={onClose} />);
+    const { getByLabelText } = render(
+      <Snackbar visible message="Done" onClose={onClose} />,
+    );
     fireEvent.press(getByLabelText('Dismiss'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it.each(['filled', 'outlined'] as const)('renders variant "%s" without crashing', (variant) => {
-    const { getByText } = render(
-      <Snackbar visible message="Hello" variant={variant} onClose={jest.fn()} />,
-    );
-    expect(getByText('Hello')).toBeTruthy();
-  });
+  it.each(['filled', 'outlined'] as const)(
+    'renders variant "%s" without crashing',
+    (variant) => {
+      const { getByText } = render(
+        <Snackbar
+          visible
+          message="Hello"
+          variant={variant}
+          onClose={jest.fn()}
+        />,
+      );
+      expect(getByText('Hello')).toBeTruthy();
+    },
+  );
 });

@@ -12,7 +12,9 @@ describe('SelectionCard', () => {
 
   it('calls onPress when tapped', () => {
     const onPress = jest.fn();
-    const { getByText } = render(<SelectionCard title="Option A" onPress={onPress} />);
+    const { getByText } = render(
+      <SelectionCard title="Option A" onPress={onPress} />,
+    );
     fireEvent.press(getByText('Option A'));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
@@ -22,10 +24,15 @@ describe('SelectionCard', () => {
     expect(toJSON()).toBeTruthy();
   });
 
-  it.each(['sm', 'md'] as const)('renders size "%s" without crashing', (size) => {
-    const { getByText } = render(<SelectionCard title="Option" size={size} />);
-    expect(getByText('Option')).toBeTruthy();
-  });
+  it.each(['sm', 'md'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { getByText } = render(
+        <SelectionCard title="Option" size={size} />,
+      );
+      expect(getByText('Option')).toBeTruthy();
+    },
+  );
 
   it('renders selected state', () => {
     const { toJSON } = render(<SelectionCard title="Selected" selected />);
@@ -33,7 +40,9 @@ describe('SelectionCard', () => {
   });
 
   it('renders multi-select variant', () => {
-    const { toJSON } = render(<SelectionCard title="Multi" multiSelect selected />);
+    const { toJSON } = render(
+      <SelectionCard title="Multi" multiSelect selected />,
+    );
     expect(toJSON()).toBeTruthy();
   });
 });

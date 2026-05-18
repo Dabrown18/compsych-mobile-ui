@@ -22,7 +22,10 @@ export type ButtonVariant =
 
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
-export interface ButtonProps extends Omit<PressableProps, 'children' | 'style'> {
+export interface ButtonProps extends Omit<
+  PressableProps,
+  'children' | 'style'
+> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   label: string;

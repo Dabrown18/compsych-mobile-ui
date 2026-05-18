@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -119,7 +126,8 @@ function EmptyIllustration() {
               width: CARD_W,
               height: CARD_H,
               borderColor: cr.outline.sysOutlineVariant,
-              backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+              backgroundColor:
+                cr.surface.surfaceContainer.sysSurfaceContainerLowest,
             },
             styles.cardFaded,
           ]}
@@ -137,7 +145,8 @@ function EmptyIllustration() {
             width: CARD_W,
             height: CARD_H,
             borderColor: cr.accent.primary.sysPrimary,
-            backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+            backgroundColor:
+              cr.surface.surfaceContainer.sysSurfaceContainerLowest,
           },
         ]}
       >
@@ -206,7 +215,8 @@ export function EmptyState({
             {
               width: vp.iconCircle,
               height: vp.iconCircle,
-              backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLow,
+              backgroundColor:
+                cr.surface.surfaceContainer.sysSurfaceContainerLow,
             },
           ]}
         >
@@ -271,7 +281,11 @@ export function EmptyState({
               pressed && { opacity: 0.76 },
             ]}
           >
-            <Ionicons name="add" size={16} color={cr.surface.surface.sysOnSurface} />
+            <Ionicons
+              name="add"
+              size={16}
+              color={cr.surface.surface.sysOnSurface}
+            />
             <Text
               style={{
                 color: cr.surface.surface.sysOnSurface,

@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -47,7 +53,10 @@ export function ListItem({
         <View
           style={[
             styles.iconBadge,
-            { backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLow },
+            {
+              backgroundColor:
+                cr.surface.surfaceContainer.sysSurfaceContainerLow,
+            },
           ]}
         >
           {icon}
@@ -58,11 +67,18 @@ export function ListItem({
       )}
 
       <View style={styles.textBlock}>
-        <BodyText variant="medium" emphasized={isDetailed} color={cr.surface.surface.sysOnSurface}>
+        <BodyText
+          variant="medium"
+          emphasized={isDetailed}
+          color={cr.surface.surface.sysOnSurface}
+        >
           {label}
         </BodyText>
         {isDetailed && subLabel && (
-          <BodyText variant="small" color={cr.surface.surface.sysOnSurfaceVariant}>
+          <BodyText
+            variant="small"
+            color={cr.surface.surface.sysOnSurfaceVariant}
+          >
             {subLabel}
           </BodyText>
         )}

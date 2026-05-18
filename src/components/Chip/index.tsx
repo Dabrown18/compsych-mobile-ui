@@ -1,13 +1,25 @@
 import React from 'react';
 
-import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
 import { sys } from '../../tokens';
 
 export type ChipSize = 'sm' | 'md' | 'lg' | 'xl';
-export type ChipUsage = 'neutral' | 'informative' | 'positive' | 'danger' | 'warning';
+export type ChipUsage =
+  | 'neutral'
+  | 'informative'
+  | 'positive'
+  | 'danger'
+  | 'warning';
 
 export interface ChipProps {
   label: string;
@@ -252,7 +264,9 @@ export function Chip({
             width: s.closeBtnSize,
             height: s.closeBtnSize,
             borderRadius: s.closeBtnSize / 2,
-            backgroundColor: pressed ? cr.transparent.neutral.sysBlack10 : c.closeBg,
+            backgroundColor: pressed
+              ? cr.transparent.neutral.sysBlack10
+              : c.closeBg,
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,

@@ -5,7 +5,13 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { sys } from '../../tokens';
 
 export type BadgeSize = 'sm' | 'md' | 'lg';
-export type BadgeStyle = 'filled' | 'positive' | 'danger' | 'elevated' | 'tonal' | 'dot';
+export type BadgeStyle =
+  | 'filled'
+  | 'positive'
+  | 'danger'
+  | 'elevated'
+  | 'tonal'
+  | 'dot';
 
 export interface BadgeProps {
   /** Number or short string to display — ignored for `dot` style */
@@ -98,7 +104,12 @@ function getStyleColors(style: BadgeStyle): StyleColors {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function Badge({ label, size = 'md', badgeStyle = 'filled', style }: BadgeProps) {
+export function Badge({
+  label,
+  size = 'md',
+  badgeStyle = 'filled',
+  style,
+}: BadgeProps) {
   const s = SIZE_TOKENS[size];
   const c = getStyleColors(badgeStyle);
 

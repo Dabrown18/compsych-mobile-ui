@@ -22,10 +22,13 @@ describe('Chip', () => {
     expect(toJSON()).toBeTruthy();
   });
 
-  it.each(['sm', 'md', 'lg', 'xl'] as const)('renders size "%s" without crashing', (size) => {
-    const { getByText } = render(<Chip label="Chip" size={size} />);
-    expect(getByText('Chip')).toBeTruthy();
-  });
+  it.each(['sm', 'md', 'lg', 'xl'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { getByText } = render(<Chip label="Chip" size={size} />);
+      expect(getByText('Chip')).toBeTruthy();
+    },
+  );
 
   it.each(['neutral', 'informative', 'positive', 'danger', 'warning'] as const)(
     'renders usage "%s" without crashing',

@@ -2,7 +2,10 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function HandshakeIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function HandshakeIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
@@ -18,7 +21,12 @@ export function HandshakeIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: I
         strokeWidth={strokeWidth}
         {...COMMON}
       />
-      <Path d="M42 6L44 28H40" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M42 6L44 28H40"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path
         d="M6 6L4 28L17 41C17.7956 41.7956 18.8748 42.2426 20 42.2426C21.1252 42.2426 22.2044 41.7956 23 41C23.7956 40.2044 24.2426 39.1252 24.2426 38C24.2426 36.8748 23.7956 35.7956 23 35"
         stroke={color}

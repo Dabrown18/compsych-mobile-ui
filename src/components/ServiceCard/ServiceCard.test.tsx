@@ -11,7 +11,9 @@ describe('ServiceCard', () => {
   });
 
   it('renders description', () => {
-    const { getByText } = render(<ServiceCard title="Therapy" description="One-on-one sessions" />);
+    const { getByText } = render(
+      <ServiceCard title="Therapy" description="One-on-one sessions" />,
+    );
     expect(getByText('One-on-one sessions')).toBeTruthy();
   });
 
@@ -31,7 +33,12 @@ describe('ServiceCard', () => {
 
   it('renders in disabled state', () => {
     const { toJSON } = render(
-      <ServiceCard title="Therapy" interactive disabled accessibilityLabel="Therapy card" />,
+      <ServiceCard
+        title="Therapy"
+        interactive
+        disabled
+        accessibilityLabel="Therapy card"
+      />,
     );
     expect(toJSON()).toBeTruthy();
   });
@@ -44,8 +51,11 @@ describe('ServiceCard', () => {
     },
   );
 
-  it.each(['sm', 'md', 'lg'] as const)('renders size "%s" without crashing', (size) => {
-    const { toJSON } = render(<ServiceCard title="Card" size={size} />);
-    expect(toJSON()).toBeTruthy();
-  });
+  it.each(['sm', 'md', 'lg'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { toJSON } = render(<ServiceCard title="Card" size={size} />);
+      expect(toJSON()).toBeTruthy();
+    },
+  );
 });

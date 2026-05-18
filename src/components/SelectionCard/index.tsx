@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -61,7 +67,9 @@ export function SelectionCard({
   );
 
   if (size === 'sm') {
-    const iconColor = selected ? cr.accent.primary.sysPrimary : cr.surface.surface.sysOnSurface;
+    const iconColor = selected
+      ? cr.accent.primary.sysPrimary
+      : cr.surface.surface.sysOnSurface;
 
     return (
       <Pressable
@@ -72,8 +80,12 @@ export function SelectionCard({
         style={({ pressed }) => [
           styles.smRoot,
           {
-            borderColor: selected ? cr.accent.primary.sysPrimary : cr.outline.sysOutline,
-            borderWidth: selected ? dim.borderWidth.sysStrokeMedium : dim.borderWidth.sysStrokeThin,
+            borderColor: selected
+              ? cr.accent.primary.sysPrimary
+              : cr.outline.sysOutline,
+            borderWidth: selected
+              ? dim.borderWidth.sysStrokeMedium
+              : dim.borderWidth.sysStrokeThin,
             opacity: disabled ? 0.38 : 1,
           },
           selected && SELECTED_RING,
@@ -103,8 +115,12 @@ export function SelectionCard({
   const iconBgColor = selected
     ? cr.accent.primary.sysPrimary
     : cr.surface.surfaceContainer.sysSurfaceContainer;
-  const iconColor = selected ? cr.accent.primary.sysOnPrimary : cr.surface.surface.sysOnSurface;
-  const titleColor = selected ? cr.accent.primary.sysPrimary : cr.surface.surface.sysOnSurface;
+  const iconColor = selected
+    ? cr.accent.primary.sysOnPrimary
+    : cr.surface.surface.sysOnSurface;
+  const titleColor = selected
+    ? cr.accent.primary.sysPrimary
+    : cr.surface.surface.sysOnSurface;
 
   const iconCircle = IconComponent ? (
     <View style={[styles.mdIconCircle, { backgroundColor: iconBgColor }]}>
@@ -121,8 +137,12 @@ export function SelectionCard({
       style={({ pressed }) => [
         styles.mdRoot,
         {
-          borderColor: selected ? cr.accent.primary.sysPrimary : cr.outline.sysOutline,
-          borderWidth: selected ? dim.borderWidth.sysStrokeThick : dim.borderWidth.sysStrokeMedium,
+          borderColor: selected
+            ? cr.accent.primary.sysPrimary
+            : cr.outline.sysOutline,
+          borderWidth: selected
+            ? dim.borderWidth.sysStrokeThick
+            : dim.borderWidth.sysStrokeMedium,
           opacity: disabled ? 0.38 : 1,
         },
         selected && SELECTED_RING,

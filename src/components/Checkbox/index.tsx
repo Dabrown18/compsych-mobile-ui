@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 
-import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -51,9 +58,12 @@ export function Checkbox({
   invalid = false,
   style,
 }: CheckboxProps) {
-  const [internalChecked, setInternalChecked] = useState<boolean>(defaultChecked);
+  const [internalChecked, setInternalChecked] =
+    useState<boolean>(defaultChecked);
   const isControlled = checkedProp !== undefined;
-  const checkedState: CheckboxCheckedState = isControlled ? checkedProp : internalChecked;
+  const checkedState: CheckboxCheckedState = isControlled
+    ? checkedProp
+    : internalChecked;
 
   const isChecked = checkedState === true;
   const isIndeterminate = checkedState === 'indeterminate';
@@ -104,7 +114,9 @@ export function Checkbox({
                 height: s.hitArea,
                 borderRadius: s.hitArea / 2,
                 backgroundColor:
-                  pressed && !disabled ? cr.transparent.neutral.sysBlack10 : 'transparent',
+                  pressed && !disabled
+                    ? cr.transparent.neutral.sysBlack10
+                    : 'transparent',
               },
             ]}
           >

@@ -2,7 +2,10 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function MessageCirclePlusIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function MessageCirclePlusIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
@@ -12,8 +15,18 @@ export function MessageCirclePlusIcon({ size = 'medium', color = DEFAULT_ICON_CO
         strokeWidth={strokeWidth}
         {...COMMON}
       />
-      <Path d="M16 24H32" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
-      <Path d="M24 16V32" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M16 24H32"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
+      <Path
+        d="M24 16V32"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
     </Svg>
   );
 }

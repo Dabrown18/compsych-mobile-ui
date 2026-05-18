@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Animated, Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  Animated,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { sys } from '../../tokens';
 
@@ -46,7 +53,9 @@ export function Switch({
   const [focused, setFocused] = useState(false);
 
   // ── Animation ──────────────────────────────────────────────────────────────
-  const thumbAnim = useRef(new Animated.Value(toggled ? THUMB_ON : THUMB_OFF)).current;
+  const thumbAnim = useRef(
+    new Animated.Value(toggled ? THUMB_ON : THUMB_OFF),
+  ).current;
   const bgAnim = useRef(new Animated.Value(toggled ? 1 : 0)).current;
 
   useEffect(() => {
@@ -76,7 +85,10 @@ export function Switch({
   // Thumb color: on=sysOnPrimary, off=sysSurface
   const thumbBg = bgAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [cr.surface.surface.sysSurface, cr.accent.primary.sysOnPrimary],
+    outputRange: [
+      cr.surface.surface.sysSurface,
+      cr.accent.primary.sysOnPrimary,
+    ],
   });
 
   // ── Handler ────────────────────────────────────────────────────────────────
@@ -114,7 +126,11 @@ export function Switch({
 
       {/* ── Track ─────────────────────────────────────────────────────────── */}
       <Animated.View
-        style={[styles.track, { backgroundColor: trackBg }, disabled && styles.trackDisabled]}
+        style={[
+          styles.track,
+          { backgroundColor: trackBg },
+          disabled && styles.trackDisabled,
+        ]}
       >
         {/* ── Thumb ───────────────────────────────────────────────────────── */}
         <Animated.View

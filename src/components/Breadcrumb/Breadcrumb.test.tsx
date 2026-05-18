@@ -27,8 +27,11 @@ describe('Breadcrumb', () => {
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
-  it.each(['sm', 'lg'] as const)('renders size "%s" without crashing', (size) => {
-    const { getByText } = render(<Breadcrumb items={items} size={size} />);
-    expect(getByText('Home')).toBeTruthy();
-  });
+  it.each(['sm', 'lg'] as const)(
+    'renders size "%s" without crashing',
+    (size) => {
+      const { getByText } = render(<Breadcrumb items={items} size={size} />);
+      expect(getByText('Home')).toBeTruthy();
+    },
+  );
 });

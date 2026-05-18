@@ -2,7 +2,10 @@ import Svg, { Path } from 'react-native-svg';
 
 import { COMMON, DEFAULT_ICON_COLOR, type IconProps, SIZE_MAP } from './types';
 
-export function GraduationCapIcon({ size = 'medium', color = DEFAULT_ICON_COLOR }: IconProps) {
+export function GraduationCapIcon({
+  size = 'medium',
+  color = DEFAULT_ICON_COLOR,
+}: IconProps) {
   const { size: px, strokeWidth } = SIZE_MAP[size];
   return (
     <Svg width={px} height={px} viewBox="0 0 48 48" fill="none">
@@ -12,7 +15,12 @@ export function GraduationCapIcon({ size = 'medium', color = DEFAULT_ICON_COLOR 
         strokeWidth={strokeWidth}
         {...COMMON}
       />
-      <Path d="M44 20V32" stroke={color} strokeWidth={strokeWidth} {...COMMON} />
+      <Path
+        d="M44 20V32"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        {...COMMON}
+      />
       <Path
         d="M12 25V32C12 33.5913 13.2643 35.1174 15.5147 36.2426C17.7652 37.3679 20.8174 38 24 38C27.1826 38 30.2348 37.3679 32.4853 36.2426C34.7357 35.1174 36 33.5913 36 32V25"
         stroke={color}
