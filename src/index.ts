@@ -1,86 +1,86 @@
 // ComPsych Mobile UI — React Native Component Library
 // Version 1.0.0
 
-export { Alert } from './Alert';
-export type { AlertProps, AlertVariant, AlertSize } from './Alert';
+export { Alert } from './components/Alert';
+export type { AlertProps, AlertVariant, AlertSize } from './components/Alert';
 
-export { Avatar } from './Avatar';
-export type { AvatarProps, AvatarSize, AvatarVariant } from './Avatar';
+export { Avatar } from './components/Avatar';
+export type { AvatarProps, AvatarSize, AvatarVariant } from './components/Avatar';
 
-export { Badge } from './Badge';
-export type { BadgeProps, BadgeSize, BadgeStyle } from './Badge';
+export { Badge } from './components/Badge';
+export type { BadgeProps, BadgeSize, BadgeStyle } from './components/Badge';
 
-export { Breadcrumb } from './Breadcrumb';
-export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbSize } from './Breadcrumb';
+export { Breadcrumb } from './components/Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbSize } from './components/Breadcrumb';
 
-export { Button } from './Button';
-export type { ButtonProps, ButtonVariant, ButtonSize } from './Button';
+export { Button } from './components/Button';
+export type { ButtonProps, ButtonVariant, ButtonSize } from './components/Button';
 
-export { ServiceCard } from './ServiceCard';
-export type { ServiceCardProps, ServiceCardVariant, ServiceCardSize } from './ServiceCard';
+export { ServiceCard } from './components/ServiceCard';
+export type { ServiceCardProps, ServiceCardVariant, ServiceCardSize } from './components/ServiceCard';
 
-export { PromotionCard } from './PromotionCard';
-export type { PromotionCardProps, PromotionCardVariant, PromotionCardUsage, PromotionCardSize } from './PromotionCard';
+export { PromotionCard } from './components/PromotionCard';
+export type { PromotionCardProps, PromotionCardVariant, PromotionCardUsage, PromotionCardSize } from './components/PromotionCard';
 
-export { Checkbox } from './Checkbox';
-export type { CheckboxProps, CheckboxSize, CheckboxCheckedState } from './Checkbox';
+export { Checkbox } from './components/Checkbox';
+export type { CheckboxProps, CheckboxSize, CheckboxCheckedState } from './components/Checkbox';
 
-export { Chip } from './Chip';
-export type { ChipProps, ChipSize, ChipUsage } from './Chip';
+export { Chip } from './components/Chip';
+export type { ChipProps, ChipSize, ChipUsage } from './components/Chip';
 
-export { Divider } from './Divider';
-export type { DividerProps, DividerVariant, DividerWeight } from './Divider';
+export { Divider } from './components/Divider';
+export type { DividerProps, DividerVariant, DividerWeight } from './components/Divider';
 
-export { EmptyState } from './EmptyState';
-export type { EmptyStateProps, EmptyStateStyle, EmptyStateViewport } from './EmptyState';
+export { EmptyState } from './components/EmptyState';
+export type { EmptyStateProps, EmptyStateStyle, EmptyStateViewport } from './components/EmptyState';
 
-export { List, ListItem } from './List';
-export type { ListProps, ListItemProps, ListItemType } from './List';
+export { List, ListItem } from './components/List';
+export type { ListProps, ListItemProps, ListItemType } from './components/List';
 
-export { Input } from './Input';
-export type { InputProps, InputSize } from './Input';
+export { Input } from './components/Input';
+export type { InputProps, InputSize } from './components/Input';
 
-export { PlanCard, PlanCardDropdownItem } from './PlanCard';
-export type { PlanCardProps, PlanCardItemData } from './PlanCard';
+export { PlanCard, PlanCardDropdownItem } from './components/PlanCard';
+export type { PlanCardProps, PlanCardItemData } from './components/PlanCard';
 
-export { Pagination } from './Pagination';
-export type { PaginationProps, PaginationSize } from './Pagination';
+export { Pagination } from './components/Pagination';
+export type { PaginationProps, PaginationSize } from './components/Pagination';
 
-export { ProgressTracker, ProgressBar } from './ProgressTracker';
-export type { ProgressTrackerProps, ProgressTrackerSize, ProgressBarProps, TrackerStep, StepState } from './ProgressTracker';
+export { ProgressTracker, ProgressBar } from './components/ProgressTracker';
+export type { ProgressTrackerProps, ProgressTrackerSize, ProgressBarProps, TrackerStep, StepState } from './components/ProgressTracker';
 
-export { RadioButton } from './RadioButton';
-export type { RadioButtonProps, RadioButtonSize } from './RadioButton';
+export { RadioButton } from './components/RadioButton';
+export type { RadioButtonProps, RadioButtonSize } from './components/RadioButton';
 
-export { SegmentedControl } from './SegmentedControl';
-export type { SegmentedControlProps, SegmentedControlOption } from './SegmentedControl';
+export { SegmentedControl } from './components/SegmentedControl';
+export type { SegmentedControlProps, SegmentedControlOption } from './components/SegmentedControl';
 
-export { SelectionCard } from './SelectionCard';
-export type { SelectionCardProps, SelectionCardSize } from './SelectionCard';
+export { SelectionCard } from './components/SelectionCard';
+export type { SelectionCardProps, SelectionCardSize } from './components/SelectionCard';
 
-export { ScreenContainer } from './ScreenContainer';
-export type { ScreenContainerProps } from './ScreenContainer';
+export { ScreenContainer } from './components/ScreenContainer';
+export type { ScreenContainerProps } from './components/ScreenContainer';
 
-export { Slider } from './Slider';
-export type { SliderProps } from './Slider';
+export { Slider } from './components/Slider';
+export type { SliderProps } from './components/Slider';
 
-export { Snackbar } from './Snackbar';
-export type { SnackbarProps, SnackbarVariant } from './Snackbar';
+export { Snackbar } from './components/Snackbar';
+export type { SnackbarProps, SnackbarVariant } from './components/Snackbar';
 
-export { Switch } from './Switch';
-export type { SwitchProps } from './Switch';
+export { Switch } from './components/Switch';
+export type { SwitchProps } from './components/Switch';
 
-export { Tooltip } from './Tooltip';
-export type { TooltipProps, TooltipVariant, TooltipDirection } from './Tooltip';
+export { Tooltip } from './components/Tooltip';
+export type { TooltipProps, TooltipVariant, TooltipDirection } from './components/Tooltip';
 
-export { ActionSheet } from './ActionSheet';
-export type { ActionSheetProps, ActionSheetAction } from './ActionSheet';
+export { ActionSheet } from './components/ActionSheet';
+export type { ActionSheetProps, ActionSheetAction } from './components/ActionSheet';
 
-export { BodyText } from './BodyText';
-export type { BodyTextProps, BodyVariant } from './BodyText';
+export { BodyText } from './components/BodyText';
+export type { BodyTextProps, BodyVariant } from './components/BodyText';
 
-export { HeaderText } from './HeaderText';
-export type { HeaderTextProps, HeaderVariant } from './HeaderText';
+export { HeaderText } from './components/HeaderText';
+export type { HeaderTextProps, HeaderVariant } from './components/HeaderText';
 
 // Re-export tokens for consumers who need direct access
 export { sys } from './tokens';
