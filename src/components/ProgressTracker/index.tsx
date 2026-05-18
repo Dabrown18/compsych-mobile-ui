@@ -39,9 +39,9 @@ export type StepState = 'completed' | 'active' | 'pending';
 export interface TrackerStep {
   label?: string;
   /**
-   * `completed` → full green fill (100 %)
-   * `active`    → partial green fill (25 %) — in-progress indicator
-   * `pending`   → gray track only (0 % fill)
+   * `completed` → full green bar
+   * `active`    → full green bar (current step — same fill as completed)
+   * `pending`   → gray track only
    */
   state: StepState;
 }
@@ -74,14 +74,7 @@ const SIZE_TOKENS = {
 };
 
 function stepProgress(state: StepState): number {
-  switch (state) {
-    case 'completed':
-      return 100;
-    case 'active':
-      return 25;
-    case 'pending':
-      return 0;
-  }
+  return state === 'pending' ? 0 : 100;
 }
 
 export function ProgressTracker({
