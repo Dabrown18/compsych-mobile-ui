@@ -70,8 +70,6 @@ export function Checkbox({
   const isSelected = isChecked || isIndeterminate;
 
   const s = SIZE_TOKENS[size];
-  const hitPad = (s.hitArea - s.box) / 2;
-
   function handlePress() {
     if (disabled) return;
     // Indeterminate → true on activation (matches HTML spec)
@@ -101,7 +99,7 @@ export function Checkbox({
         checked: isIndeterminate ? 'mixed' : isChecked,
         disabled,
       }}
-      style={({ pressed }) => [styles.root, disabled && styles.disabled, style]}
+      style={() => [styles.root, disabled && styles.disabled, style]}
     >
       {({ pressed }) => (
         <>

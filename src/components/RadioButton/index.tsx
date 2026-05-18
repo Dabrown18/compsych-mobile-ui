@@ -89,7 +89,7 @@ export function RadioButton({
       accessibilityRole="radio"
       accessibilityLabel={label}
       accessibilityState={{ checked: isChecked, disabled }}
-      style={({ pressed }) => [styles.root, disabled && styles.disabled, style]}
+      style={() => [styles.root, disabled && styles.disabled, style]}
     >
       {({ pressed }) => (
         <>

@@ -31,7 +31,7 @@ export interface ActionSheetProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim } = sys;
+const { colorRoles: cr } = sys;
 
 export function ActionSheet({
   visible,
