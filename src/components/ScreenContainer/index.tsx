@@ -21,8 +21,7 @@ export function ScreenContainer({
       style={[
         {
           flex: 1,
-          backgroundColor:
-            cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+          backgroundColor: cr.surface.surface.sysSurface,
         },
         style,
       ]}
