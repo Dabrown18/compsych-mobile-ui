@@ -10,14 +10,25 @@ export interface ScreenContainerProps extends ScrollViewProps {
   children?: React.ReactNode;
 }
 
-export function ScreenContainer({
-  children,
-  style,
-  contentContainerStyle,
-  ...rest
-}: ScreenContainerProps) {
+/**
+ * Scrollable screen wrapper that applies the default surface background and
+ * standard padding. The ref is forwarded to the underlying ScrollView so
+ * callers can imperatively scroll, measure, or attach scroll listeners.
+ *
+ * @example
+ * const scrollRef = useRef<ScrollView>(null);
+ * <ScreenContainer ref={scrollRef}>...</ScreenContainer>
+ */
+export const ScreenContainer = React.forwardRef<
+  ScrollView,
+  ScreenContainerProps
+>(function ScreenContainer(
+  { children, style, contentContainerStyle, ...rest },
+  ref,
+) {
   return (
     <ScrollView
+      ref={ref}
       style={[
         {
           flex: 1,
@@ -37,4 +48,4 @@ export function ScreenContainer({
       {children}
     </ScrollView>
   );
-}
+});

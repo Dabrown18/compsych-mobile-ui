@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { createRef } from 'react';
 
-import { Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 
 import { render } from '@testing-library/react-native';
 
@@ -25,5 +25,15 @@ describe('ScreenContainer', () => {
     );
     expect(getByText('First')).toBeTruthy();
     expect(getByText('Second')).toBeTruthy();
+  });
+
+  it('forwards ref to the underlying ScrollView', () => {
+    const ref = createRef<ScrollView>();
+    render(
+      <ScreenContainer ref={ref}>
+        <Text>content</Text>
+      </ScreenContainer>,
+    );
+    expect(ref.current).not.toBeNull();
   });
 });
