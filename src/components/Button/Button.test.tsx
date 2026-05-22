@@ -22,13 +22,19 @@ describe('Button', () => {
     expect(getByRole('button').props.accessibilityState.disabled).toBe(true);
   });
 
-  it.each(['filled', 'tonal', 'outlined', 'elevated', 'text'] as const)(
-    'renders variant "%s" without crashing',
-    (variant) => {
-      const { getByText } = render(<Button label="Button" variant={variant} />);
-      expect(getByText('Button')).toBeTruthy();
-    },
-  );
+  it.each([
+    'filled',
+    'tonal',
+    'outlined',
+    'elevated',
+    'text',
+    'danger',
+    'danger-outlined',
+    'warning',
+  ] as const)('renders variant "%s" without crashing', (variant) => {
+    const { getByText } = render(<Button label="Button" variant={variant} />);
+    expect(getByText('Button')).toBeTruthy();
+  });
 
   it.each(['sm', 'md', 'lg', 'xl'] as const)(
     'renders size "%s" without crashing',

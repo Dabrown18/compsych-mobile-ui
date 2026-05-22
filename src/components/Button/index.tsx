@@ -18,7 +18,8 @@ export type ButtonVariant =
   | 'elevated'
   | 'text'
   | 'danger'
-  | 'danger-outlined';
+  | 'danger-outlined'
+  | 'warning';
 
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -84,6 +85,12 @@ const VARIANT_TOKENS: Record<
     label: cr.error.sysError,
     borderColor: cr.error.sysErrorContainer,
     borderWidth: dim.borderWidth.sysStrokeThin,
+  },
+  warning: {
+    bg: cr.custom.warning.sysWarning,
+    label: cr.custom.warning.sysOnWarning,
+    borderColor: 'transparent',
+    borderWidth: 0,
   },
 };
 
