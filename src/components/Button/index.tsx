@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   ActivityIndicator,
@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type ButtonVariant =
   | 'filled'
@@ -37,91 +37,6 @@ export interface ButtonProps extends Omit<
   trailingIcon?: React.ReactNode;
 }
 
-const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
-
-const VARIANT_TOKENS: Record<
-  ButtonVariant,
-  { bg: string; label: string; borderColor: string; borderWidth: number }
-> = {
-  filled: {
-    bg: cr.accent.primary.sysPrimary,
-    label: cr.accent.primary.sysOnPrimary,
-    borderColor: 'transparent',
-    borderWidth: 0,
-  },
-  tonal: {
-    bg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
-    label: cr.addOn.primaryFixed.sysOnPrimaryFixed,
-    borderColor: 'transparent',
-    borderWidth: 0,
-  },
-  outlined: {
-    bg: 'transparent',
-    label: cr.surface.surface.sysOnSurface,
-    borderColor: cr.outline.sysOutline,
-    borderWidth: dim.borderWidth.sysStrokeThin,
-  },
-  elevated: {
-    bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-    label: cr.surface.surface.sysOnSurface,
-    borderColor: 'transparent',
-    borderWidth: 0,
-  },
-  text: {
-    bg: 'transparent',
-    label: cr.surface.surface.sysOnSurface,
-    borderColor: 'transparent',
-    borderWidth: 0,
-  },
-  danger: {
-    bg: cr.error.sysError,
-    label: cr.error.sysOnError,
-    borderColor: 'transparent',
-    borderWidth: 0,
-  },
-  'danger-outlined': {
-    bg: 'transparent',
-    label: cr.error.sysError,
-    borderColor: cr.error.sysErrorContainer,
-    borderWidth: dim.borderWidth.sysStrokeThin,
-  },
-};
-
-const SIZE_TOKENS = {
-  sm: {
-    height: 32,
-    paddingH: dim.spacing.padding.sysPadding12,
-    paddingV: dim.spacing.padding.sysPadding4,
-    fontSize: ts.labelSmall.sysFontSize,
-    lineHeight: ts.labelSmall.sysLineHeight,
-    iconSize: sys.iconography.sysSizeXs,
-  },
-  md: {
-    height: 40,
-    paddingH: dim.spacing.padding.sysPadding16,
-    paddingV: dim.spacing.padding.sysPadding8,
-    fontSize: ts.labelMedium.sysFontSize,
-    lineHeight: ts.labelMedium.sysLineHeight,
-    iconSize: sys.iconography.sysSizeXs,
-  },
-  lg: {
-    height: 48,
-    paddingH: dim.spacing.padding.sysPadding24,
-    paddingV: dim.spacing.padding.sysPadding12,
-    fontSize: ts.labelLarge.sysFontSize,
-    lineHeight: ts.labelLarge.sysLineHeight,
-    iconSize: sys.iconography.sysSizeSm,
-  },
-  xl: {
-    height: 56,
-    paddingH: dim.spacing.padding.sysPadding32,
-    paddingV: dim.spacing.padding.sysPadding16,
-    fontSize: ts.titleSmall.sysFontSize,
-    lineHeight: ts.titleSmall.sysLineHeight,
-    iconSize: sys.iconography.sysSizeMd,
-  },
-};
-
 export function Button({
   variant = 'filled',
   size = 'md',
@@ -136,6 +51,103 @@ export function Button({
   accessibilityLabel,
   ...rest
 }: ButtonProps) {
+  const {
+    colorRoles: cr,
+    dimensions: dim,
+    typeScale: ts,
+    iconography: ico,
+  } = useTheme();
+
+  const VARIANT_TOKENS = useMemo(
+    () =>
+      ({
+        filled: {
+          bg: cr.accent.primary.sysPrimary,
+          label: cr.accent.primary.sysOnPrimary,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
+        tonal: {
+          bg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
+          label: cr.addOn.primaryFixed.sysOnPrimaryFixed,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
+        outlined: {
+          bg: 'transparent',
+          label: cr.surface.surface.sysOnSurface,
+          borderColor: cr.outline.sysOutline,
+          borderWidth: dim.borderWidth.sysStrokeThin,
+        },
+        elevated: {
+          bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+          label: cr.surface.surface.sysOnSurface,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
+        text: {
+          bg: 'transparent',
+          label: cr.surface.surface.sysOnSurface,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
+        danger: {
+          bg: cr.error.sysError,
+          label: cr.error.sysOnError,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
+        'danger-outlined': {
+          bg: 'transparent',
+          label: cr.error.sysError,
+          borderColor: cr.error.sysErrorContainer,
+          borderWidth: dim.borderWidth.sysStrokeThin,
+        },
+      }) as Record<
+        ButtonVariant,
+        { bg: string; label: string; borderColor: string; borderWidth: number }
+      >,
+    [cr, dim],
+  );
+
+  const SIZE_TOKENS = useMemo(
+    () => ({
+      sm: {
+        height: 32,
+        paddingH: dim.spacing.padding.sysPadding12,
+        paddingV: dim.spacing.padding.sysPadding4,
+        fontSize: ts.labelSmall.sysFontSize,
+        lineHeight: ts.labelSmall.sysLineHeight,
+        iconSize: ico.sysSizeXs,
+      },
+      md: {
+        height: 40,
+        paddingH: dim.spacing.padding.sysPadding16,
+        paddingV: dim.spacing.padding.sysPadding8,
+        fontSize: ts.labelMedium.sysFontSize,
+        lineHeight: ts.labelMedium.sysLineHeight,
+        iconSize: ico.sysSizeXs,
+      },
+      lg: {
+        height: 48,
+        paddingH: dim.spacing.padding.sysPadding24,
+        paddingV: dim.spacing.padding.sysPadding12,
+        fontSize: ts.labelLarge.sysFontSize,
+        lineHeight: ts.labelLarge.sysLineHeight,
+        iconSize: ico.sysSizeSm,
+      },
+      xl: {
+        height: 56,
+        paddingH: dim.spacing.padding.sysPadding32,
+        paddingV: dim.spacing.padding.sysPadding16,
+        fontSize: ts.titleSmall.sysFontSize,
+        lineHeight: ts.titleSmall.sysLineHeight,
+        iconSize: ico.sysSizeMd,
+      },
+    }),
+    [dim, ts, ico],
+  );
+
   const v = VARIANT_TOKENS[variant];
   const s = SIZE_TOKENS[size];
   const isDisabled = disabled || loading;

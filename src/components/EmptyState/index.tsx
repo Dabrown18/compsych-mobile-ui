@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Pressable,
@@ -11,7 +11,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type EmptyStateStyle = 'icon' | 'illustration';
 export type EmptyStateViewport = 'desktop' | 'mobile';
@@ -37,45 +37,6 @@ export interface EmptyStateProps {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
-
-// ── Size tokens by viewport ───────────────────────────────────────────────────
-
-const VIEWPORT = {
-  desktop: {
-    iconCircle: 60,
-    iconSize: 32,
-    titleFontSize: ts.titleMedium.sysFontSize,
-    titleLineHeight: ts.titleMedium.sysLineHeight,
-    descFontSize: ts.bodyMedium.sysFontSize,
-    descLineHeight: ts.bodyMedium.sysLineHeight,
-    contentGap: dim.spacing.padding.sysPadding24,
-    btnHeight: 40,
-    btnPaddingL: dim.spacing.padding.sysPadding16,
-    btnPaddingR: dim.spacing.padding.sysPadding24,
-    btnGap: dim.spacing.padding.sysPadding8,
-    btnFontSize: ts.labelMedium.sysFontSize,
-    btnLineHeight: ts.labelMedium.sysLineHeight,
-    btnTracking: ts.labelMedium.sysTracking,
-  },
-  mobile: {
-    iconCircle: 48,
-    iconSize: 24,
-    titleFontSize: ts.labelLarge.sysFontSize,
-    titleLineHeight: ts.labelLarge.sysLineHeight,
-    descFontSize: ts.bodySmall.sysFontSize,
-    descLineHeight: ts.bodySmall.sysLineHeight,
-    contentGap: dim.spacing.padding.sysPadding16,
-    btnHeight: 32,
-    btnPaddingL: dim.spacing.padding.sysPadding12,
-    btnPaddingR: dim.spacing.padding.sysPadding16,
-    btnGap: dim.spacing.padding.sysPadding4,
-    btnFontSize: ts.labelSmall.sysFontSize,
-    btnLineHeight: ts.labelSmall.sysLineHeight,
-    btnTracking: ts.labelSmall.sysTracking,
-  },
-} as const;
-
 // ── Illustration ──────────────────────────────────────────────────────────────
 // A pure-View recreation of the Figma "collage of cards" illustration.
 // Built at 280×157 px (scaled from the Figma 398×224 desktop version).
@@ -94,7 +55,10 @@ function scaledPos(left: number, top: number) {
   };
 }
 
-function EmptyIllustration() {
+type ColorRoles = ReturnType<typeof useTheme>['colorRoles'];
+type Dimensions = ReturnType<typeof useTheme>['dimensions'];
+
+function EmptyIllustration({ cr, dim }: { cr: ColorRoles; dim: Dimensions }) {
   // Purely decorative — hidden from accessibility tree
   // Central active card
   const central = scaledPos(119, 63);
@@ -125,6 +89,8 @@ function EmptyIllustration() {
               top: pos.top,
               width: CARD_W,
               height: CARD_H,
+              borderWidth: dim.borderWidth.sysStrokeThin,
+              borderRadius: dim.borderRadius.sysRadiusMd,
               borderColor: cr.outline.sysOutlineVariant,
               backgroundColor:
                 cr.surface.surfaceContainer.sysSurfaceContainerLowest,
@@ -144,9 +110,12 @@ function EmptyIllustration() {
             top: central.top,
             width: CARD_W,
             height: CARD_H,
+            borderWidth: dim.borderWidth.sysStrokeThin,
+            borderRadius: dim.borderRadius.sysRadiusMd,
             borderColor: cr.accent.primary.sysPrimary,
             backgroundColor:
               cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+            shadowColor: cr.accent.primary.sysPrimary,
           },
         ]}
       >
@@ -158,6 +127,7 @@ function EmptyIllustration() {
               top: Math.round(15 * SCALE),
               left: Math.round(15 * SCALE),
               width: Math.round(32 * SCALE),
+              backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer,
             },
           ]}
         />
@@ -168,6 +138,7 @@ function EmptyIllustration() {
               top: Math.round(51 * SCALE),
               left: Math.round(15 * SCALE),
               width: Math.round(96 * SCALE),
+              backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer,
             },
           ]}
         />
@@ -178,6 +149,7 @@ function EmptyIllustration() {
               top: Math.round(63 * SCALE),
               left: Math.round(15 * SCALE),
               width: Math.round(122 * SCALE),
+              backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer,
             },
           ]}
         />
@@ -200,14 +172,65 @@ export function EmptyState({
   showAction,
   containerStyle,
 }: EmptyStateProps) {
-  const vp = VIEWPORT[viewport];
+  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
+
+  const viewportTokens = useMemo(
+    () =>
+      ({
+        desktop: {
+          iconCircle: 60,
+          iconSize: 32,
+          titleFontSize: ts.titleMedium.sysFontSize,
+          titleLineHeight: ts.titleMedium.sysLineHeight,
+          descFontSize: ts.bodyMedium.sysFontSize,
+          descLineHeight: ts.bodyMedium.sysLineHeight,
+          contentGap: dim.spacing.padding.sysPadding24,
+          btnHeight: 40,
+          btnPaddingL: dim.spacing.padding.sysPadding16,
+          btnPaddingR: dim.spacing.padding.sysPadding24,
+          btnGap: dim.spacing.padding.sysPadding8,
+          btnFontSize: ts.labelMedium.sysFontSize,
+          btnLineHeight: ts.labelMedium.sysLineHeight,
+          btnTracking: ts.labelMedium.sysTracking,
+        },
+        mobile: {
+          iconCircle: 48,
+          iconSize: 24,
+          titleFontSize: ts.labelLarge.sysFontSize,
+          titleLineHeight: ts.labelLarge.sysLineHeight,
+          descFontSize: ts.bodySmall.sysFontSize,
+          descLineHeight: ts.bodySmall.sysLineHeight,
+          contentGap: dim.spacing.padding.sysPadding16,
+          btnHeight: 32,
+          btnPaddingL: dim.spacing.padding.sysPadding12,
+          btnPaddingR: dim.spacing.padding.sysPadding16,
+          btnGap: dim.spacing.padding.sysPadding4,
+          btnFontSize: ts.labelSmall.sysFontSize,
+          btnLineHeight: ts.labelSmall.sysLineHeight,
+          btnTracking: ts.labelSmall.sysTracking,
+        },
+      }) as const,
+    [dim, ts],
+  );
+
+  const vp = viewportTokens[viewport];
   const hasAction = showAction !== undefined ? showAction : !!actionLabel;
 
   return (
-    <View style={[styles.root, containerStyle]}>
+    <View
+      style={[
+        styles.root,
+        {
+          padding: dim.spacing.padding.sysPadding24,
+          borderRadius: dim.borderRadius.sysRadiusLg,
+          gap: dim.spacing.padding.sysPadding24,
+        },
+        containerStyle,
+      ]}
+    >
       {/* ── Graphic ───────────────────────────────────────────────────────── */}
       {style === 'illustration' ? (
-        <EmptyIllustration />
+        <EmptyIllustration cr={cr} dim={dim} />
       ) : (
         <View
           style={[
@@ -233,7 +256,9 @@ export function EmptyState({
       {/* ── Content ───────────────────────────────────────────────────────── */}
       <View style={[styles.content, { gap: vp.contentGap }]}>
         {/* Text block */}
-        <View style={styles.textBlock}>
+        <View
+          style={[styles.textBlock, { gap: dim.spacing.padding.sysPadding4 }]}
+        >
           <Text
             style={{
               color: cr.surface.surface.sysOnSurface,
@@ -276,6 +301,7 @@ export function EmptyState({
                 paddingLeft: vp.btnPaddingL,
                 paddingRight: vp.btnPaddingR,
                 gap: vp.btnGap,
+                borderWidth: dim.borderWidth.sysStrokeThin,
                 borderColor: cr.outline.sysOutline,
               },
               pressed && { opacity: 0.76 },
@@ -307,10 +333,7 @@ export function EmptyState({
 
 const styles = StyleSheet.create({
   root: {
-    padding: dim.spacing.padding.sysPadding24,
-    borderRadius: dim.borderRadius.sysRadiusLg,
     alignItems: 'center',
-    gap: dim.spacing.padding.sysPadding24,
     alignSelf: 'center',
   },
 
@@ -329,7 +352,6 @@ const styles = StyleSheet.create({
   },
   textBlock: {
     alignSelf: 'stretch',
-    gap: dim.spacing.padding.sysPadding4,
     alignItems: 'center',
   },
 
@@ -338,7 +360,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: dim.borderWidth.sysStrokeThin,
     borderRadius: 9999,
     overflow: 'hidden',
   },
@@ -350,8 +371,6 @@ const styles = StyleSheet.create({
   },
   card: {
     position: 'absolute',
-    borderWidth: dim.borderWidth.sysStrokeThin,
-    borderRadius: dim.borderRadius.sysRadiusMd,
     overflow: 'hidden',
   },
   cardFaded: {
@@ -359,7 +378,6 @@ const styles = StyleSheet.create({
   },
   cardActive: {
     // Active ring: sysPrimary08 spread shadow
-    shadowColor: cr.accent.primary.sysPrimary,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.08,
     shadowRadius: 0,
@@ -369,6 +387,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: Math.round(6 * SCALE),
     borderRadius: 9999,
-    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer,
   },
 });
