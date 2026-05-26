@@ -2,9 +2,7 @@ import React from 'react';
 
 import { ScrollView, type ScrollViewProps } from 'react-native';
 
-import { sys } from '../../tokens';
-
-const { dimensions: dim, colorRoles: cr } = sys;
+import { useTheme } from '../../theme';
 
 export interface ScreenContainerProps extends ScrollViewProps {
   children?: React.ReactNode;
@@ -16,6 +14,8 @@ export function ScreenContainer({
   contentContainerStyle,
   ...rest
 }: ScreenContainerProps) {
+  const { dimensions: dim, colorRoles: cr } = useTheme();
+
   return (
     <ScrollView
       style={[
