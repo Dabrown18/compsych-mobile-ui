@@ -11,7 +11,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 
 export type AlertVariant =
   | 'default'
@@ -43,6 +43,8 @@ export interface AlertProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
+
 // ── Variant color map ────────────────────────────────────────────────────────
 
 type VariantColors = {
@@ -53,12 +55,7 @@ type VariantColors = {
   actionBorder: boolean;
 };
 
-type ColorRoles = ReturnType<typeof useTheme>['colorRoles'];
-
-function getVariantColors(
-  variant: AlertVariant,
-  cr: ColorRoles,
-): VariantColors {
+function getVariantColors(variant: AlertVariant): VariantColors {
   switch (variant) {
     case 'default':
       return {
@@ -146,8 +143,7 @@ export function Alert({
   onDismiss,
   style,
 }: AlertProps) {
-  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
-  const c = getVariantColors(variant, cr);
+  const c = getVariantColors(variant);
   const isLg = size === 'lg';
 
   const resolvedIcon =
@@ -250,14 +246,7 @@ export function Alert({
                 accessibilityLabel={actionLabel}
                 style={({ pressed }) => [
                   styles.actionLg,
-                  {
-                    backgroundColor:
-                      cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-                  },
-                  c.actionBorder && [
-                    styles.actionLgBorderBase,
-                    { borderColor: cr.outline.sysOutline },
-                  ],
+                  c.actionBorder && styles.actionLgBorder,
                   pressed && { opacity: 0.84 },
                 ]}
               >
@@ -343,11 +332,12 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
   },
-  // lg action button — elevated pill (backgroundColor and borderColor applied inline)
+  // lg action button — elevated pill
   actionLg: {
     height: 40,
     paddingHorizontal: 24,
     borderRadius: 9999,
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
@@ -357,8 +347,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 1,
   },
-  actionLgBorderBase: {
+  actionLgBorder: {
     borderWidth: 1,
+    borderColor: cr.outline.sysOutline,
   },
   // sm action button — text only
   actionSm: {

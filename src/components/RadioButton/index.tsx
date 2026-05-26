@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Pressable,
@@ -9,7 +9,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 
 export type RadioButtonSize = 'sm' | 'md';
 
@@ -25,6 +25,28 @@ export interface RadioButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
+
+const SIZE_TOKENS = {
+  sm: {
+    // Container (overall hit area)
+    hitArea: 36,
+    // Visible circle
+    circle: 20,
+    // Inner dot when selected
+    dot: 8,
+    fontSize: ts.bodySmall.sysFontSize,
+    lineHeight: ts.bodySmall.sysLineHeight,
+  },
+  md: {
+    hitArea: 40,
+    circle: 24,
+    dot: 10,
+    fontSize: ts.bodyMedium.sysFontSize,
+    lineHeight: ts.bodyMedium.sysLineHeight,
+  },
+};
+
 export function RadioButton({
   checked: checkedProp,
   defaultChecked = false,
@@ -36,7 +58,6 @@ export function RadioButton({
   invalid = false,
   style,
 }: RadioButtonProps) {
-  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
   const [internalChecked, setInternalChecked] =
     useState<boolean>(defaultChecked);
   const isControlled = checkedProp !== undefined;
@@ -44,30 +65,7 @@ export function RadioButton({
     ? (checkedProp as boolean)
     : internalChecked;
 
-  const sizeTokens = useMemo(
-    () => ({
-      sm: {
-        // Container (overall hit area)
-        hitArea: 36,
-        // Visible circle
-        circle: 20,
-        // Inner dot when selected
-        dot: 8,
-        fontSize: ts.bodySmall.sysFontSize,
-        lineHeight: ts.bodySmall.sysLineHeight,
-      },
-      md: {
-        hitArea: 40,
-        circle: 24,
-        dot: 10,
-        fontSize: ts.bodyMedium.sysFontSize,
-        lineHeight: ts.bodyMedium.sysLineHeight,
-      },
-    }),
-    [ts],
-  );
-
-  const s = sizeTokens[size];
+  const s = SIZE_TOKENS[size];
 
   function handlePress() {
     if (disabled) return;

@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   LayoutChangeEvent,
@@ -16,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 
 export interface SliderProps {
   /** Controlled value */
@@ -39,6 +33,8 @@ export interface SliderProps {
   accessibilityLabel?: string;
   style?: StyleProp<ViewStyle>;
 }
+
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
 
 // ── Layout constants ──────────────────────────────────────────────────────────
 const TRACK_HEIGHT = 8;
@@ -71,8 +67,6 @@ export function Slider({
   accessibilityLabel,
   style,
 }: SliderProps) {
-  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
-
   const isControlled = valueProp !== undefined;
   const [internalValue, setInternalValue] = useState<number>(
     defaultValue ?? min,
@@ -187,69 +181,10 @@ export function Slider({
         elevation: 1,
       };
 
-  // ── Token-derived styles ──────────────────────────────────────────────────────
-  const tokenStyles = useMemo(
-    () => ({
-      root: {
-        gap: dim.spacing.padding.sysPadding8,
-        alignSelf: 'stretch' as const,
-      },
-      label: {
-        color: cr.surface.surface.sysOnSurface,
-        fontSize: ts.labelMedium.sysFontSize,
-        lineHeight: ts.labelMedium.sysLineHeight,
-        letterSpacing: ts.labelMedium.sysTracking,
-        fontWeight: '400' as const,
-        includeFontPadding: false,
-      },
-      row: {
-        flexDirection: 'row' as const,
-        alignItems: 'center' as const,
-        gap: dim.spacing.padding.sysPadding8,
-      },
-      rangeLabel: {
-        color: cr.surface.surface.sysOnSurfaceVariant,
-        fontSize: ts.bodySmall.sysFontSize,
-        lineHeight: ts.bodySmall.sysLineHeight,
-        fontWeight: '400' as const,
-        includeFontPadding: false,
-        flexShrink: 0,
-      },
-      trackBg: {
-        position: 'absolute' as const,
-        top: TRACK_TOP,
-        left: 0,
-        right: 0,
-        height: TRACK_HEIGHT,
-        borderRadius: 9999,
-        backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerHighest,
-      },
-      trackFill: {
-        position: 'absolute' as const,
-        top: TRACK_TOP,
-        left: 0,
-        height: TRACK_HEIGHT,
-        borderRadius: 9999,
-        backgroundColor: cr.accent.primary.sysPrimary,
-      },
-      thumb: {
-        position: 'absolute' as const,
-        top: THUMB_TOP,
-        width: THUMB_SIZE,
-        height: THUMB_SIZE,
-        borderRadius: 9999,
-        backgroundColor: cr.surface.surface.sysSurface,
-        alignItems: 'center' as const,
-        justifyContent: 'center' as const,
-      },
-    }),
-    [cr, dim, ts],
-  );
-
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
     <View
-      style={[tokenStyles.root, style]}
+      style={[styles.root, style]}
       accessible
       accessibilityRole="adjustable"
       accessibilityLabel={accessibilityLabel ?? label}
@@ -267,12 +202,12 @@ export function Slider({
       onBlur={() => setFocused(false)}
     >
       {/* ── Optional label ────────────────────────────────────────────────── */}
-      {label && <Text style={tokenStyles.label}>{label}</Text>}
+      {label && <Text style={styles.label}>{label}</Text>}
 
       {/* ── Slider row ────────────────────────────────────────────────────── */}
-      <View style={[tokenStyles.row, disabled && styles.rowDisabled]}>
+      <View style={[styles.row, disabled && styles.rowDisabled]}>
         {/* Min label */}
-        {showMinMax && <Text style={tokenStyles.rangeLabel}>{min}</Text>}
+        {showMinMax && <Text style={styles.rangeLabel}>{min}</Text>}
 
         {/* ── Track container — the gesture zone ──────────────────────────── */}
         <View
@@ -281,13 +216,13 @@ export function Slider({
           {...panResponder.panHandlers}
         >
           {/* Track background (unfilled — full width) */}
-          <View style={tokenStyles.trackBg} />
+          <View style={styles.trackBg} />
 
           {/* Track fill (filled — up to thumb center) */}
-          <View style={[tokenStyles.trackFill, { width: fillWidth }]} />
+          <View style={[styles.trackFill, { width: fillWidth }]} />
 
           {/* ── Thumb ─────────────────────────────────────────────────────── */}
-          <View style={[tokenStyles.thumb, { left: thumbLeft }, thumbShadow]}>
+          <View style={[styles.thumb, { left: thumbLeft }, thumbShadow]}>
             {/* Focus ring — 1px outside thumb (26×26 centered over 24×24) */}
             {focused && (
               <View
@@ -305,15 +240,46 @@ export function Slider({
         </View>
 
         {/* Max label */}
-        {showMinMax && <Text style={tokenStyles.rangeLabel}>{max}</Text>}
+        {showMinMax && <Text style={styles.rangeLabel}>{max}</Text>}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    gap: dim.spacing.padding.sysPadding8,
+    alignSelf: 'stretch',
+  },
+
+  // ── Label ─────────────────────────────────────────────────────────────────
+  label: {
+    color: cr.surface.surface.sysOnSurface,
+    fontSize: ts.labelMedium.sysFontSize,
+    lineHeight: ts.labelMedium.sysLineHeight,
+    letterSpacing: ts.labelMedium.sysTracking,
+    fontWeight: '400',
+    includeFontPadding: false,
+  },
+
+  // ── Row ───────────────────────────────────────────────────────────────────
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: dim.spacing.padding.sysPadding8,
+  },
   rowDisabled: {
     opacity: 0.48,
+  },
+
+  // ── Range labels ──────────────────────────────────────────────────────────
+  rangeLabel: {
+    color: cr.surface.surface.sysOnSurfaceVariant,
+    fontSize: ts.bodySmall.sysFontSize,
+    lineHeight: ts.bodySmall.sysLineHeight,
+    fontWeight: '400',
+    includeFontPadding: false,
+    flexShrink: 0,
   },
 
   // ── Track container ───────────────────────────────────────────────────────
@@ -323,6 +289,40 @@ const styles = StyleSheet.create({
     // Overflow visible so the thumb (which extends ±12px from track centre)
     // and its focus ring are not clipped at the extremes.
     overflow: 'visible',
+  },
+
+  // ── Track background ──────────────────────────────────────────────────────
+  trackBg: {
+    position: 'absolute',
+    top: TRACK_TOP,
+    left: 0,
+    right: 0,
+    height: TRACK_HEIGHT,
+    borderRadius: 9999,
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerHighest,
+  },
+
+  // ── Track fill ────────────────────────────────────────────────────────────
+  trackFill: {
+    position: 'absolute',
+    top: TRACK_TOP,
+    left: 0,
+    height: TRACK_HEIGHT,
+    borderRadius: 9999,
+    backgroundColor: cr.accent.primary.sysPrimary,
+  },
+
+  // ── Thumb ─────────────────────────────────────────────────────────────────
+  thumb: {
+    position: 'absolute',
+    top: THUMB_TOP,
+    width: THUMB_SIZE,
+    height: THUMB_SIZE,
+    borderRadius: 9999,
+    backgroundColor: cr.surface.surface.sysSurface,
+    // Focus ring is absolutely positioned inside the thumb
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   // ── Focus ring: 1px outside the 24×24 thumb → 26×26 ─────────────────────

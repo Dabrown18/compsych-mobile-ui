@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
+
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ProgressBar — standalone horizontal fill bar (0–100)
@@ -14,7 +16,6 @@ export interface ProgressBarProps {
 }
 
 export function ProgressBar({ progress }: ProgressBarProps) {
-  const { colorRoles: cr } = useTheme();
   const clamped = Math.min(100, Math.max(0, progress));
 
   return (
@@ -22,25 +23,9 @@ export function ProgressBar({ progress }: ProgressBarProps) {
       accessible
       accessibilityRole="progressbar"
       accessibilityValue={{ min: 0, max: 100, now: clamped }}
-      style={[
-        styles.track,
-        {
-          backgroundColor:
-            cr.surface.surfaceContainer.sysSurfaceContainerHighest,
-        },
-      ]}
+      style={styles.track}
     >
-      {clamped > 0 && (
-        <View
-          style={[
-            styles.fill,
-            {
-              width: `${clamped}%`,
-              backgroundColor: cr.custom.success.sysSuccess,
-            },
-          ]}
-        />
-      )}
+      {clamped > 0 && <View style={[styles.fill, { width: `${clamped}%` }]} />}
     </View>
   );
 }
@@ -71,6 +56,23 @@ export interface ProgressTrackerProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const SIZE_TOKENS = {
+  sm: {
+    fontSize: ts.labelSmall.sysFontSize,
+    lineHeight: ts.labelSmall.sysLineHeight,
+    letterSpacing: ts.labelSmall.sysTracking,
+    labelBarGap: dim.spacing.padding.sysPadding8,
+    stepGap: dim.spacing.padding.sysPadding4,
+  },
+  lg: {
+    fontSize: ts.labelMedium.sysFontSize,
+    lineHeight: ts.labelMedium.sysLineHeight,
+    letterSpacing: ts.labelMedium.sysTracking,
+    labelBarGap: dim.spacing.padding.sysPadding16,
+    stepGap: dim.spacing.padding.sysPadding8,
+  },
+};
+
 function stepProgress(state: StepState): number {
   return state === 'pending' ? 0 : 100;
 }
@@ -81,29 +83,7 @@ export function ProgressTracker({
   showLabels = false,
   style,
 }: ProgressTrackerProps) {
-  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
-
-  const sizeTokens = useMemo(
-    () => ({
-      sm: {
-        fontSize: ts.labelSmall.sysFontSize,
-        lineHeight: ts.labelSmall.sysLineHeight,
-        letterSpacing: ts.labelSmall.sysTracking,
-        labelBarGap: dim.spacing.padding.sysPadding8,
-        stepGap: dim.spacing.padding.sysPadding4,
-      },
-      lg: {
-        fontSize: ts.labelMedium.sysFontSize,
-        lineHeight: ts.labelMedium.sysLineHeight,
-        letterSpacing: ts.labelMedium.sysTracking,
-        labelBarGap: dim.spacing.padding.sysPadding16,
-        stepGap: dim.spacing.padding.sysPadding8,
-      },
-    }),
-    [ts, dim],
-  );
-
-  const s = sizeTokens[size];
+  const s = SIZE_TOKENS[size];
 
   return (
     <View style={[styles.row, { gap: s.stepGap }, style]}>
@@ -148,6 +128,7 @@ const styles = StyleSheet.create({
     height: 4,
     width: '100%',
     borderRadius: 9999,
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerHighest,
     overflow: 'hidden',
   },
   fill: {
@@ -156,6 +137,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     borderRadius: 9999,
+    backgroundColor: cr.custom.success.sysSuccess,
   },
   // ProgressTracker
   row: {

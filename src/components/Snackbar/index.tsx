@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import {
   Animated,
@@ -11,7 +11,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
 export type SnackbarVariant = 'filled' | 'outlined';
@@ -26,6 +26,8 @@ export interface SnackbarProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim } = sys;
+
 export function Snackbar({
   visible,
   message,
@@ -35,8 +37,6 @@ export function Snackbar({
   onClose,
   style,
 }: SnackbarProps) {
-  const { colorRoles: cr, dimensions: dim } = useTheme();
-
   const translateY = useRef(new Animated.Value(100)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -73,59 +73,9 @@ export function Snackbar({
 
   const isFilled = variant === 'filled';
 
-  const tokenStyles = useMemo(
-    () => ({
-      wrapper: {
-        position: 'absolute' as const,
-        bottom: dim.spacing.padding.sysPadding24,
-        left: dim.spacing.padding.sysPadding16,
-        right: dim.spacing.padding.sysPadding16,
-        alignItems: 'center' as const,
-      },
-      container: {
-        flexDirection: 'row' as const,
-        alignItems: 'center' as const,
-        paddingVertical: dim.spacing.padding.sysPadding12,
-        paddingHorizontal: dim.spacing.padding.sysPadding16,
-        borderRadius: dim.borderRadius.sysRadiusMd,
-        gap: dim.spacing.padding.sysPadding16,
-        width: '100%' as const,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.12,
-        shadowRadius: 12,
-        elevation: 6,
-      },
-      containerFilled: {
-        backgroundColor: cr.accent.primary.sysPrimaryContainer,
-      },
-      containerOutlined: {
-        backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-        borderWidth: dim.borderWidth.sysStrokeThin,
-        borderColor: cr.outline.sysOutline,
-      },
-      actionSlot: {
-        flexDirection: 'row' as const,
-        alignItems: 'center' as const,
-        gap: dim.spacing.padding.sysPadding12,
-      },
-      actionButton: {
-        paddingVertical: dim.spacing.padding.sysPadding4,
-      },
-      closeButton: {
-        width: 24,
-        height: 24,
-        borderRadius: dim.borderRadius.sysRadiusFull,
-        alignItems: 'center' as const,
-        justifyContent: 'center' as const,
-      },
-    }),
-    [cr, dim],
-  );
-
-  const containerVariantStyle = isFilled
-    ? tokenStyles.containerFilled
-    : tokenStyles.containerOutlined;
+  const containerStyle = isFilled
+    ? styles.containerFilled
+    : styles.containerOutlined;
   const labelColor = isFilled
     ? cr.accent.primary.sysOnPrimary
     : cr.surface.surface.sysOnSurface;
@@ -141,14 +91,10 @@ export function Snackbar({
 
   return (
     <Animated.View
-      style={[
-        tokenStyles.wrapper,
-        { opacity, transform: [{ translateY }] },
-        style,
-      ]}
+      style={[styles.wrapper, { opacity, transform: [{ translateY }] }, style]}
       pointerEvents={visible ? 'box-none' : 'none'}
     >
-      <View style={[tokenStyles.container, containerVariantStyle]}>
+      <View style={[styles.container, containerStyle]}>
         <BodyText
           variant="medium"
           color={labelColor}
@@ -158,14 +104,14 @@ export function Snackbar({
           {message}
         </BodyText>
 
-        <View style={tokenStyles.actionSlot}>
+        <View style={styles.actionSlot}>
           {actionLabel && onAction && (
             <Pressable
               onPress={onAction}
               accessibilityRole="button"
               accessibilityLabel={actionLabel}
               style={({ pressed }) => [
-                tokenStyles.actionButton,
+                styles.actionButton,
                 pressed && styles.pressed,
               ]}
             >
@@ -181,7 +127,7 @@ export function Snackbar({
               accessibilityRole="button"
               accessibilityLabel="Dismiss"
               style={({ pressed }) => [
-                tokenStyles.closeButton,
+                styles.closeButton,
                 { backgroundColor: closeBg },
                 pressed && styles.pressed,
               ]}
@@ -196,8 +142,52 @@ export function Snackbar({
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    position: 'absolute',
+    bottom: dim.spacing.padding.sysPadding24,
+    left: dim.spacing.padding.sysPadding16,
+    right: dim.spacing.padding.sysPadding16,
+    alignItems: 'center',
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: dim.spacing.padding.sysPadding12,
+    paddingHorizontal: dim.spacing.padding.sysPadding16,
+    borderRadius: dim.borderRadius.sysRadiusMd,
+    gap: dim.spacing.padding.sysPadding16,
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  containerFilled: {
+    backgroundColor: cr.accent.primary.sysPrimaryContainer,
+  },
+  containerOutlined: {
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+    borderWidth: dim.borderWidth.sysStrokeThin,
+    borderColor: cr.outline.sysOutline,
+  },
   label: {
     flex: 1,
+  },
+  actionSlot: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: dim.spacing.padding.sysPadding12,
+  },
+  actionButton: {
+    paddingVertical: dim.spacing.padding.sysPadding4,
+  },
+  closeButton: {
+    width: 24,
+    height: 24,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pressed: {
     opacity: 0.7,

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import {
   Pressable,
@@ -11,7 +11,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 
 export type ChipSize = 'sm' | 'md' | 'lg' | 'xl';
 export type ChipUsage =
@@ -35,7 +35,74 @@ export interface ChipProps {
   style?: StyleProp<ViewStyle>;
 }
 
-// ── Usage/color types ─────────────────────────────────────────────────────────
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
+
+// ── Size tokens ───────────────────────────────────────────────────────────────
+
+const SIZE_TOKENS = {
+  sm: {
+    height: 20,
+    paddingH: dim.spacing.padding.sysPadding8,
+    paddingV: dim.spacing.padding.sysPadding4,
+    gap: dim.spacing.padding.sysPadding4,
+    fontSize: ts.labelSmall.sysFontSize,
+    lineHeight: ts.labelSmall.sysLineHeight,
+    letterSpacing: ts.labelSmall.sysTracking,
+    iconSize: 16,
+    closeBtnSize: 16,
+    closeIconSize: 12,
+    badgeSize: 16,
+    badgeFontSize: ts.labelSmall.sysFontSize,
+    badgeLineHeight: ts.labelSmall.sysLineHeight,
+  },
+  md: {
+    height: 24,
+    paddingH: dim.spacing.padding.sysPadding12,
+    paddingV: dim.spacing.padding.sysPadding4,
+    gap: dim.spacing.padding.sysPadding4,
+    fontSize: ts.labelMedium.sysFontSize,
+    lineHeight: ts.labelMedium.sysLineHeight,
+    letterSpacing: ts.labelMedium.sysTracking,
+    iconSize: 16,
+    closeBtnSize: 16,
+    closeIconSize: 12,
+    badgeSize: 16,
+    badgeFontSize: ts.labelSmall.sysFontSize,
+    badgeLineHeight: ts.labelSmall.sysLineHeight,
+  },
+  lg: {
+    height: 32,
+    paddingH: dim.spacing.padding.sysPadding16,
+    paddingV: dim.spacing.padding.sysPadding4,
+    gap: dim.spacing.padding.sysPadding8,
+    fontSize: ts.labelMedium.sysFontSize,
+    lineHeight: ts.labelMedium.sysLineHeight,
+    letterSpacing: ts.labelMedium.sysTracking,
+    iconSize: 20,
+    closeBtnSize: 20,
+    closeIconSize: 16,
+    badgeSize: 20,
+    badgeFontSize: ts.labelSmall.sysFontSize,
+    badgeLineHeight: ts.labelSmall.sysLineHeight,
+  },
+  xl: {
+    height: 40,
+    paddingH: dim.spacing.padding.sysPadding16,
+    paddingV: dim.spacing.padding.sysPadding8,
+    gap: dim.spacing.padding.sysPadding8,
+    fontSize: ts.bodyMedium.sysFontSize,
+    lineHeight: ts.bodyMedium.sysLineHeight,
+    letterSpacing: ts.bodyMedium.sysTracking,
+    iconSize: 20,
+    closeBtnSize: 24,
+    closeIconSize: 16,
+    badgeSize: 24,
+    badgeFontSize: ts.labelMedium.sysFontSize,
+    badgeLineHeight: ts.labelMedium.sysLineHeight,
+  },
+};
+
+// ── Usage/color tokens ────────────────────────────────────────────────────────
 
 type UsageColors = {
   bg: string;
@@ -47,9 +114,7 @@ type UsageColors = {
   elevated: boolean;
 };
 
-type ColorRoles = ReturnType<typeof useTheme>['colorRoles'];
-
-function getUsageColors(usage: ChipUsage, cr: ColorRoles): UsageColors {
+function getUsageColors(usage: ChipUsage): UsageColors {
   switch (usage) {
     case 'neutral':
       return {
@@ -111,76 +176,8 @@ export function Chip({
   badge,
   style,
 }: ChipProps) {
-  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
-
-  const SIZE_TOKENS = useMemo(
-    () => ({
-      sm: {
-        height: 20,
-        paddingH: dim.spacing.padding.sysPadding8,
-        paddingV: dim.spacing.padding.sysPadding4,
-        gap: dim.spacing.padding.sysPadding4,
-        fontSize: ts.labelSmall.sysFontSize,
-        lineHeight: ts.labelSmall.sysLineHeight,
-        letterSpacing: ts.labelSmall.sysTracking,
-        iconSize: 16,
-        closeBtnSize: 16,
-        closeIconSize: 12,
-        badgeSize: 16,
-        badgeFontSize: ts.labelSmall.sysFontSize,
-        badgeLineHeight: ts.labelSmall.sysLineHeight,
-      },
-      md: {
-        height: 24,
-        paddingH: dim.spacing.padding.sysPadding12,
-        paddingV: dim.spacing.padding.sysPadding4,
-        gap: dim.spacing.padding.sysPadding4,
-        fontSize: ts.labelMedium.sysFontSize,
-        lineHeight: ts.labelMedium.sysLineHeight,
-        letterSpacing: ts.labelMedium.sysTracking,
-        iconSize: 16,
-        closeBtnSize: 16,
-        closeIconSize: 12,
-        badgeSize: 16,
-        badgeFontSize: ts.labelSmall.sysFontSize,
-        badgeLineHeight: ts.labelSmall.sysLineHeight,
-      },
-      lg: {
-        height: 32,
-        paddingH: dim.spacing.padding.sysPadding16,
-        paddingV: dim.spacing.padding.sysPadding4,
-        gap: dim.spacing.padding.sysPadding8,
-        fontSize: ts.labelMedium.sysFontSize,
-        lineHeight: ts.labelMedium.sysLineHeight,
-        letterSpacing: ts.labelMedium.sysTracking,
-        iconSize: 20,
-        closeBtnSize: 20,
-        closeIconSize: 16,
-        badgeSize: 20,
-        badgeFontSize: ts.labelSmall.sysFontSize,
-        badgeLineHeight: ts.labelSmall.sysLineHeight,
-      },
-      xl: {
-        height: 40,
-        paddingH: dim.spacing.padding.sysPadding16,
-        paddingV: dim.spacing.padding.sysPadding8,
-        gap: dim.spacing.padding.sysPadding8,
-        fontSize: ts.bodyMedium.sysFontSize,
-        lineHeight: ts.bodyMedium.sysLineHeight,
-        letterSpacing: ts.bodyMedium.sysTracking,
-        iconSize: 20,
-        closeBtnSize: 24,
-        closeIconSize: 16,
-        badgeSize: 24,
-        badgeFontSize: ts.labelMedium.sysFontSize,
-        badgeLineHeight: ts.labelMedium.sysLineHeight,
-      },
-    }),
-    [dim, ts],
-  );
-
   const s = SIZE_TOKENS[size];
-  const c = getUsageColors(usage, cr);
+  const c = getUsageColors(usage);
 
   return (
     <View

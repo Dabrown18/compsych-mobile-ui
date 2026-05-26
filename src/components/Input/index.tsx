@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 
 export type InputSize = 'sm' | 'md' | 'lg';
 
@@ -21,6 +21,41 @@ export interface InputProps extends Omit<TextInputProps, 'style'> {
   leadingIcon?: React.ReactNode;
   trailingIcon?: React.ReactNode;
 }
+
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
+
+const SIZE_TOKENS = {
+  sm: {
+    height: 40,
+    paddingH: dim.spacing.padding.sysPadding12,
+    paddingV: dim.spacing.padding.sysPadding8,
+    gap: dim.spacing.padding.sysPadding4,
+    fontSize: ts.bodySmall.sysFontSize,
+    lineHeight: ts.bodySmall.sysLineHeight,
+    radius: dim.borderRadius.sysRadiusSm,
+    iconSize: 20,
+  },
+  md: {
+    height: 48,
+    paddingH: dim.spacing.padding.sysPadding16,
+    paddingV: dim.spacing.padding.sysPadding12,
+    gap: dim.spacing.padding.sysPadding8,
+    fontSize: ts.bodyMedium.sysFontSize,
+    lineHeight: ts.bodyMedium.sysLineHeight,
+    radius: dim.borderRadius.sysRadiusSm,
+    iconSize: 20,
+  },
+  lg: {
+    height: 56,
+    paddingH: dim.spacing.padding.sysPadding20,
+    paddingV: dim.spacing.padding.sysPadding16,
+    gap: dim.spacing.padding.sysPadding8,
+    fontSize: ts.bodyMedium.sysFontSize,
+    lineHeight: ts.bodyMedium.sysLineHeight,
+    radius: dim.borderRadius.sysRadiusMd,
+    iconSize: 20,
+  },
+};
 
 // Focus-ring halo: 4px spread, sysPrimary08 colour — achieved with a fixed
 // 4px-padded wrapper whose background switches on focus.
@@ -39,45 +74,7 @@ export function Input({
   onBlur,
   ...rest
 }: InputProps) {
-  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
-
-  const SIZE_TOKENS = useMemo(
-    () => ({
-      sm: {
-        height: 40,
-        paddingH: dim.spacing.padding.sysPadding12,
-        paddingV: dim.spacing.padding.sysPadding8,
-        gap: dim.spacing.padding.sysPadding4,
-        fontSize: ts.bodySmall.sysFontSize,
-        lineHeight: ts.bodySmall.sysLineHeight,
-        radius: dim.borderRadius.sysRadiusSm,
-        iconSize: 20,
-      },
-      md: {
-        height: 48,
-        paddingH: dim.spacing.padding.sysPadding16,
-        paddingV: dim.spacing.padding.sysPadding12,
-        gap: dim.spacing.padding.sysPadding8,
-        fontSize: ts.bodyMedium.sysFontSize,
-        lineHeight: ts.bodyMedium.sysLineHeight,
-        radius: dim.borderRadius.sysRadiusSm,
-        iconSize: 20,
-      },
-      lg: {
-        height: 56,
-        paddingH: dim.spacing.padding.sysPadding20,
-        paddingV: dim.spacing.padding.sysPadding16,
-        gap: dim.spacing.padding.sysPadding8,
-        fontSize: ts.bodyMedium.sysFontSize,
-        lineHeight: ts.bodyMedium.sysLineHeight,
-        radius: dim.borderRadius.sysRadiusMd,
-        iconSize: 20,
-      },
-    }),
-    [dim, ts],
-  );
-
   const s = SIZE_TOKENS[size];
   const isDisabled = editable === false;
   const hasError = invalid || !!errorText;

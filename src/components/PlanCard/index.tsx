@@ -13,7 +13,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
 if (Platform.OS === 'android') {
@@ -36,6 +36,8 @@ interface DropdownItemProps extends PlanCardItemData {
   showDivider?: boolean;
 }
 
+const { colorRoles: cr, dimensions: dim } = sys;
+
 export function PlanCardDropdownItem({
   title,
   subtitle,
@@ -45,19 +47,9 @@ export function PlanCardDropdownItem({
   onOpen,
   showDivider = true,
 }: DropdownItemProps) {
-  const { colorRoles: cr, dimensions: dim } = useTheme();
-
   return (
     <View>
-      <View
-        style={[
-          itemStyles.row,
-          {
-            paddingVertical: dim.spacing.padding.sysPadding16,
-            gap: dim.spacing.padding.sysPadding12,
-          },
-        ]}
-      >
+      <View style={itemStyles.row}>
         {/* Check indicator */}
         <Pressable
           onPress={onToggle}
@@ -66,27 +58,11 @@ export function PlanCardDropdownItem({
           style={itemStyles.checkWrap}
         >
           {checked ? (
-            <View
-              style={[
-                itemStyles.checkedCircle,
-                {
-                  borderRadius: dim.borderRadius.sysRadiusFull,
-                  backgroundColor: cr.custom.success.sysSuccess,
-                },
-              ]}
-            >
+            <View style={itemStyles.checkedCircle}>
               <Ionicons name="checkmark" size={12} color="#fff" />
             </View>
           ) : (
-            <View
-              style={[
-                itemStyles.uncheckedCircle,
-                {
-                  borderRadius: dim.borderRadius.sysRadiusFull,
-                  borderColor: cr.outline.sysOutlineFixed,
-                },
-              ]}
-            />
+            <View style={itemStyles.uncheckedCircle} />
           )}
         </Pressable>
 
@@ -106,9 +82,7 @@ export function PlanCardDropdownItem({
         </View>
 
         {/* Action buttons */}
-        <View
-          style={[itemStyles.actions, { gap: dim.spacing.padding.sysPadding8 }]}
-        >
+        <View style={itemStyles.actions}>
           {onAudio && (
             <Pressable
               onPress={onAudio}
@@ -116,11 +90,6 @@ export function PlanCardDropdownItem({
               accessibilityLabel="Listen"
               style={({ pressed }) => [
                 itemStyles.actionBtn,
-                {
-                  borderRadius: dim.borderRadius.sysRadiusFull,
-                  borderWidth: dim.borderWidth.sysStrokeThin,
-                  borderColor: cr.outline.sysOutline,
-                },
                 pressed && itemStyles.pressed,
               ]}
             >
@@ -138,11 +107,6 @@ export function PlanCardDropdownItem({
               accessibilityLabel="Open"
               style={({ pressed }) => [
                 itemStyles.actionBtn,
-                {
-                  borderRadius: dim.borderRadius.sysRadiusFull,
-                  borderWidth: dim.borderWidth.sysStrokeThin,
-                  borderColor: cr.outline.sysOutline,
-                },
                 pressed && itemStyles.pressed,
               ]}
             >
@@ -156,14 +120,7 @@ export function PlanCardDropdownItem({
         </View>
       </View>
 
-      {showDivider && (
-        <View
-          style={[
-            itemStyles.divider,
-            { backgroundColor: cr.outline.sysOutline },
-          ]}
-        />
-      )}
+      {showDivider && <View style={itemStyles.divider} />}
     </View>
   );
 }
@@ -172,6 +129,8 @@ const itemStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: dim.spacing.padding.sysPadding16,
+    gap: dim.spacing.padding.sysPadding12,
   },
   checkWrap: {
     width: 20,
@@ -182,13 +141,17 @@ const itemStyles = StyleSheet.create({
   checkedCircle: {
     width: 20,
     height: 20,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    backgroundColor: cr.custom.success.sysSuccess,
     alignItems: 'center',
     justifyContent: 'center',
   },
   uncheckedCircle: {
     width: 20,
     height: 20,
+    borderRadius: dim.borderRadius.sysRadiusFull,
     borderWidth: 1.5,
+    borderColor: cr.outline.sysOutlineFixed,
   },
   textCol: {
     flex: 1,
@@ -196,10 +159,14 @@ const itemStyles = StyleSheet.create({
   },
   actions: {
     flexDirection: 'row',
+    gap: dim.spacing.padding.sysPadding8,
   },
   actionBtn: {
     width: 32,
     height: 32,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    borderWidth: dim.borderWidth.sysStrokeThin,
+    borderColor: cr.outline.sysOutline,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -208,6 +175,7 @@ const itemStyles = StyleSheet.create({
   },
   divider: {
     height: StyleSheet.hairlineWidth,
+    backgroundColor: cr.outline.sysOutline,
   },
 });
 
@@ -234,8 +202,6 @@ export function PlanCard({
   children,
   style,
 }: PlanCardProps) {
-  const { colorRoles: cr, dimensions: dim } = useTheme();
-
   function handleToggle() {
     if (Platform.OS !== 'web') {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -246,37 +212,12 @@ export function PlanCard({
   const hasContent = expanded && (children || (items && items.length > 0));
 
   return (
-    <View
-      style={[
-        cardStyles.card,
-        {
-          backgroundColor:
-            cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-          borderRadius: dim.borderRadius.sysRadiusMd,
-          borderWidth: dim.borderWidth.sysStrokeThin,
-          borderColor: cr.outline.sysOutline,
-          padding: dim.spacing.padding.sysPadding16,
-        },
-        style,
-      ]}
-    >
+    <View style={[cardStyles.card, style]}>
       {/* Header */}
-      <View
-        style={[cardStyles.header, { gap: dim.spacing.padding.sysPadding12 }]}
-      >
+      <View style={cardStyles.header}>
         {/* Left: icon + title stacked */}
-        <View
-          style={[cardStyles.left, { gap: dim.spacing.padding.sysPadding8 }]}
-        >
-          <View
-            style={[
-              cardStyles.iconCircle,
-              {
-                borderRadius: dim.borderRadius.sysRadiusFull,
-                backgroundColor: cr.accent.primary.sysPrimary,
-              },
-            ]}
-          >
+        <View style={cardStyles.left}>
+          <View style={cardStyles.iconCircle}>
             {icon ?? (
               <Ionicons
                 name="document-text-outline"
@@ -291,21 +232,9 @@ export function PlanCard({
         </View>
 
         {/* Right: tag chip + toggle */}
-        <View
-          style={[cardStyles.right, { gap: dim.spacing.padding.sysPadding8 }]}
-        >
+        <View style={cardStyles.right}>
           {tag && (
-            <View
-              style={[
-                cardStyles.chip,
-                {
-                  backgroundColor: cr.custom.info.sysInfoContainer,
-                  borderRadius: dim.borderRadius.sysRadiusFull,
-                  paddingHorizontal: dim.spacing.padding.sysPadding8,
-                  paddingVertical: dim.spacing.padding.sysPadding4,
-                },
-              ]}
-            >
+            <View style={cardStyles.chip}>
               <BodyText
                 variant="small"
                 color={cr.custom.info.sysOnInfoContainer}
@@ -320,11 +249,6 @@ export function PlanCard({
             accessibilityLabel={expanded ? 'Collapse' : 'Expand'}
             style={({ pressed }) => [
               cardStyles.toggleBtn,
-              {
-                borderRadius: dim.borderRadius.sysRadiusFull,
-                backgroundColor:
-                  cr.surface.surfaceContainer.sysSurfaceContainer,
-              },
               pressed && cardStyles.pressed,
             ]}
           >
@@ -339,21 +263,8 @@ export function PlanCard({
 
       {/* Expanded content */}
       {hasContent && (
-        <View
-          style={[
-            cardStyles.content,
-            { marginTop: dim.spacing.padding.sysPadding8 },
-          ]}
-        >
-          <View
-            style={[
-              cardStyles.contentDivider,
-              {
-                backgroundColor: cr.outline.sysOutline,
-                marginBottom: dim.spacing.padding.sysPadding4,
-              },
-            ]}
-          />
+        <View style={cardStyles.content}>
+          <View style={cardStyles.contentDivider} />
           {children
             ? children
             : items!.map((item, index) => (
@@ -371,39 +282,60 @@ export function PlanCard({
 
 const cardStyles = StyleSheet.create({
   card: {
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+    borderRadius: dim.borderRadius.sysRadiusMd,
+    borderWidth: dim.borderWidth.sysStrokeThin,
+    borderColor: cr.outline.sysOutline,
+    padding: dim.spacing.padding.sysPadding16,
     overflow: 'hidden',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    gap: dim.spacing.padding.sysPadding12,
   },
   left: {
     flex: 1,
+    gap: dim.spacing.padding.sysPadding8,
   },
   iconCircle: {
     width: 28,
     height: 28,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    backgroundColor: cr.accent.primary.sysPrimary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   right: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: dim.spacing.padding.sysPadding8,
     alignSelf: 'flex-start',
   },
-  chip: {},
+  chip: {
+    backgroundColor: cr.custom.info.sysInfoContainer,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    paddingHorizontal: dim.spacing.padding.sysPadding8,
+    paddingVertical: dim.spacing.padding.sysPadding4,
+  },
   toggleBtn: {
     width: 20,
     height: 20,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer,
     alignItems: 'center',
     justifyContent: 'center',
   },
   pressed: {
     opacity: 0.7,
   },
-  content: {},
+  content: {
+    marginTop: dim.spacing.padding.sysPadding8,
+  },
   contentDivider: {
     height: StyleSheet.hairlineWidth,
+    backgroundColor: cr.outline.sysOutline,
+    marginBottom: dim.spacing.padding.sysPadding4,
   },
 });

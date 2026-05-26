@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import {
   Pressable,
@@ -11,7 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import { ICON_MAP, type IconName } from '../../icons';
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 import { HeaderText } from '../HeaderText';
 
@@ -29,6 +29,16 @@ export interface SelectionCardProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim } = sys;
+
+const SELECTED_RING = {
+  shadowColor: cr.accent.primary.sysPrimary,
+  shadowOffset: { width: 1, height: 2 },
+  shadowOpacity: 1,
+  shadowRadius: 0,
+  elevation: 2,
+};
+
 export function SelectionCard({
   title,
   icon,
@@ -40,19 +50,6 @@ export function SelectionCard({
   accessibilityLabel,
   style,
 }: SelectionCardProps) {
-  const { colorRoles: cr, dimensions: dim } = useTheme();
-
-  const selectedRing = useMemo(
-    () => ({
-      shadowColor: cr.accent.primary.sysPrimary,
-      shadowOffset: { width: 1, height: 2 },
-      shadowOpacity: 1,
-      shadowRadius: 0,
-      elevation: 2,
-    }),
-    [cr],
-  );
-
   const IconComponent = icon ? ICON_MAP[icon] : null;
 
   const a11yState = {
@@ -83,12 +80,6 @@ export function SelectionCard({
         style={({ pressed }) => [
           styles.smRoot,
           {
-            gap: dim.spacing.padding.sysPadding12,
-            paddingHorizontal: dim.spacing.padding.sysPadding20,
-            paddingVertical: dim.spacing.padding.sysPadding16,
-            borderRadius: dim.borderRadius.sysRadiusMd,
-            backgroundColor:
-              cr.surface.surfaceContainer.sysSurfaceContainerLowest,
             borderColor: selected
               ? cr.accent.primary.sysPrimary
               : cr.outline.sysOutline,
@@ -97,7 +88,7 @@ export function SelectionCard({
               : dim.borderWidth.sysStrokeThin,
             opacity: disabled ? 0.38 : 1,
           },
-          selected && selectedRing,
+          selected && SELECTED_RING,
           pressed && !disabled && styles.pressed,
           style,
         ]}
@@ -132,16 +123,7 @@ export function SelectionCard({
     : cr.surface.surface.sysOnSurface;
 
   const iconCircle = IconComponent ? (
-    <View
-      style={[
-        styles.mdIconCircle,
-        {
-          padding: dim.spacing.padding.sysPadding12,
-          borderRadius: dim.borderRadius.sysRadiusFull,
-          backgroundColor: iconBgColor,
-        },
-      ]}
-    >
+    <View style={[styles.mdIconCircle, { backgroundColor: iconBgColor }]}>
       <IconComponent size="small" color={iconColor} />
     </View>
   ) : null;
@@ -155,11 +137,6 @@ export function SelectionCard({
       style={({ pressed }) => [
         styles.mdRoot,
         {
-          padding: dim.spacing.padding.sysPadding24,
-          gap: dim.spacing.padding.sysPadding24,
-          borderRadius: dim.borderRadius.sysRadiusLg,
-          backgroundColor:
-            cr.surface.surfaceContainer.sysSurfaceContainerLowest,
           borderColor: selected
             ? cr.accent.primary.sysPrimary
             : cr.outline.sysOutline,
@@ -168,7 +145,7 @@ export function SelectionCard({
             : dim.borderWidth.sysStrokeMedium,
           opacity: disabled ? 0.38 : 1,
         },
-        selected && selectedRing,
+        selected && SELECTED_RING,
         pressed && !disabled && styles.pressed,
         style,
       ]}
@@ -192,11 +169,17 @@ const styles = StyleSheet.create({
   mdRoot: {
     flexDirection: 'column',
     alignItems: 'flex-start',
+    padding: dim.spacing.padding.sysPadding24,
+    gap: dim.spacing.padding.sysPadding24,
+    borderRadius: dim.borderRadius.sysRadiusLg,
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     overflow: 'hidden',
   },
   mdIconCircle: {
     alignItems: 'center',
     justifyContent: 'center',
+    padding: dim.spacing.padding.sysPadding12,
+    borderRadius: dim.borderRadius.sysRadiusFull,
     overflow: 'hidden',
   },
   mdIconCheckboxRow: {
@@ -208,6 +191,11 @@ const styles = StyleSheet.create({
   smRoot: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: dim.spacing.padding.sysPadding12,
+    paddingHorizontal: dim.spacing.padding.sysPadding20,
+    paddingVertical: dim.spacing.padding.sysPadding16,
+    borderRadius: dim.borderRadius.sysRadiusMd,
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
     overflow: 'hidden',
   },
   smIconWrap: {

@@ -8,7 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
 export interface SegmentedControlOption {
@@ -26,6 +26,8 @@ export interface SegmentedControlProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim } = sys;
+
 export function SegmentedControl({
   options,
   value,
@@ -33,25 +35,8 @@ export function SegmentedControl({
   fullWidth = false,
   style,
 }: SegmentedControlProps) {
-  const { colorRoles: cr, dimensions: dim } = useTheme();
-
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor:
-            cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-          borderWidth: dim.borderWidth.sysStrokeThin,
-          borderColor: cr.outline.sysOutline,
-          borderRadius: dim.borderRadius.sysRadiusFull,
-          padding: dim.spacing.padding.sysPadding4,
-          gap: dim.spacing.padding.sysPadding4,
-        },
-        fullWidth && styles.fullWidth,
-        style,
-      ]}
-    >
+    <View style={[styles.container, fullWidth && styles.fullWidth, style]}>
       {options.map((option) => {
         const isActive = option.value === value;
         const isDisabled = option.disabled ?? false;
@@ -72,11 +57,7 @@ export function SegmentedControl({
                 borderRadius: dim.borderRadius.sysRadiusFull,
               },
               isActive && { backgroundColor: cr.accent.primary.sysPrimary },
-              !isActive &&
-                pressed &&
-                !isDisabled && {
-                  backgroundColor: cr.transparent.neutral.sysBlack10,
-                },
+              !isActive && pressed && !isDisabled && styles.pressed,
               isDisabled && styles.disabled,
             ]}
           >
@@ -105,6 +86,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
+    backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+    borderWidth: dim.borderWidth.sysStrokeThin,
+    borderColor: cr.outline.sysOutline,
+    borderRadius: dim.borderRadius.sysRadiusFull,
+    padding: dim.spacing.padding.sysPadding4,
+    gap: dim.spacing.padding.sysPadding4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
@@ -125,6 +112,9 @@ const styles = StyleSheet.create({
     height: 16,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  pressed: {
+    backgroundColor: cr.transparent.neutral.sysBlack10,
   },
   disabled: {
     opacity: 0.48,
