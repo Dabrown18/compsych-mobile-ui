@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Modal,
@@ -12,7 +12,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 import { Button } from '../Button';
 import { HeaderText } from '../HeaderText';
 
@@ -31,8 +31,6 @@ export interface ActionSheetProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr } = sys;
-
 export function ActionSheet({
   visible,
   onClose,
@@ -42,6 +40,37 @@ export function ActionSheet({
   secondaryAction,
   style,
 }: ActionSheetProps) {
+  const { colorRoles: cr, dimensions: dim } = useTheme();
+
+  const dynamicStyles = useMemo(
+    () => ({
+      sheetWrapper: {
+        paddingHorizontal: dim.spacing.padding.sysPadding6,
+        paddingBottom: dim.spacing.padding.sysPadding6,
+      },
+      sheet: {
+        backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+        borderRadius: dim.borderRadius.sysRadiusXxl,
+      },
+      titleRow: {
+        paddingHorizontal: dim.spacing.padding.sysPadding16,
+        paddingVertical: dim.spacing.padding.sysPadding8,
+      },
+      closeButton: {
+        borderRadius: dim.borderRadius.sysRadiusFull,
+        backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer,
+      },
+      contentInner: {
+        padding: dim.spacing.padding.sysPadding16,
+      },
+      actions: {
+        padding: dim.spacing.padding.sysPadding24,
+        gap: dim.spacing.padding.sysPadding12,
+      },
+    }),
+    [cr, dim],
+  );
+
   return (
     <Modal
       visible={visible}
@@ -54,8 +83,11 @@ export function ActionSheet({
       <Pressable style={styles.backdrop} onPress={onClose} accessible={false} />
 
       {/* Sheet */}
-      <View style={[styles.sheetWrapper, style]} pointerEvents="box-none">
-        <View style={styles.sheet}>
+      <View
+        style={[styles.sheetWrapper, dynamicStyles.sheetWrapper, style]}
+        pointerEvents="box-none"
+      >
+        <View style={[styles.sheet, dynamicStyles.sheet]}>
           {/* Toolbar */}
           <View style={styles.toolbar}>
             {/* Grabber */}
@@ -64,9 +96,9 @@ export function ActionSheet({
             </View>
 
             {/* Title row */}
-            <View style={styles.titleRow}>
+            <View style={[styles.titleRow, dynamicStyles.titleRow]}>
               {/* Invisible spacer to balance the close button */}
-              <View style={styles.closeButton} />
+              <View style={styles.closeButtonSize} />
 
               <HeaderText
                 variant="titleSmall"
@@ -83,12 +115,9 @@ export function ActionSheet({
                 accessibilityRole="button"
                 accessibilityLabel="Close"
                 style={({ pressed }) => [
-                  styles.closeButton,
-                  {
-                    backgroundColor:
-                      cr.surface.surfaceContainer.sysSurfaceContainer,
-                  },
-                  pressed && styles.closePresseed,
+                  styles.closeButtonSize,
+                  dynamicStyles.closeButton,
+                  pressed && styles.closePressed,
                 ]}
               >
                 <Ionicons
@@ -104,7 +133,7 @@ export function ActionSheet({
           {children && (
             <ScrollView
               style={styles.content}
-              contentContainerStyle={styles.contentInner}
+              contentContainerStyle={dynamicStyles.contentInner}
               showsVerticalScrollIndicator={false}
             >
               {children}
@@ -113,7 +142,7 @@ export function ActionSheet({
 
           {/* Actions */}
           {(primaryAction || secondaryAction) && (
-            <View style={styles.actions}>
+            <View style={dynamicStyles.actions}>
               {primaryAction && (
                 <Button
                   label={primaryAction.label}
@@ -140,8 +169,6 @@ export function ActionSheet({
   );
 }
 
-const { colorRoles: cr2, dimensions: dim2 } = sys;
-
 const styles = StyleSheet.create({
   backdrop: {
     ...StyleSheet.absoluteFillObject,
@@ -150,12 +177,8 @@ const styles = StyleSheet.create({
   sheetWrapper: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingHorizontal: dim2.spacing.padding.sysPadding6,
-    paddingBottom: dim2.spacing.padding.sysPadding6,
   },
   sheet: {
-    backgroundColor: cr2.surface.surfaceContainer.sysSurfaceContainerLowest,
-    borderRadius: dim2.borderRadius.sysRadiusXxl,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.4)',
     overflow: 'hidden',
@@ -186,32 +209,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: dim2.spacing.padding.sysPadding16,
-    paddingVertical: dim2.spacing.padding.sysPadding8,
     width: '100%',
   },
   titleText: {
     flex: 1,
     textAlign: 'center',
   },
-  closeButton: {
+  closeButtonSize: {
     width: 32,
     height: 32,
-    borderRadius: dim2.borderRadius.sysRadiusFull,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  closePresseed: {
+  closePressed: {
     opacity: 0.7,
   },
   content: {
     maxHeight: 400,
-  },
-  contentInner: {
-    padding: dim2.spacing.padding.sysPadding16,
-  },
-  actions: {
-    padding: dim2.spacing.padding.sysPadding24,
-    gap: dim2.spacing.padding.sysPadding12,
   },
 });

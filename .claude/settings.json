@@ -7,6 +7,10 @@
           {
             "type": "command",
             "command": "file=$(jq -r '.tool_input.file_path // .tool_response.filePath // empty' 2>/dev/null); if echo \"$file\" | grep -qE '^/Users/dbrown/Projects/expo-test-app/src/.*\\.tsx?$'; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"REMINDER: A component file in expo-test-app/src/ was just edited. Update both: (1) the corresponding component in /Users/dbrown/Projects/compsych-mobile-ui/components/ds/ and its gallery page in app/mobile/components/, and (2) the spec in /Users/dbrown/Projects/ComPsych-Design-System/packages/design-system/specs/ — to reflect any API or behavior changes.\"}}'; fi"
+          },
+          {
+            "type": "command",
+            "command": "file=$(jq -r '.tool_input.file_path // .tool_response.filePath // empty' 2>/dev/null); if echo \"$file\" | grep -qE '^/Users/dbrown/Projects/compsych-mobile-ui/src/(components|icons)/'; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"REMINDER: A component or icon in compsych-mobile-ui/src/ was just edited. Make sure the corresponding entry in compsych-mobile-design-system is also updated to match: (1) the visualization component in /Users/dbrown/Projects/compsych-mobile-design-system/components/ds/mobile-<name>/ and (2) the gallery page in /Users/dbrown/Projects/compsych-mobile-design-system/app/mobile/components/<name>/page.tsx - props, variants, and behavior must stay in sync.\"}}'; fi"
           }
         ]
       }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Pressable,
@@ -11,7 +11,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type PaginationSize = 'sm' | 'lg';
 
@@ -41,41 +41,6 @@ export interface PaginationProps {
   compact?: boolean;
   style?: StyleProp<ViewStyle>;
 }
-
-const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
-
-// ── Size tokens ───────────────────────────────────────────────────────────────
-
-const SIZE_TOKENS = {
-  sm: {
-    itemSize: 32,
-    iconSize: 20,
-    fontSize: ts.labelMedium.sysFontSize,
-    lineHeight: ts.labelMedium.sysLineHeight,
-    activeWeight: '500' as const,
-    inactiveWeight: '400' as const,
-    gap: dim.spacing.padding.sysPadding8,
-    // Pill container: sm has NO outer pill
-    hasPill: false,
-    pillPaddingH: 0,
-    pillPaddingV: 0,
-    pillGap: dim.spacing.padding.sysPadding8,
-  },
-  lg: {
-    itemSize: 40,
-    iconSize: 24,
-    fontSize: ts.labelLarge.sysFontSize,
-    lineHeight: ts.labelLarge.sysLineHeight,
-    activeWeight: '500' as const,
-    inactiveWeight: '400' as const,
-    gap: dim.spacing.padding.sysPadding16,
-    // Pill container: lg wraps in pill border
-    hasPill: true,
-    pillPaddingH: dim.spacing.padding.sysPadding12,
-    pillPaddingV: dim.spacing.padding.sysPadding8,
-    pillGap: dim.spacing.padding.sysPadding16,
-  },
-};
 
 // ── Pagination range logic ────────────────────────────────────────────────────
 
@@ -122,10 +87,11 @@ interface PageItemProps {
   page: number;
   isActive: boolean;
   onPress: () => void;
+  cr: ReturnType<typeof useTheme>['colorRoles'];
 }
 
-function PageItem({ s, page, isActive, onPress }: PageItemProps) {
-  const borderWidth = isActive ? dim.borderWidth.sysStrokeMedium : 0;
+function PageItem({ s, page, isActive, onPress, cr }: PageItemProps) {
+  const borderWidth = isActive ? 1.5 : 0;
   const borderColor = isActive ? cr.accent.primary.sysPrimary : 'transparent';
   const textColor = isActive
     ? cr.custom.info.sysOnInfoContainer
@@ -186,7 +152,12 @@ function PageItem({ s, page, isActive, onPress }: PageItemProps) {
 
 // ── Ellipsis item ─────────────────────────────────────────────────────────────
 
-function EllipsisItem({ s }: { s: SizeTokens }) {
+interface EllipsisItemProps {
+  s: SizeTokens;
+  cr: ReturnType<typeof useTheme>['colorRoles'];
+}
+
+function EllipsisItem({ s, cr }: EllipsisItemProps) {
   return (
     <View
       accessible
@@ -220,9 +191,10 @@ interface NavButtonProps {
   direction: 'prev' | 'next';
   disabled: boolean;
   onPress: () => void;
+  cr: ReturnType<typeof useTheme>['colorRoles'];
 }
 
-function NavButton({ s, direction, disabled, onPress }: NavButtonProps) {
+function NavButton({ s, direction, disabled, onPress, cr }: NavButtonProps) {
   const iconName = direction === 'prev' ? 'chevron-back' : 'chevron-forward';
 
   return (
@@ -269,7 +241,43 @@ export function Pagination({
   compact = false,
   style,
 }: PaginationProps) {
-  const s = SIZE_TOKENS[size];
+  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
+
+  const sizeTokens = useMemo(
+    () => ({
+      sm: {
+        itemSize: 32,
+        iconSize: 20,
+        fontSize: ts.labelMedium.sysFontSize,
+        lineHeight: ts.labelMedium.sysLineHeight,
+        activeWeight: '500' as const,
+        inactiveWeight: '400' as const,
+        gap: dim.spacing.padding.sysPadding8,
+        // Pill container: sm has NO outer pill
+        hasPill: false,
+        pillPaddingH: 0,
+        pillPaddingV: 0,
+        pillGap: dim.spacing.padding.sysPadding8,
+      },
+      lg: {
+        itemSize: 40,
+        iconSize: 24,
+        fontSize: ts.labelLarge.sysFontSize,
+        lineHeight: ts.labelLarge.sysLineHeight,
+        activeWeight: '500' as const,
+        inactiveWeight: '400' as const,
+        gap: dim.spacing.padding.sysPadding16,
+        // Pill container: lg wraps in pill border
+        hasPill: true,
+        pillPaddingH: dim.spacing.padding.sysPadding12,
+        pillPaddingV: dim.spacing.padding.sysPadding8,
+        pillGap: dim.spacing.padding.sysPadding16,
+      },
+    }),
+    [ts, dim],
+  );
+
+  const s = sizeTokens[size];
   const pages = buildPageRange(totalPages, currentPage, siblingCount);
 
   const prevDisabled = currentPage <= 1;
@@ -283,12 +291,14 @@ export function Pagination({
         direction="prev"
         disabled={prevDisabled}
         onPress={() => onPageChange(currentPage - 1)}
+        cr={cr}
       />
       <NavButton
         s={s}
         direction="next"
         disabled={nextDisabled}
         onPress={() => onPageChange(currentPage + 1)}
+        cr={cr}
       />
     </View>
   ) : (
@@ -299,12 +309,13 @@ export function Pagination({
         direction="prev"
         disabled={prevDisabled}
         onPress={() => onPageChange(currentPage - 1)}
+        cr={cr}
       />
 
       <View style={[styles.pages, { gap: s.hasPill ? 0 : s.gap }]}>
         {pages.map((p, i) =>
           p === '...' ? (
-            <EllipsisItem key={`ellipsis-${i}`} s={s} />
+            <EllipsisItem key={`ellipsis-${i}`} s={s} cr={cr} />
           ) : (
             <PageItem
               key={p}
@@ -312,6 +323,7 @@ export function Pagination({
               page={p}
               isActive={p === currentPage}
               onPress={() => onPageChange(p)}
+              cr={cr}
             />
           ),
         )}
@@ -322,6 +334,7 @@ export function Pagination({
         direction="next"
         disabled={nextDisabled}
         onPress={() => onPageChange(currentPage + 1)}
+        cr={cr}
       />
     </View>
   );
