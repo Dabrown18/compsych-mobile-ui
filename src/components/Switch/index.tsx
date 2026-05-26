@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   Animated,
@@ -9,7 +9,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export interface SwitchProps {
   /** Controlled value. Omit to use internal state. */
@@ -23,17 +23,10 @@ export interface SwitchProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim } = sys;
-
 // ── Layout constants ──────────────────────────────────────────────────────────
 const TRACK_W = 56;
 const TRACK_H = 32;
 const THUMB_SIZE = 24;
-const TRACK_PADDING = dim.spacing.padding.sysPadding4;
-
-// Thumb translateX: off=left edge, on=right edge
-const THUMB_OFF = TRACK_PADDING; // 4
-const THUMB_ON = TRACK_W - TRACK_PADDING - THUMB_SIZE; // 56 - 4 - 24 = 28
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -45,6 +38,14 @@ export function Switch({
   accessibilityLabel,
   style,
 }: SwitchProps) {
+  const { colorRoles: cr, dimensions: dim } = useTheme();
+
+  const trackPadding = useMemo(() => dim.spacing.padding.sysPadding4, [dim]);
+
+  // Thumb translateX: off=left edge, on=right edge
+  const thumbOff = trackPadding; // 4
+  const thumbOn = TRACK_W - trackPadding - THUMB_SIZE; // 56 - 4 - 24 = 28
+
   // Controlled vs uncontrolled
   const isControlled = valueProp !== undefined;
   const [internalValue, setInternalValue] = useState(defaultValue);
@@ -54,14 +55,14 @@ export function Switch({
 
   // ── Animation ──────────────────────────────────────────────────────────────
   const thumbAnim = useRef(
-    new Animated.Value(toggled ? THUMB_ON : THUMB_OFF),
+    new Animated.Value(toggled ? thumbOn : thumbOff),
   ).current;
   const bgAnim = useRef(new Animated.Value(toggled ? 1 : 0)).current;
 
   useEffect(() => {
     Animated.parallel([
       Animated.timing(thumbAnim, {
-        toValue: toggled ? THUMB_ON : THUMB_OFF,
+        toValue: toggled ? thumbOn : thumbOff,
         duration: 150,
         useNativeDriver: true,
       }),
@@ -137,6 +138,7 @@ export function Switch({
           style={[
             styles.thumb,
             {
+              top: trackPadding,
               backgroundColor: thumbBg,
               transform: [{ translateX: thumbAnim }],
             },
@@ -167,7 +169,6 @@ const styles = StyleSheet.create({
   },
   thumb: {
     position: 'absolute',
-    top: TRACK_PADDING,
     left: 0, // translateX drives actual X position
     width: THUMB_SIZE,
     height: THUMB_SIZE,

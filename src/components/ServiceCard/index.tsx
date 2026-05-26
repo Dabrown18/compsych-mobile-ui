@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Image,
@@ -13,7 +13,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import { ICON_MAP, type IconName } from '../../icons';
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 import { BodyText } from '../BodyText';
 
 export type ServiceCardVariant =
@@ -41,114 +41,6 @@ export interface ServiceCardProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim } = sys;
-
-// ── Variant tokens ────────────────────────────────────────────────────────────
-
-const VARIANT_TOKENS: Record<
-  ServiceCardVariant,
-  {
-    bg: string;
-    borderColor: string;
-    borderWidth: number;
-    elevated: boolean;
-    titleColor: string;
-    descColor: string;
-    chevronColor: string;
-    // doubled inner gradient overlay color
-    innerBg?: string;
-    iconBadgeBg?: string;
-    iconBadgeColor?: string;
-  }
-> = {
-  outlined: {
-    bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-    borderColor: cr.outline.sysOutline,
-    borderWidth: dim.borderWidth.sysStrokeThin,
-    elevated: true,
-    titleColor: cr.surface.surface.sysOnSurface,
-    descColor: cr.surface.surface.sysOnSurfaceVariant,
-    chevronColor: cr.outline.sysOutlineFixed,
-  },
-  tonal: {
-    bg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
-    borderColor: 'transparent',
-    borderWidth: 0,
-    elevated: false,
-    titleColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
-    descColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
-    chevronColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
-  },
-  filled: {
-    bg: cr.accent.primary.sysPrimaryContainer,
-    borderColor: 'transparent',
-    borderWidth: 0,
-    elevated: false,
-    titleColor: cr.accent.primary.sysOnPrimary,
-    descColor: cr.transparent.neutral.sysWhite80,
-    chevronColor: cr.accent.primary.sysOnPrimary,
-  },
-  doubled: {
-    bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-    borderColor: cr.outline.sysOutline,
-    borderWidth: dim.borderWidth.sysStrokeThin,
-    elevated: false,
-    titleColor: cr.surface.surface.sysOnSurface,
-    descColor: cr.surface.surface.sysOnSurfaceVariant,
-    chevronColor: cr.outline.sysOutlineFixed,
-    innerBg: cr.transparent.primary.sysPrimary08,
-    iconBadgeBg: cr.accent.primary.sysPrimary,
-    iconBadgeColor: cr.accent.primary.sysOnPrimary,
-  },
-  image: {
-    bg: 'transparent',
-    borderColor: 'transparent',
-    borderWidth: 0,
-    elevated: false,
-    titleColor: cr.surface.surface.sysInverseOnSurface,
-    descColor: cr.transparent.neutral.sysWhite80,
-    chevronColor: cr.surface.surface.sysInverseOnSurface,
-  },
-};
-
-// ── Size tokens ───────────────────────────────────────────────────────────────
-
-const SIZE_TOKENS = {
-  sm: {
-    layout: 'row' as const,
-    paddingH: dim.spacing.padding.sysPadding16,
-    paddingV: dim.spacing.padding.sysPadding12,
-    gap: dim.spacing.padding.sysPadding12,
-    borderRadius: dim.borderRadius.sysRadiusMd,
-    iconSize: 24,
-    iconSizeName: 'small' as const,
-    titleVariant: 'medium' as const,
-    showChevron: true,
-  },
-  md: {
-    layout: 'column' as const,
-    paddingH: dim.spacing.padding.sysPadding16,
-    paddingV: dim.spacing.padding.sysPadding16,
-    gap: dim.spacing.padding.sysPadding24,
-    borderRadius: dim.borderRadius.sysRadiusLg,
-    iconSize: 32,
-    iconSizeName: 'medium' as const,
-    titleVariant: 'medium' as const,
-    showChevron: false,
-  },
-  lg: {
-    layout: 'column' as const,
-    paddingH: dim.spacing.padding.sysPadding16,
-    paddingV: dim.spacing.padding.sysPadding16,
-    gap: dim.spacing.padding.sysPadding32,
-    borderRadius: dim.borderRadius.sysRadiusLg,
-    iconSize: 32,
-    iconSizeName: 'large' as const,
-    titleVariant: 'large' as const,
-    showChevron: false,
-  },
-};
-
 const ELEVATION = {
   shadowColor: '#000',
   shadowOffset: { width: 0, height: 2 },
@@ -175,8 +67,115 @@ export function ServiceCard({
   fullWidth = false,
   style,
 }: ServiceCardProps) {
-  const v = VARIANT_TOKENS[variant];
-  const s = SIZE_TOKENS[size];
+  const { colorRoles: cr, dimensions: dim } = useTheme();
+
+  const variantTokens = useMemo(
+    () => ({
+      outlined: {
+        bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+        borderColor: cr.outline.sysOutline,
+        borderWidth: dim.borderWidth.sysStrokeThin,
+        elevated: true,
+        titleColor: cr.surface.surface.sysOnSurface,
+        descColor: cr.surface.surface.sysOnSurfaceVariant,
+        chevronColor: cr.outline.sysOutlineFixed,
+        innerBg: undefined,
+        iconBadgeBg: undefined,
+        iconBadgeColor: undefined,
+      },
+      tonal: {
+        bg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
+        borderColor: 'transparent',
+        borderWidth: 0,
+        elevated: false,
+        titleColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
+        descColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
+        chevronColor: cr.addOn.primaryFixed.sysOnPrimaryFixed,
+        innerBg: undefined,
+        iconBadgeBg: undefined,
+        iconBadgeColor: undefined,
+      },
+      filled: {
+        bg: cr.accent.primary.sysPrimaryContainer,
+        borderColor: 'transparent',
+        borderWidth: 0,
+        elevated: false,
+        titleColor: cr.accent.primary.sysOnPrimary,
+        descColor: cr.transparent.neutral.sysWhite80,
+        chevronColor: cr.accent.primary.sysOnPrimary,
+        innerBg: undefined,
+        iconBadgeBg: undefined,
+        iconBadgeColor: undefined,
+      },
+      doubled: {
+        bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+        borderColor: cr.outline.sysOutline,
+        borderWidth: dim.borderWidth.sysStrokeThin,
+        elevated: false,
+        titleColor: cr.surface.surface.sysOnSurface,
+        descColor: cr.surface.surface.sysOnSurfaceVariant,
+        chevronColor: cr.outline.sysOutlineFixed,
+        innerBg: cr.transparent.primary.sysPrimary08,
+        iconBadgeBg: cr.accent.primary.sysPrimary,
+        iconBadgeColor: cr.accent.primary.sysOnPrimary,
+      },
+      image: {
+        bg: 'transparent',
+        borderColor: 'transparent',
+        borderWidth: 0,
+        elevated: false,
+        titleColor: cr.surface.surface.sysInverseOnSurface,
+        descColor: cr.transparent.neutral.sysWhite80,
+        chevronColor: cr.surface.surface.sysInverseOnSurface,
+        innerBg: undefined,
+        iconBadgeBg: undefined,
+        iconBadgeColor: undefined,
+      },
+    }),
+    [cr, dim],
+  );
+
+  const sizeTokens = useMemo(
+    () => ({
+      sm: {
+        layout: 'row' as const,
+        paddingH: dim.spacing.padding.sysPadding16,
+        paddingV: dim.spacing.padding.sysPadding12,
+        gap: dim.spacing.padding.sysPadding12,
+        borderRadius: dim.borderRadius.sysRadiusMd,
+        iconSize: 24,
+        iconSizeName: 'small' as const,
+        titleVariant: 'medium' as const,
+        showChevron: true,
+      },
+      md: {
+        layout: 'column' as const,
+        paddingH: dim.spacing.padding.sysPadding16,
+        paddingV: dim.spacing.padding.sysPadding16,
+        gap: dim.spacing.padding.sysPadding24,
+        borderRadius: dim.borderRadius.sysRadiusLg,
+        iconSize: 32,
+        iconSizeName: 'medium' as const,
+        titleVariant: 'medium' as const,
+        showChevron: false,
+      },
+      lg: {
+        layout: 'column' as const,
+        paddingH: dim.spacing.padding.sysPadding16,
+        paddingV: dim.spacing.padding.sysPadding16,
+        gap: dim.spacing.padding.sysPadding32,
+        borderRadius: dim.borderRadius.sysRadiusLg,
+        iconSize: 32,
+        iconSizeName: 'large' as const,
+        titleVariant: 'large' as const,
+        showChevron: false,
+      },
+    }),
+    [dim],
+  );
+
+  const v = variantTokens[variant];
+  const s = sizeTokens[size];
   const isRow = s.layout === 'row';
 
   const IconComponent = icon ? ICON_MAP[icon] : null;
@@ -187,7 +186,7 @@ export function ServiceCard({
 
   const outerStyle = [
     {
-      backgroundColor: variant === 'doubled' ? v.bg : v.bg,
+      backgroundColor: v.bg,
       borderColor: v.borderColor,
       borderWidth: v.borderWidth,
       borderRadius:

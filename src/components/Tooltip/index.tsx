@@ -2,7 +2,7 @@ import React from 'react';
 
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type TooltipVariant = 'filled' | 'elevated';
 /**
@@ -24,8 +24,6 @@ export interface TooltipProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
-
 // ── Arrow dimensions ─────────────────────────────────────────────────────────
 const ARROW_BASE = 16; // px — wide axis
 const ARROW_HEIGHT = 6; // px — narrow axis
@@ -38,6 +36,8 @@ export function Tooltip({
   direction = 'none',
   style,
 }: TooltipProps) {
+  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
+
   const isFilled = variant === 'filled';
 
   const bg = isFilled

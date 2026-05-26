@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Image,
@@ -12,7 +12,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 export type AvatarVariant = 'text' | 'image' | 'icon';
@@ -35,95 +35,6 @@ export interface AvatarProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
-
-const SIZE_TOKENS = {
-  xs: {
-    diameter: 24,
-    fontSize: ts.labelSmall.sysFontSize,
-    lineHeight: ts.labelSmall.sysLineHeight,
-    fontWeight: '400' as const,
-    iconSize: 12,
-    ringBorder: dim.borderWidth.sysStrokeMedium,
-    ringInset: -1,
-    badgeSize: 0, // xs has no presence badge
-    badgeIconSize: 0,
-    badgeOffset: 0,
-  },
-  sm: {
-    diameter: 32,
-    fontSize: ts.labelMedium.sysFontSize,
-    lineHeight: ts.labelMedium.sysLineHeight,
-    fontWeight: '400' as const,
-    iconSize: 16,
-    ringBorder: dim.borderWidth.sysStrokeMedium,
-    ringInset: -2,
-    badgeSize: 16,
-    badgeIconSize: 12,
-    badgeOffset: -4,
-  },
-  md: {
-    diameter: 40,
-    fontSize: ts.labelLarge.sysFontSize,
-    lineHeight: ts.labelLarge.sysLineHeight,
-    fontWeight: '500' as const,
-    iconSize: 20,
-    ringBorder: dim.borderWidth.sysStrokeThick,
-    ringInset: -2,
-    badgeSize: 20,
-    badgeIconSize: 16,
-    badgeOffset: -4,
-  },
-  lg: {
-    diameter: 48,
-    fontSize: ts.labelLarge.sysFontSize,
-    lineHeight: ts.labelLarge.sysLineHeight,
-    fontWeight: '500' as const,
-    iconSize: 24,
-    ringBorder: dim.borderWidth.sysStrokeThick,
-    ringInset: -2,
-    badgeSize: 20,
-    badgeIconSize: 16,
-    badgeOffset: -4,
-  },
-  xl: {
-    diameter: 64,
-    fontSize: ts.labelLarge.sysFontSize,
-    lineHeight: ts.labelLarge.sysLineHeight,
-    fontWeight: '500' as const,
-    iconSize: 32,
-    ringBorder: dim.borderWidth.sysStrokeThick,
-    ringInset: -2,
-    badgeSize: 24,
-    badgeIconSize: 20,
-    badgeOffset: -4,
-  },
-  '2xl': {
-    diameter: 88,
-    fontSize: ts.titleMedium.sysFontSize,
-    lineHeight: ts.titleMedium.sysLineHeight,
-    fontWeight: '400' as const,
-    iconSize: 44,
-    ringBorder: dim.borderWidth.sysStrokeBold,
-    ringInset: -2,
-    badgeSize: 32,
-    badgeIconSize: 24,
-    badgeOffset: 0,
-  },
-  '3xl': {
-    diameter: 120,
-    fontSize: ts.titleLarge.sysFontSize,
-    lineHeight: ts.titleLarge.sysLineHeight,
-    fontWeight: '500' as const,
-    iconSize: 60,
-    ringBorder: dim.borderWidth.sysStrokeBold,
-    ringInset: -2,
-    badgeSize: 32,
-    badgeIconSize: 24,
-    badgeOffset: 0,
-  },
-};
-
 export function Avatar({
   variant = 'text',
   size = 'md',
@@ -135,7 +46,99 @@ export function Avatar({
   accessibilityLabel,
   style,
 }: AvatarProps) {
-  const s = SIZE_TOKENS[size];
+  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
+
+  const sizeTokens = useMemo(
+    () => ({
+      xs: {
+        diameter: 24,
+        fontSize: ts.labelSmall.sysFontSize,
+        lineHeight: ts.labelSmall.sysLineHeight,
+        fontWeight: '400' as const,
+        iconSize: 12,
+        ringBorder: dim.borderWidth.sysStrokeMedium,
+        ringInset: -1,
+        badgeSize: 0,
+        badgeIconSize: 0,
+        badgeOffset: 0,
+      },
+      sm: {
+        diameter: 32,
+        fontSize: ts.labelMedium.sysFontSize,
+        lineHeight: ts.labelMedium.sysLineHeight,
+        fontWeight: '400' as const,
+        iconSize: 16,
+        ringBorder: dim.borderWidth.sysStrokeMedium,
+        ringInset: -2,
+        badgeSize: 16,
+        badgeIconSize: 12,
+        badgeOffset: -4,
+      },
+      md: {
+        diameter: 40,
+        fontSize: ts.labelLarge.sysFontSize,
+        lineHeight: ts.labelLarge.sysLineHeight,
+        fontWeight: '500' as const,
+        iconSize: 20,
+        ringBorder: dim.borderWidth.sysStrokeThick,
+        ringInset: -2,
+        badgeSize: 20,
+        badgeIconSize: 16,
+        badgeOffset: -4,
+      },
+      lg: {
+        diameter: 48,
+        fontSize: ts.labelLarge.sysFontSize,
+        lineHeight: ts.labelLarge.sysLineHeight,
+        fontWeight: '500' as const,
+        iconSize: 24,
+        ringBorder: dim.borderWidth.sysStrokeThick,
+        ringInset: -2,
+        badgeSize: 20,
+        badgeIconSize: 16,
+        badgeOffset: -4,
+      },
+      xl: {
+        diameter: 64,
+        fontSize: ts.labelLarge.sysFontSize,
+        lineHeight: ts.labelLarge.sysLineHeight,
+        fontWeight: '500' as const,
+        iconSize: 32,
+        ringBorder: dim.borderWidth.sysStrokeThick,
+        ringInset: -2,
+        badgeSize: 24,
+        badgeIconSize: 20,
+        badgeOffset: -4,
+      },
+      '2xl': {
+        diameter: 88,
+        fontSize: ts.titleMedium.sysFontSize,
+        lineHeight: ts.titleMedium.sysLineHeight,
+        fontWeight: '400' as const,
+        iconSize: 44,
+        ringBorder: dim.borderWidth.sysStrokeBold,
+        ringInset: -2,
+        badgeSize: 32,
+        badgeIconSize: 24,
+        badgeOffset: 0,
+      },
+      '3xl': {
+        diameter: 120,
+        fontSize: ts.titleLarge.sysFontSize,
+        lineHeight: ts.titleLarge.sysLineHeight,
+        fontWeight: '500' as const,
+        iconSize: 60,
+        ringBorder: dim.borderWidth.sysStrokeBold,
+        ringInset: -2,
+        badgeSize: 32,
+        badgeIconSize: 24,
+        badgeOffset: 0,
+      },
+    }),
+    [dim, ts],
+  );
+
+  const s = sizeTokens[size];
   const r = s.diameter / 2;
 
   const defaultLabel = variant === 'text' ? `Avatar: ${initials}` : 'Avatar';

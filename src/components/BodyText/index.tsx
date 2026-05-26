@@ -4,7 +4,7 @@ import { Text, type TextProps } from 'react-native';
 
 import { useFonts } from 'expo-font';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type BodyVariant =
   | 'large'
@@ -26,7 +26,7 @@ const FONT_FAMILY: Record<string, string> = {
   semibold: 'GoogleSans_600SemiBold',
 };
 
-const VARIANT_TOKEN_KEY: Record<BodyVariant, keyof typeof sys.typeScale> = {
+const VARIANT_TOKEN_KEY: Record<BodyVariant, string> = {
   large: 'bodyLarge',
   medium: 'bodyMedium',
   small: 'bodySmall',
@@ -35,8 +35,6 @@ const VARIANT_TOKEN_KEY: Record<BodyVariant, keyof typeof sys.typeScale> = {
   labelSmall: 'labelSmall',
 };
 
-const { typeScale: ts } = sys;
-
 export function BodyText({
   variant = 'medium',
   emphasized = false,
@@ -44,13 +42,15 @@ export function BodyText({
   style,
   ...rest
 }: BodyTextProps) {
+  const { typeScale: ts } = useTheme();
+
   const [fontsLoaded] = useFonts({
     GoogleSans_400Regular: require('../../fonts/GoogleSans_400Regular.ttf'),
     GoogleSans_500Medium: require('../../fonts/GoogleSans_500Medium.ttf'),
     GoogleSans_600SemiBold: require('../../fonts/GoogleSans_600SemiBold.ttf'),
   });
 
-  const token = ts[VARIANT_TOKEN_KEY[variant]];
+  const token = ts[VARIANT_TOKEN_KEY[variant] as keyof typeof ts];
   const weight = emphasized
     ? token.sysFontWeightEmphasized
     : token.sysFontWeight;
