@@ -18,7 +18,8 @@ export type ButtonVariant =
   | 'elevated'
   | 'text'
   | 'danger'
-  | 'danger-outlined';
+  | 'danger-outlined'
+  | 'warning';
 
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -103,6 +104,12 @@ export function Button({
           borderColor: cr.error.sysErrorContainer,
           borderWidth: dim.borderWidth.sysStrokeThin,
         },
+        warning: {
+          bg: cr.custom.warning.sysWarning,
+          label: cr.custom.warning.sysOnWarning,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
       }) as Record<
         ButtonVariant,
         { bg: string; label: string; borderColor: string; borderWidth: number }
@@ -184,13 +191,16 @@ export function Button({
                 }),
           ...(fullWidth && !iconOnly ? { alignSelf: 'stretch' } : {}),
           opacity: isDisabled ? 0.48 : pressed ? 0.82 : 1,
+          // Elevated: Figma specifies two drop shadows — RN only supports one
+          // on iOS, so we use the larger/more visible one (lv2: 0px 4px 16px
+          // rgba(0,0,0,0.10)) and fall back to elevation: 2 on Android.
           ...(variant === 'elevated'
             ? {
                 shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.06,
-                shadowRadius: 4,
-                elevation: 1,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.1,
+                shadowRadius: 16,
+                elevation: 2,
               }
             : {}),
         },
