@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import {
   Pressable,
@@ -11,7 +11,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type CheckboxSize = 'sm' | 'md';
 export type CheckboxCheckedState = boolean | 'indeterminate';
@@ -28,25 +28,6 @@ export interface CheckboxProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
-
-const SIZE_TOKENS = {
-  sm: {
-    box: 20,
-    hitArea: 36,
-    fontSize: ts.bodySmall.sysFontSize,
-    lineHeight: ts.bodySmall.sysLineHeight,
-    iconSize: 13,
-  },
-  md: {
-    box: 24,
-    hitArea: 40,
-    fontSize: ts.bodyMedium.sysFontSize,
-    lineHeight: ts.bodyMedium.sysLineHeight,
-    iconSize: 16,
-  },
-};
-
 export function Checkbox({
   checked: checkedProp,
   defaultChecked = false,
@@ -58,8 +39,30 @@ export function Checkbox({
   invalid = false,
   style,
 }: CheckboxProps) {
+  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
   const [internalChecked, setInternalChecked] =
     useState<boolean>(defaultChecked);
+
+  const SIZE_TOKENS = useMemo(
+    () => ({
+      sm: {
+        box: 20,
+        hitArea: 36,
+        fontSize: ts.bodySmall.sysFontSize,
+        lineHeight: ts.bodySmall.sysLineHeight,
+        iconSize: 13,
+      },
+      md: {
+        box: 24,
+        hitArea: 40,
+        fontSize: ts.bodyMedium.sysFontSize,
+        lineHeight: ts.bodyMedium.sysLineHeight,
+        iconSize: 16,
+      },
+    }),
+    [ts],
+  );
+
   const isControlled = checkedProp !== undefined;
   const checkedState: CheckboxCheckedState = isControlled
     ? checkedProp

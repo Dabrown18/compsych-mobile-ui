@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Pressable,
@@ -12,7 +12,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { sys } from '../../tokens';
+import { useTheme } from '../../theme';
 
 export type BreadcrumbSize = 'sm' | 'lg';
 
@@ -38,31 +38,34 @@ export interface BreadcrumbProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
-
-const SIZE_TOKENS = {
-  sm: {
-    fontSize: ts.labelSmall.sysFontSize,
-    lineHeight: ts.labelSmall.sysLineHeight,
-    letterSpacing: ts.labelSmall.sysTracking,
-    paddingH: dim.spacing.padding.sysPadding8,
-    paddingV: dim.spacing.padding.sysPadding2,
-    iconSize: 16,
-    dividerWidth: 8,
-  },
-  lg: {
-    fontSize: ts.labelMedium.sysFontSize,
-    lineHeight: ts.labelMedium.sysLineHeight,
-    letterSpacing: ts.labelMedium.sysTracking,
-    paddingH: dim.spacing.padding.sysPadding8,
-    paddingV: dim.spacing.padding.sysPadding4,
-    iconSize: 16,
-    dividerWidth: 8,
-  },
-};
-
 export function Breadcrumb({ items, size = 'lg', style }: BreadcrumbProps) {
-  const s = SIZE_TOKENS[size];
+  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
+
+  const sizeTokens = useMemo(
+    () => ({
+      sm: {
+        fontSize: ts.labelSmall.sysFontSize,
+        lineHeight: ts.labelSmall.sysLineHeight,
+        letterSpacing: ts.labelSmall.sysTracking,
+        paddingH: dim.spacing.padding.sysPadding8,
+        paddingV: dim.spacing.padding.sysPadding2,
+        iconSize: 16,
+        dividerWidth: 8,
+      },
+      lg: {
+        fontSize: ts.labelMedium.sysFontSize,
+        lineHeight: ts.labelMedium.sysLineHeight,
+        letterSpacing: ts.labelMedium.sysTracking,
+        paddingH: dim.spacing.padding.sysPadding8,
+        paddingV: dim.spacing.padding.sysPadding4,
+        iconSize: 16,
+        dividerWidth: 8,
+      },
+    }),
+    [dim, ts],
+  );
+
+  const s = sizeTokens[size];
 
   return (
     // ScrollView lets a long breadcrumb scroll horizontally without clipping
@@ -130,7 +133,10 @@ export function Breadcrumb({ items, size = 'lg', style }: BreadcrumbProps) {
                 accessibilityLabel={item.isHome ? 'Home' : item.label}
                 style={({ pressed }) => [
                   styles.pressable,
-                  pressed && styles.pressed,
+                  pressed && {
+                    backgroundColor: cr.transparent.neutral.sysBlack10,
+                    borderRadius: 4,
+                  },
                 ]}
               >
                 {content}
@@ -181,10 +187,6 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   pressable: {
-    borderRadius: 4,
-  },
-  pressed: {
-    backgroundColor: cr.transparent.neutral.sysBlack10,
     borderRadius: 4,
   },
   content: {
