@@ -2,7 +2,7 @@ import React from 'react';
 
 import { StyleProp, View, ViewStyle } from 'react-native';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 
 export type DividerVariant = 'horizontal' | 'vertical';
 export type DividerWeight = 'thin' | 'thick';
@@ -14,14 +14,14 @@ export interface DividerProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim } = sys;
+
 export function Divider({
   variant = 'horizontal',
   weight = 'thin',
   dashed = false,
   style,
 }: DividerProps) {
-  const { colorRoles: cr, dimensions: dim } = useTheme();
-
   const thickness =
     weight === 'thin'
       ? dim.borderWidth.sysStrokeThin

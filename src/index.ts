@@ -140,10 +140,6 @@ export type { HeaderTextProps, HeaderVariant } from './components/HeaderText';
 // Re-export tokens for consumers who need direct access
 export { sys } from './tokens';
 
-// Theme system — override the default GuidanceNow theme per-app or per-subtree
-export { ThemeProvider, useTheme, defaultTheme } from './theme';
-export type { ThemeProviderProps, Theme, ThemeOverride } from './theme';
-
 // Icons
 export {
   UserRoundIcon,

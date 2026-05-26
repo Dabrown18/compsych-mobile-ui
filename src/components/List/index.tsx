@@ -10,7 +10,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 import { BodyText } from '../BodyText';
 
 export type ListItemType = 'simple' | 'detailed';
@@ -31,6 +31,8 @@ export interface ListProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim } = sys;
+
 // ── ListItem ──────────────────────────────────────────────────────────────────
 
 export function ListItem({
@@ -42,7 +44,6 @@ export function ListItem({
   disabled = false,
   showDivider = true,
 }: ListItemProps) {
-  const { colorRoles: cr, dimensions: dim } = useTheme();
   const isDetailed = type === 'detailed';
 
   const content = (

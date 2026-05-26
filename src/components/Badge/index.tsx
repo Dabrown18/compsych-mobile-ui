@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
-import { useTheme } from '../../theme';
+import { sys } from '../../tokens';
 
 export type BadgeSize = 'sm' | 'md' | 'lg';
 export type BadgeStyle =
@@ -21,6 +21,37 @@ export interface BadgeProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const { colorRoles: cr, dimensions: dim, typeScale: ts } = sys;
+
+// ── Size tokens ───────────────────────────────────────────────────────────────
+
+const SIZE_TOKENS = {
+  sm: {
+    outerSize: 16,
+    paddingH: dim.spacing.padding.sysPadding4,
+    fontSize: ts.labelSmall.sysFontSize,
+    lineHeight: ts.labelSmall.sysLineHeight,
+    letterSpacing: ts.labelSmall.sysTracking,
+    dotInner: 6,
+  },
+  md: {
+    outerSize: 20,
+    paddingH: dim.spacing.padding.sysPadding8,
+    fontSize: ts.labelMedium.sysFontSize,
+    lineHeight: ts.labelMedium.sysLineHeight,
+    letterSpacing: ts.labelMedium.sysTracking,
+    dotInner: 8,
+  },
+  lg: {
+    outerSize: 24,
+    paddingH: dim.spacing.padding.sysPadding8,
+    fontSize: ts.labelMedium.sysFontSize,
+    lineHeight: ts.labelMedium.sysLineHeight,
+    letterSpacing: ts.labelMedium.sysTracking,
+    dotInner: 12,
+  },
+};
+
 // ── Style/color tokens ────────────────────────────────────────────────────────
 
 type StyleColors = {
@@ -29,9 +60,7 @@ type StyleColors = {
   elevated: boolean;
 };
 
-type ColorRoles = ReturnType<typeof useTheme>['colorRoles'];
-
-function getStyleColors(style: BadgeStyle, cr: ColorRoles): StyleColors {
+function getStyleColors(style: BadgeStyle): StyleColors {
   switch (style) {
     case 'filled':
       return {
@@ -81,40 +110,8 @@ export function Badge({
   badgeStyle = 'filled',
   style,
 }: BadgeProps) {
-  const { colorRoles: cr, dimensions: dim, typeScale: ts } = useTheme();
-
-  const sizeTokens = useMemo(
-    () => ({
-      sm: {
-        outerSize: 16,
-        paddingH: dim.spacing.padding.sysPadding4,
-        fontSize: ts.labelSmall.sysFontSize,
-        lineHeight: ts.labelSmall.sysLineHeight,
-        letterSpacing: ts.labelSmall.sysTracking,
-        dotInner: 6,
-      },
-      md: {
-        outerSize: 20,
-        paddingH: dim.spacing.padding.sysPadding8,
-        fontSize: ts.labelMedium.sysFontSize,
-        lineHeight: ts.labelMedium.sysLineHeight,
-        letterSpacing: ts.labelMedium.sysTracking,
-        dotInner: 8,
-      },
-      lg: {
-        outerSize: 24,
-        paddingH: dim.spacing.padding.sysPadding8,
-        fontSize: ts.labelMedium.sysFontSize,
-        lineHeight: ts.labelMedium.sysLineHeight,
-        letterSpacing: ts.labelMedium.sysTracking,
-        dotInner: 12,
-      },
-    }),
-    [dim, ts],
-  );
-
-  const s = sizeTokens[size];
-  const c = getStyleColors(badgeStyle, cr);
+  const s = SIZE_TOKENS[size];
+  const c = getStyleColors(badgeStyle);
 
   // Dot variant — render a solid filled circle inside a transparent wrapper
   if (badgeStyle === 'dot') {
