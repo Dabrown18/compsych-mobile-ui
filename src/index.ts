@@ -35,14 +35,6 @@ export type {
   ServiceCardSize,
 } from './components/ServiceCard';
 
-export { PromotionCard } from './components/PromotionCard';
-export type {
-  PromotionCardProps,
-  PromotionCardVariant,
-  PromotionCardUsage,
-  PromotionCardSize,
-} from './components/PromotionCard';
-
 export { Checkbox } from './components/Checkbox';
 export type {
   CheckboxProps,
