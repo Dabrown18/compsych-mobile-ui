@@ -131,6 +131,15 @@ export type {
   ActionSheetAction,
 } from './components/ActionSheet';
 
+export { ChatBubble } from './components/ChatBubble';
+export type {
+  ChatBubbleProps,
+  ChatBubbleVariant,
+} from './components/ChatBubble';
+
+export { ChatInput } from './components/ChatInput';
+export type { ChatInputProps, ChatAttachment } from './components/ChatInput';
+
 export { BodyText } from './components/BodyText';
 export type { BodyTextProps, BodyVariant } from './components/BodyText';
 

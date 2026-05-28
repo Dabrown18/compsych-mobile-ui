@@ -28,6 +28,14 @@ export interface ActionSheetProps {
   children?: React.ReactNode;
   primaryAction?: ActionSheetAction;
   secondaryAction?: ActionSheetAction;
+  /**
+   * `half`  — floats at the bottom with a 6 px inset gutter; all corners
+   *           rounded; content limited to maxHeight. Default.
+   * `full`  — fills the screen from 10 px below the top; only top corners
+   *           rounded; content expands to fill; close button appears on both
+   *           sides of the title for one-handed reachability.
+   */
+  variant?: 'half' | 'full';
   style?: StyleProp<ViewStyle>;
 }
 
@@ -38,19 +46,29 @@ export function ActionSheet({
   children,
   primaryAction,
   secondaryAction,
+  variant = 'half',
   style,
 }: ActionSheetProps) {
   const { colorRoles: cr, dimensions: dim } = useTheme();
+  const isFull = variant === 'full';
 
   const dynamicStyles = useMemo(
     () => ({
-      sheetWrapper: {
+      sheetWrapperHalf: {
         paddingHorizontal: dim.spacing.padding.sysPadding6,
         paddingBottom: dim.spacing.padding.sysPadding6,
       },
-      sheet: {
+      sheetWrapperFull: {
+        marginTop: 10,
+      },
+      sheetHalf: {
         backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
         borderRadius: dim.borderRadius.sysRadiusXxl,
+      },
+      sheetFull: {
+        backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
+        borderTopLeftRadius: dim.borderRadius.sysRadiusXxl,
+        borderTopRightRadius: dim.borderRadius.sysRadiusXxl,
       },
       titleRow: {
         paddingHorizontal: dim.spacing.padding.sysPadding16,
@@ -71,6 +89,25 @@ export function ActionSheet({
     [cr, dim],
   );
 
+  const closeButton = (
+    <Pressable
+      onPress={onClose}
+      accessibilityRole="button"
+      accessibilityLabel="Close"
+      style={({ pressed }) => [
+        styles.closeButtonSize,
+        dynamicStyles.closeButton,
+        pressed && styles.closePressed,
+      ]}
+    >
+      <Ionicons
+        name="close"
+        size={20}
+        color={cr.surface.surface.sysOnSurface}
+      />
+    </Pressable>
+  );
+
   return (
     <Modal
       visible={visible}
@@ -82,12 +119,24 @@ export function ActionSheet({
       {/* Backdrop */}
       <Pressable style={styles.backdrop} onPress={onClose} accessible={false} />
 
-      {/* Sheet */}
+      {/* Sheet wrapper */}
       <View
-        style={[styles.sheetWrapper, dynamicStyles.sheetWrapper, style]}
+        style={[
+          styles.sheetWrapper,
+          isFull
+            ? dynamicStyles.sheetWrapperFull
+            : dynamicStyles.sheetWrapperHalf,
+          style,
+        ]}
         pointerEvents="box-none"
       >
-        <View style={[styles.sheet, dynamicStyles.sheet]}>
+        <View
+          style={[
+            styles.sheet,
+            isFull ? styles.sheetFull : styles.sheetHalf,
+            isFull ? dynamicStyles.sheetFull : dynamicStyles.sheetHalf,
+          ]}
+        >
           {/* Toolbar */}
           <View style={styles.toolbar}>
             {/* Grabber */}
@@ -97,8 +146,8 @@ export function ActionSheet({
 
             {/* Title row */}
             <View style={[styles.titleRow, dynamicStyles.titleRow]}>
-              {/* Invisible spacer to balance the close button */}
-              <View style={styles.closeButtonSize} />
+              {/* Left slot: close button (full) or invisible spacer (half) */}
+              {isFull ? closeButton : <View style={styles.closeButtonSize} />}
 
               <HeaderText
                 variant="titleSmall"
@@ -109,30 +158,15 @@ export function ActionSheet({
                 {title ?? ''}
               </HeaderText>
 
-              {/* Close button */}
-              <Pressable
-                onPress={onClose}
-                accessibilityRole="button"
-                accessibilityLabel="Close"
-                style={({ pressed }) => [
-                  styles.closeButtonSize,
-                  dynamicStyles.closeButton,
-                  pressed && styles.closePressed,
-                ]}
-              >
-                <Ionicons
-                  name="close"
-                  size={20}
-                  color={cr.surface.surface.sysOnSurface}
-                />
-              </Pressable>
+              {/* Right close button — always shown */}
+              {closeButton}
             </View>
           </View>
 
           {/* Content */}
           {children && (
             <ScrollView
-              style={styles.content}
+              style={isFull ? styles.contentFull : styles.contentHalf}
               contentContainerStyle={dynamicStyles.contentInner}
               showsVerticalScrollIndicator={false}
             >
@@ -171,32 +205,55 @@ export function ActionSheet({
 
 const styles = StyleSheet.create({
   backdrop: {
-    ...StyleSheet.absoluteFillObject,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
   sheetWrapper: {
     flex: 1,
     justifyContent: 'flex-end',
   },
+  // ── half ────────────────────────────────────────────────────────────────────
   sheet: {
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.4)',
     overflow: 'hidden',
+  },
+  sheetHalf: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 16,
     elevation: 8,
   },
+  contentHalf: {
+    maxHeight: 400,
+  },
+  // ── full ────────────────────────────────────────────────────────────────────
+  sheetFull: {
+    flex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 15 },
+    shadowOpacity: 0.18,
+    shadowRadius: 75,
+    elevation: 16,
+  },
+  contentFull: {
+    flex: 1,
+  },
+  // ── shared ──────────────────────────────────────────────────────────────────
   toolbar: {
     alignItems: 'center',
     width: '100%',
   },
   grabberRow: {
+    width: '100%',
     height: 16,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingBottom: 0,
     paddingTop: 5,
   },
   grabber: {
@@ -223,8 +280,5 @@ const styles = StyleSheet.create({
   },
   closePressed: {
     opacity: 0.7,
-  },
-  content: {
-    maxHeight: 400,
   },
 });

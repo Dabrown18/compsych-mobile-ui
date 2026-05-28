@@ -124,9 +124,9 @@ export function ServiceCard({
         borderColor: 'transparent',
         borderWidth: 0,
         elevated: false,
-        titleColor: cr.surface.surface.sysInverseOnSurface,
+        titleColor: cr.surface.inverse.sysInverseOnSurface,
         descColor: cr.transparent.neutral.sysWhite80,
-        chevronColor: cr.surface.surface.sysInverseOnSurface,
+        chevronColor: cr.surface.inverse.sysInverseOnSurface,
         innerBg: undefined,
         iconBadgeBg: undefined,
         iconBadgeColor: undefined,
@@ -146,6 +146,7 @@ export function ServiceCard({
         iconSize: 24,
         iconSizeName: 'small' as const,
         titleVariant: 'medium' as const,
+        descVariant: 'small' as const,
         showChevron: true,
       },
       md: {
@@ -157,6 +158,7 @@ export function ServiceCard({
         iconSize: 32,
         iconSizeName: 'medium' as const,
         titleVariant: 'medium' as const,
+        descVariant: 'small' as const,
         showChevron: false,
       },
       lg: {
@@ -168,6 +170,7 @@ export function ServiceCard({
         iconSize: 32,
         iconSizeName: 'large' as const,
         titleVariant: 'large' as const,
+        descVariant: 'small' as const,
         showChevron: false,
       },
     }),
@@ -214,7 +217,7 @@ export function ServiceCard({
           </BodyText>
         )}
         {!isRow && description && (
-          <BodyText variant="small" color={v.descColor}>
+          <BodyText variant={s.descVariant} color={v.descColor}>
             {description}
           </BodyText>
         )}
@@ -263,7 +266,7 @@ export function ServiceCard({
             <Image
               source={image}
               style={[
-                StyleSheet.absoluteFillObject,
+                { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
                 { borderRadius: s.borderRadius },
               ]}
               resizeMode="cover"
@@ -271,7 +274,7 @@ export function ServiceCard({
             />
             <View
               style={[
-                StyleSheet.absoluteFillObject,
+                { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
                 {
                   borderRadius: s.borderRadius,
                   backgroundColor: 'rgba(0,0,0,0.30)',
@@ -286,7 +289,23 @@ export function ServiceCard({
             {renderedIcon}
           </View>
         )}
-        {textBlock}
+        <View style={styles.contentRow}>
+          {(title || description) && (
+            <View style={styles.contentText}>
+              {title && (
+                <BodyText variant={s.titleVariant} color={v.titleColor}>
+                  {title}
+                </BodyText>
+              )}
+              {description && (
+                <BodyText variant={s.descVariant} color={v.descColor}>
+                  {description}
+                </BodyText>
+              )}
+            </View>
+          )}
+          {buttonIcon}
+        </View>
         {children}
       </>
     );
@@ -320,20 +339,24 @@ export function ServiceCard({
             {renderedIcon}
           </View>
         )}
-        {textBlock}
+        <View style={styles.contentRow}>
+          {(title || description) && (
+            <View style={styles.contentText}>
+              {title && (
+                <BodyText variant={s.titleVariant} color={v.titleColor}>
+                  {title}
+                </BodyText>
+              )}
+              {description && (
+                <BodyText variant={s.descVariant} color={v.descColor}>
+                  {description}
+                </BodyText>
+              )}
+            </View>
+          )}
+          {buttonIcon}
+        </View>
         {children}
-        {buttonIcon && (
-          <View
-            style={{
-              position: 'absolute',
-              bottom: s.paddingV,
-              right: s.paddingH,
-            }}
-            pointerEvents="none"
-          >
-            {buttonIcon}
-          </View>
-        )}
       </>
     );
   }
@@ -376,6 +399,16 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   rowTextBlock: {
+    flex: 1,
+    minWidth: 0,
+  },
+  contentRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    alignSelf: 'stretch',
+    gap: 16,
+  },
+  contentText: {
     flex: 1,
     minWidth: 0,
   },

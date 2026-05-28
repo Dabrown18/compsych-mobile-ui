@@ -8,13 +8,14 @@ import {
   ViewStyle,
 } from 'react-native';
 
+import { ICON_MAP, type IconName } from '../../icons';
 import { useTheme } from '../../theme';
 import { BodyText } from '../BodyText';
 
 export interface SegmentedControlOption {
   value: string;
   label: string;
-  icon?: React.ReactNode;
+  icon?: IconName;
   disabled?: boolean;
 }
 
@@ -56,6 +57,11 @@ export function SegmentedControl({
         const isActive = option.value === value;
         const isDisabled = option.disabled ?? false;
 
+        const iconColor = isActive
+          ? cr.accent.primary.sysOnPrimary
+          : cr.surface.surface.sysOnSurfaceVariant;
+        const IconComponent = option.icon ? ICON_MAP[option.icon] : null;
+
         return (
           <Pressable
             key={option.value}
@@ -80,15 +86,11 @@ export function SegmentedControl({
               isDisabled && styles.disabled,
             ]}
           >
-            {option.icon && <View style={styles.iconSlot}>{option.icon}</View>}
+            {IconComponent && <IconComponent size="xsmall" color={iconColor} />}
             <BodyText
               variant="small"
               emphasized={isActive}
-              color={
-                isActive
-                  ? cr.accent.primary.sysOnPrimary
-                  : cr.surface.surface.sysOnSurfaceVariant
-              }
+              color={iconColor}
               numberOfLines={1}
             >
               {option.label}
@@ -105,11 +107,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
+    // Elevation/lv1: two Figma drop shadows combined into one RN shadow
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 1,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 2,
   },
   fullWidth: {
     alignSelf: 'stretch',
@@ -117,12 +120,6 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconSlot: {
-    width: 16,
-    height: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },

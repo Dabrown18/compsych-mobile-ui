@@ -90,10 +90,12 @@ export function Snackbar({
         borderRadius: dim.borderRadius.sysRadiusMd,
         gap: dim.spacing.padding.sysPadding16,
         width: '100%' as const,
+        // Elevation/lv3: Figma radius=16 (primary), radius=6 (secondary). RN iOS
+        // supports one shadow; use the dominant layer. Android uses elevation.
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.12,
-        shadowRadius: 12,
+        shadowOpacity: 0.16,
+        shadowRadius: 16,
         elevation: 6,
       },
       containerFilled: {
@@ -102,7 +104,7 @@ export function Snackbar({
       containerOutlined: {
         backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
         borderWidth: dim.borderWidth.sysStrokeThin,
-        borderColor: cr.outline.sysOutline,
+        borderColor: cr.outline.sysOutlineVariant,
       },
       actionSlot: {
         flexDirection: 'row' as const,
@@ -169,7 +171,7 @@ export function Snackbar({
                 pressed && styles.pressed,
               ]}
             >
-              <BodyText variant="small" emphasized color={actionColor}>
+              <BodyText variant="labelMedium" color={actionColor}>
                 {actionLabel}
               </BodyText>
             </Pressable>
