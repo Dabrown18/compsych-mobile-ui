@@ -10,7 +10,7 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { ICON_MAP, type IconName } from '../../icons';
+import { type IconName, SIZE_MAP, resolveIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BodyText } from '../BodyText';
 import { HeaderText } from '../HeaderText';
@@ -53,7 +53,8 @@ export function SelectionCard({
     [cr],
   );
 
-  const IconComponent = icon ? ICON_MAP[icon] : null;
+  const LucideIcon = icon ? resolveIcon(icon) : null;
+  const { size: iconPx, strokeWidth: iconSW } = SIZE_MAP['small'];
 
   const a11yState = {
     disabled,
@@ -102,9 +103,9 @@ export function SelectionCard({
           style,
         ]}
       >
-        {IconComponent && (
+        {LucideIcon && (
           <View style={styles.smIconWrap}>
-            <IconComponent size="small" color={iconColor} />
+            <LucideIcon size={iconPx} color={iconColor} strokeWidth={iconSW} />
           </View>
         )}
         <BodyText
@@ -131,7 +132,7 @@ export function SelectionCard({
     ? cr.accent.primary.sysPrimary
     : cr.surface.surface.sysOnSurface;
 
-  const iconCircle = IconComponent ? (
+  const iconCircle = LucideIcon ? (
     <View
       style={[
         styles.mdIconCircle,
@@ -142,7 +143,7 @@ export function SelectionCard({
         },
       ]}
     >
-      <IconComponent size="small" color={iconColor} />
+      <LucideIcon size={iconPx} color={iconColor} strokeWidth={iconSW} />
     </View>
   ) : null;
 

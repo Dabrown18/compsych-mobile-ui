@@ -153,26 +153,6 @@ export { sys } from './tokens';
 export { ThemeProvider, useTheme, defaultTheme } from './theme';
 export type { ThemeProviderProps, Theme, ThemeOverride } from './theme';
 
-// Icons
-export {
-  UserRoundIcon,
-  GlobeIcon,
-  HandshakeIcon,
-  HeartHandshakeIcon,
-  AtomIcon,
-  HazeIcon,
-  HourglassIcon,
-  GraduationCapIcon,
-  HandHeartIcon,
-  IdCardIcon,
-  MessageCirclePlusIcon,
-  StethoscopeIcon,
-  BinocularsIcon,
-  FlagIcon,
-  MountainSnowIcon,
-  SnowflakeIcon,
-  FileChartColumnIncreasingIcon,
-  WheatIcon,
-} from './icons';
+// Icons — resolved from lucide-react-native at runtime
+export { resolveIcon, SIZE_MAP, DEFAULT_ICON_COLOR } from './icons';
 export type { IconProps, IconSize, IconName } from './icons';
-export { ICON_MAP } from './icons';

@@ -10,9 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';
-
-import { ICON_MAP, type IconName } from '../../icons';
+import { type IconName, SIZE_MAP, resolveIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BodyText } from '../BodyText';
 
@@ -146,7 +144,6 @@ export function ServiceCard({
         iconSize: 24,
         iconSizeName: 'small' as const,
         titleVariant: 'medium' as const,
-        descVariant: 'small' as const,
         showChevron: true,
       },
       md: {
@@ -158,7 +155,6 @@ export function ServiceCard({
         iconSize: 32,
         iconSizeName: 'medium' as const,
         titleVariant: 'medium' as const,
-        descVariant: 'small' as const,
         showChevron: false,
       },
       lg: {
@@ -170,7 +166,6 @@ export function ServiceCard({
         iconSize: 32,
         iconSizeName: 'large' as const,
         titleVariant: 'large' as const,
-        descVariant: 'small' as const,
         showChevron: false,
       },
     }),
@@ -181,10 +176,12 @@ export function ServiceCard({
   const s = sizeTokens[size];
   const isRow = s.layout === 'row';
 
-  const IconComponent = icon ? ICON_MAP[icon] : null;
+  const LucideIcon = icon ? resolveIcon(icon) : null;
+  const ChevronRight = resolveIcon('ChevronRight');
   const iconColor = v.iconBadgeColor ?? v.titleColor;
-  const renderedIcon = IconComponent ? (
-    <IconComponent size={s.iconSizeName} color={iconColor} />
+  const { size: iconPx, strokeWidth: iconSW } = SIZE_MAP[s.iconSizeName];
+  const renderedIcon = LucideIcon ? (
+    <LucideIcon size={iconPx} color={iconColor} strokeWidth={iconSW} />
   ) : null;
 
   const outerStyle = [
@@ -217,7 +214,7 @@ export function ServiceCard({
           </BodyText>
         )}
         {!isRow && description && (
-          <BodyText variant={s.descVariant} color={v.descColor}>
+          <BodyText variant="small" color={v.descColor}>
             {description}
           </BodyText>
         )}
@@ -289,23 +286,10 @@ export function ServiceCard({
             {renderedIcon}
           </View>
         )}
-        <View style={styles.contentRow}>
-          {(title || description) && (
-            <View style={styles.contentText}>
-              {title && (
-                <BodyText variant={s.titleVariant} color={v.titleColor}>
-                  {title}
-                </BodyText>
-              )}
-              {description && (
-                <BodyText variant={s.descVariant} color={v.descColor}>
-                  {description}
-                </BodyText>
-              )}
-            </View>
-          )}
-          {buttonIcon}
-        </View>
+        {textBlock}
+        {isRow && ChevronRight && (
+          <ChevronRight size={20} color="#ffffff" strokeWidth={1.5} />
+        )}
         {children}
       </>
     );
@@ -319,13 +303,8 @@ export function ServiceCard({
           </View>
         )}
         {textBlock}
-        {s.showChevron && (
-          <Ionicons
-            name="chevron-forward"
-            size={20}
-            color={v.chevronColor}
-            accessible={false}
-          />
+        {s.showChevron && ChevronRight && (
+          <ChevronRight size={20} color={v.chevronColor} strokeWidth={1.5} />
         )}
         {children}
       </>
@@ -339,24 +318,20 @@ export function ServiceCard({
             {renderedIcon}
           </View>
         )}
-        <View style={styles.contentRow}>
-          {(title || description) && (
-            <View style={styles.contentText}>
-              {title && (
-                <BodyText variant={s.titleVariant} color={v.titleColor}>
-                  {title}
-                </BodyText>
-              )}
-              {description && (
-                <BodyText variant={s.descVariant} color={v.descColor}>
-                  {description}
-                </BodyText>
-              )}
-            </View>
-          )}
-          {buttonIcon}
-        </View>
+        {textBlock}
         {children}
+        {buttonIcon && (
+          <View
+            style={{
+              position: 'absolute',
+              bottom: s.paddingV,
+              right: s.paddingH,
+            }}
+            pointerEvents="none"
+          >
+            {buttonIcon}
+          </View>
+        )}
       </>
     );
   }
@@ -399,16 +374,6 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   rowTextBlock: {
-    flex: 1,
-    minWidth: 0,
-  },
-  contentRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    alignSelf: 'stretch',
-    gap: 16,
-  },
-  contentText: {
     flex: 1,
     minWidth: 0,
   },
