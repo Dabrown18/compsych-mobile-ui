@@ -10,6 +10,8 @@ import {
   ViewStyle,
 } from 'react-native';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { type IconName, SIZE_MAP, resolveIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BodyText } from '../BodyText';
@@ -37,6 +39,12 @@ export interface ServiceCardProps {
   accessibilityLabel?: string;
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
+  /** Gradient colors for the "doubled" variant inner card (e.g. ['#a855f7', '#6366f1']). Falls back to the solid token color when omitted. */
+  gradient?: readonly [string, string, ...string[]];
+  /** Start point of the gradient in 0–1 coordinate space. Defaults to { x: 0, y: 0 } (top). */
+  gradientStart?: { x: number; y: number };
+  /** End point of the gradient in 0–1 coordinate space. Defaults to { x: 0, y: 1 } (bottom). */
+  gradientEnd?: { x: number; y: number };
 }
 
 const ELEVATION = {
@@ -64,6 +72,9 @@ export function ServiceCard({
   accessibilityLabel,
   fullWidth = false,
   style,
+  gradient,
+  gradientStart,
+  gradientEnd,
 }: ServiceCardProps) {
   const { colorRoles: cr, dimensions: dim } = useTheme();
 
@@ -225,19 +236,18 @@ export function ServiceCard({
   let inner: React.ReactNode;
 
   if (variant === 'doubled') {
-    inner = (
-      <View
-        style={[
-          styles.colRoot,
-          {
-            backgroundColor: v.innerBg,
-            borderRadius: s.borderRadius,
-            paddingHorizontal: s.paddingH,
-            paddingVertical: s.paddingV,
-            gap: dim.spacing.padding.sysPadding24,
-          },
-        ]}
-      >
+    const doubledInnerStyle: StyleProp<ViewStyle> = [
+      styles.colRoot,
+      {
+        borderRadius: s.borderRadius,
+        paddingHorizontal: s.paddingH,
+        paddingVertical: s.paddingV,
+        gap: dim.spacing.padding.sysPadding24,
+      },
+    ];
+
+    const doubledInnerContent = (
+      <>
         {renderedIcon && (
           <View
             style={[
@@ -253,6 +263,21 @@ export function ServiceCard({
         )}
         {textBlock}
         {children}
+      </>
+    );
+
+    inner = gradient ? (
+      <LinearGradient
+        colors={gradient}
+        start={gradientStart ?? { x: 0, y: 0 }}
+        end={gradientEnd ?? { x: 0, y: 1 }}
+        style={doubledInnerStyle}
+      >
+        {doubledInnerContent}
+      </LinearGradient>
+    ) : (
+      <View style={[doubledInnerStyle, { backgroundColor: v.innerBg }]}>
+        {doubledInnerContent}
       </View>
     );
   } else if (variant === 'image') {

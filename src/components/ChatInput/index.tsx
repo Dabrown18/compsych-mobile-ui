@@ -1,13 +1,15 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import {
   Image,
   ImageSourcePropType,
+  NativeSyntheticEvent,
   Pressable,
   ScrollView,
   StyleProp,
   StyleSheet,
   TextInput,
+  TextInputContentSizeChangeEventData,
   View,
   ViewStyle,
 } from 'react-native';
@@ -47,6 +49,18 @@ export function ChatInput({
   const { colorRoles: cr, dimensions: dim, iconography: ico } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<TextInput>(null);
+  const [inputHeight, setInputHeight] = useState(24);
+
+  const handleContentSizeChange = useCallback(
+    (e: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+      const newHeight = Math.max(
+        24,
+        Math.min(120, e.nativeEvent.contentSize.height),
+      );
+      setInputHeight(newHeight);
+    },
+    [],
+  );
 
   const hasText = value.trim().length > 0;
   const hasAttachments = !!attachments && attachments.length > 0;
@@ -182,12 +196,15 @@ export function ChatInput({
           multiline
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          onContentSizeChange={handleContentSizeChange}
+          scrollEnabled={inputHeight >= 120}
           style={[
             styles.textInput,
             {
               color: cr.surface.surface.sysOnSurface,
               fontSize: 16,
               lineHeight: 24,
+              height: inputHeight,
             },
           ]}
           accessibilityLabel={placeholder}
@@ -237,7 +254,6 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     padding: 0,
     margin: 0,
-    maxHeight: 120,
   },
   attachStrip: {
     flexShrink: 0,
