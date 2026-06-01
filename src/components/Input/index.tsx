@@ -149,7 +149,6 @@ export function Input({
             paddingHorizontal: s.paddingH,
             paddingVertical: s.paddingV,
             gap: s.gap,
-            overflow: 'hidden',
           }}
         >
           {/* Leading icon */}
