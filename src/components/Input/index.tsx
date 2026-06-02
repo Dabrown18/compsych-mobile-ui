@@ -184,9 +184,9 @@ export function Input({
             style={{
               flex: 1,
               fontSize: s.fontSize,
-              lineHeight: s.lineHeight,
               color: textColor,
               includeFontPadding: false,
+              textAlignVertical: 'center',
               // Reset RN TextInput default padding/margin
               padding: 0,
               margin: 0,
