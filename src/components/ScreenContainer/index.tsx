@@ -6,6 +6,7 @@ import { useTheme } from '../../theme';
 
 export interface ScreenContainerProps extends ScrollViewProps {
   children?: React.ReactNode;
+  noPadding?: boolean;
 }
 
 /**
@@ -21,7 +22,7 @@ export const ScreenContainer = React.forwardRef<
   ScrollView,
   ScreenContainerProps
 >(function ScreenContainer(
-  { children, style, contentContainerStyle, ...rest },
+  { children, style, contentContainerStyle, noPadding = false, ...rest },
   ref,
 ) {
   const { dimensions: dim, colorRoles: cr } = useTheme();
@@ -37,10 +38,12 @@ export const ScreenContainer = React.forwardRef<
         style,
       ]}
       contentContainerStyle={[
-        {
-          paddingHorizontal: dim.spacing.padding.sysPadding16,
-          paddingVertical: dim.spacing.padding.sysPadding8,
-        },
+        noPadding
+          ? undefined
+          : {
+              paddingHorizontal: dim.spacing.padding.sysPadding16,
+              paddingVertical: dim.spacing.padding.sysPadding8,
+            },
         contentContainerStyle,
       ]}
       {...rest}
