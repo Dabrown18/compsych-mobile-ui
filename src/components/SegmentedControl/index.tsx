@@ -2,13 +2,13 @@ import React from 'react';
 
 import {
   Pressable,
+  ScrollView,
   StyleProp,
   StyleSheet,
-  View,
   ViewStyle,
 } from 'react-native';
 
-import { ICON_MAP, type IconName } from '../../icons';
+import { type IconName, SIZE_MAP, resolveIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BodyText } from '../BodyText';
 
@@ -23,7 +23,6 @@ export interface SegmentedControlProps {
   options: SegmentedControlOption[];
   value: string;
   onChange: (value: string) => void;
-  fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -31,27 +30,19 @@ export function SegmentedControl({
   options,
   value,
   onChange,
-  fullWidth = false,
   style,
 }: SegmentedControlProps) {
   const { colorRoles: cr, dimensions: dim } = useTheme();
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor:
-            cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-          borderWidth: dim.borderWidth.sysStrokeThin,
-          borderColor: cr.outline.sysOutline,
-          borderRadius: dim.borderRadius.sysRadiusFull,
-          padding: dim.spacing.padding.sysPadding4,
-          gap: dim.spacing.padding.sysPadding4,
-        },
-        fullWidth && styles.fullWidth,
-        style,
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={[
+        styles.contentContainer,
+        { gap: dim.spacing.padding.sysPadding4 },
       ]}
+      style={[styles.scroll, style]}
     >
       {options.map((option) => {
         const isActive = option.value === value;
@@ -60,7 +51,8 @@ export function SegmentedControl({
         const iconColor = isActive
           ? cr.accent.primary.sysOnPrimary
           : cr.surface.surface.sysOnSurfaceVariant;
-        const IconComponent = option.icon ? ICON_MAP[option.icon] : null;
+        const IconComponent = option.icon ? resolveIcon(option.icon) : null;
+        const { size: iconPx, strokeWidth: iconSW } = SIZE_MAP['xsmall'];
 
         return (
           <Pressable
@@ -76,17 +68,21 @@ export function SegmentedControl({
                 paddingVertical: dim.spacing.padding.sysPadding6,
                 gap: dim.spacing.padding.sysPadding4,
                 borderRadius: dim.borderRadius.sysRadiusFull,
+                backgroundColor: isActive
+                  ? cr.accent.primary.sysPrimary
+                  : cr.surface.surfaceContainer.sysSurfaceContainerHigh,
               },
-              isActive && { backgroundColor: cr.accent.primary.sysPrimary },
-              !isActive &&
-                pressed &&
-                !isDisabled && {
-                  backgroundColor: cr.transparent.neutral.sysBlack10,
-                },
+              !isActive && pressed && !isDisabled && { opacity: 0.7 },
               isDisabled && styles.disabled,
             ]}
           >
-            {IconComponent && <IconComponent size="xsmall" color={iconColor} />}
+            {IconComponent && (
+              <IconComponent
+                size={iconPx}
+                strokeWidth={iconSW}
+                color={iconColor}
+              />
+            )}
             <BodyText
               variant="small"
               emphasized={isActive}
@@ -98,27 +94,20 @@ export function SegmentedControl({
           </Pressable>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scroll: {
+    width: '100%',
+  },
+  contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'flex-start',
-    // Elevation/lv1: two Figma drop shadows combined into one RN shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  fullWidth: {
-    alignSelf: 'stretch',
+    paddingVertical: 2,
   },
   item: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
