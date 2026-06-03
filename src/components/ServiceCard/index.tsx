@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { LinearGradient } from 'expo-linear-gradient';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { type IconName, SIZE_MAP, resolveIcon } from '../../icons';
 import { useTheme } from '../../theme';
@@ -202,16 +202,18 @@ export function ServiceCard({
       borderWidth: v.borderWidth,
       borderRadius:
         variant === 'doubled' ? dim.borderRadius.sysRadiusXl : s.borderRadius,
-      paddingHorizontal:
-        variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingH,
-      paddingVertical:
-        variant === 'doubled' ? dim.spacing.padding.sysPadding8 : s.paddingV,
+
       opacity: disabled ? 0.48 : 1,
     },
     v.elevated && ELEVATION,
+    variant !== 'doubled' && {
+      paddingHorizontal: s.paddingH,
+      paddingVertical: s.paddingV,
+    },
     fullWidth && { alignSelf: 'stretch' as const },
     isRow ? styles.rowRoot : styles.colRoot,
-    !isRow && { gap: s.gap },
+    !isRow && variant !== 'image' && { gap: s.gap },
+    variant === 'image' && { justifyContent: 'space-between' },
     style,
   ];
 
@@ -239,10 +241,13 @@ export function ServiceCard({
     const doubledInnerStyle: StyleProp<ViewStyle> = [
       styles.colRoot,
       {
-        borderRadius: s.borderRadius,
-        paddingHorizontal: s.paddingH,
-        paddingVertical: s.paddingV,
-        gap: dim.spacing.padding.sysPadding24,
+        alignSelf: 'stretch',
+        borderRadius: dim.borderRadius.sysRadiusXl,
+        borderColor: cr.accent.primary.sysOnPrimary,
+        borderWidth: dim.spacing.padding.sysPadding8,
+        paddingHorizontal: dim.spacing.padding.sysPadding8,
+        paddingVertical: dim.spacing.padding.sysPadding16,
+        gap: dim.spacing.padding.sysPadding12,
       },
     ];
 
@@ -266,17 +271,21 @@ export function ServiceCard({
       </>
     );
 
-    inner = gradient ? (
-      <LinearGradient
-        colors={gradient}
-        start={gradientStart ?? { x: 0, y: 0 }}
-        end={gradientEnd ?? { x: 0, y: 1 }}
-        style={doubledInnerStyle}
+    inner = (
+      <View
+        style={[doubledInnerStyle, !gradient && { backgroundColor: v.innerBg }]}
       >
-        {doubledInnerContent}
-      </LinearGradient>
-    ) : (
-      <View style={[doubledInnerStyle, { backgroundColor: v.innerBg }]}>
+        {gradient && (
+          <LinearGradient
+            colors={gradient}
+            start={gradientStart ?? { x: 0, y: 0 }}
+            end={gradientEnd ?? { x: 0, y: 1 }}
+            style={[
+              StyleSheet.absoluteFillObject,
+              { borderRadius: dim.borderRadius.sysRadiusLg },
+            ]}
+          />
+        )}
         {doubledInnerContent}
       </View>
     );
@@ -294,27 +303,36 @@ export function ServiceCard({
               resizeMode="cover"
               accessible={false}
             />
-            <View
+            <LinearGradient
+              colors={[
+                'rgba(0,0,0,0.4)',
+                'rgba(0,0,0,0.05)',
+                'rgba(0,0,0,0.5)',
+              ]}
+              locations={[0.012, 0.268, 1]}
               style={[
                 { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
-                {
-                  borderRadius: s.borderRadius,
-                  backgroundColor: 'rgba(0,0,0,0.30)',
-                },
+                { borderRadius: s.borderRadius },
               ]}
               pointerEvents="none"
             />
           </>
         )}
-        {renderedIcon && (
-          <View style={{ width: s.iconSize, height: s.iconSize }}>
-            {renderedIcon}
-          </View>
-        )}
-        {textBlock}
-        {isRow && ChevronRight && (
-          <ChevronRight size={20} color="#ffffff" strokeWidth={1.5} />
-        )}
+        <View style={{ width: s.iconSize, height: s.iconSize }}>
+          {renderedIcon}
+        </View>
+        <View style={styles.imageBottom}>
+          <View style={{ flex: 1 }}>{textBlock}</View>
+          {onPress && ChevronRight && (
+            <View style={styles.imageArrowButton}>
+              <ChevronRight
+                size={16}
+                color={cr.surface.surface.sysOnSurface}
+                strokeWidth={1.5}
+              />
+            </View>
+          )}
+        </View>
         {children}
       </>
     );
@@ -397,6 +415,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+  },
+  imageBottom: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    width: '100%',
+    gap: 16,
+  },
+  imageArrowButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 999,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
   },
   rowTextBlock: {
     flex: 1,
