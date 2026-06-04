@@ -1,6 +1,6 @@
 {
   "name": "@compsych/mobile-ui",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "ComPsych React Native Design System — 19 mobile UI components with self-contained design tokens",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -13,7 +13,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "rm -rf node_modules/react-native node_modules/react node_modules/react-native-linear-gradient node_modules/react-native-svg node_modules/lucide-react-native"
   },
   "keywords": [
     "react-native",

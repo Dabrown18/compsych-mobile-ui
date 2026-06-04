@@ -132,6 +132,13 @@ export type {
 export { ChatInput } from './components/ChatInput';
 export type { ChatInputProps, ChatAttachment } from './components/ChatInput';
 
+export { StatusChip } from './components/StatusChip';
+export type {
+  StatusChipProps,
+  StatusChipVariant,
+  StatusChipAlign,
+} from './components/StatusChip';
+
 export { BodyText } from './components/BodyText';
 export type { BodyTextProps, BodyVariant } from './components/BodyText';
 

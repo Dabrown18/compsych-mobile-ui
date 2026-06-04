@@ -39,19 +39,21 @@ export function ChatBubble({
   const tokenStyles = useMemo(
     () => ({
       bubble: {
-        maxWidth: '80%' as const,
-        paddingVertical: dim.spacing.padding.sysPadding8,
-        paddingHorizontal: dim.spacing.padding.sysPadding12,
-        borderRadius: dim.borderRadius.sysRadiusMd,
+        paddingVertical: dim.spacing.padding.sysPadding12,
+        paddingHorizontal: dim.spacing.padding.sysPadding16,
       },
       bubbleIncoming: {
-        backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
-        borderWidth: dim.borderWidth.sysStrokeThin,
-        borderColor: cr.outline.sysOutlineVariant,
+        backgroundColor: cr.surface.surfaceContainer.sysSurfaceContainer,
+        borderTopLeftRadius: dim.borderRadius.sysRadiusLg,
+        borderTopRightRadius: dim.borderRadius.sysRadiusLg,
         borderBottomLeftRadius: dim.borderRadius.sysRadiusXs,
+        borderBottomRightRadius: dim.borderRadius.sysRadiusXs,
       },
       bubbleOutgoing: {
         backgroundColor: cr.accent.primary.sysPrimary,
+        borderTopLeftRadius: dim.borderRadius.sysRadiusXl,
+        borderTopRightRadius: dim.borderRadius.sysRadiusXl,
+        borderBottomLeftRadius: dim.borderRadius.sysRadiusXl,
         borderBottomRightRadius: dim.borderRadius.sysRadiusXs,
       },
       metaRow: {
@@ -84,7 +86,7 @@ export function ChatBubble({
         style,
       ]}
     >
-      <View>
+      <View style={styles.bubbleWrapper}>
         {/* Bubble */}
         <View
           style={[
@@ -94,11 +96,7 @@ export function ChatBubble({
               : tokenStyles.bubbleIncoming,
           ]}
         >
-          <BodyText
-            variant="medium"
-            color={textColor}
-            style={styles.messageText}
-          >
+          <BodyText variant="medium" color={textColor}>
             {message}
           </BodyText>
         </View>
@@ -168,9 +166,11 @@ const styles = StyleSheet.create({
   },
   rowIncoming: {
     justifyContent: 'flex-start',
+    paddingRight: 64,
   },
   rowOutgoing: {
     justifyContent: 'flex-end',
+    paddingLeft: 32,
   },
   metaIncoming: {
     justifyContent: 'flex-start',
@@ -178,9 +178,7 @@ const styles = StyleSheet.create({
   metaOutgoing: {
     justifyContent: 'flex-end',
   },
-  messageText: {
-    flexShrink: 1,
-  },
+  bubbleWrapper: {},
   pressed: {
     opacity: 0.6,
   },

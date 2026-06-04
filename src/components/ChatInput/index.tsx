@@ -32,6 +32,8 @@ export interface ChatInputProps {
   attachments?: ChatAttachment[];
   onRemoveAttachment?: (index: number) => void;
   disabled?: boolean;
+  /** Optional status banner rendered above the input (e.g. <StatusChip />) */
+  statusChip?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -44,6 +46,7 @@ export function ChatInput({
   attachments,
   onRemoveAttachment,
   disabled = false,
+  statusChip,
   style,
 }: ChatInputProps) {
   const { colorRoles: cr, dimensions: dim, iconography: ico } = useTheme();
@@ -111,128 +114,134 @@ export function ChatInput({
   );
 
   return (
-    <View style={[styles.wrapper, disabled && styles.disabled, style]}>
-      {/* Attachment strip */}
-      {hasAttachments && (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.attachStrip}
-          contentContainerStyle={styles.attachStripContent}
-        >
-          {attachments!.map((att, i) => (
-            <View key={i} style={styles.attachItem}>
-              <Image
-                source={att.source ?? { uri: att.uri }}
-                style={tokenStyles.attachThumb}
-                resizeMode="cover"
-                accessibilityLabel={`Attachment ${i + 1}`}
-              />
-              {onRemoveAttachment && (
-                <Pressable
-                  onPress={() => onRemoveAttachment(i)}
-                  style={styles.removeBtn}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Remove attachment ${i + 1}`}
-                >
-                  <Ionicons
-                    name="close-circle"
-                    size={16}
-                    color={cr.surface.surface.sysOnSurfaceVariant}
-                  />
-                </Pressable>
-              )}
-            </View>
-          ))}
-        </ScrollView>
-      )}
+    <View style={[styles.wrapper, style]}>
+      {/* Status chip */}
+      {statusChip}
 
       {/* Input row */}
-      <View
-        style={[
-          tokenStyles.container,
-          styles.inputRow,
-          isFocused && {
-            // focus ring via transparent primary halo
-            shadowColor: cr.accent.primary.sysPrimary,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.08,
-            shadowRadius: 4,
-          },
-        ]}
-      >
-        {/* Attach button */}
-        {onAttach && (
+      <View style={[disabled && styles.disabled]}>
+        {/* Attachment strip */}
+        {hasAttachments && (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.attachStrip}
+            contentContainerStyle={styles.attachStripContent}
+          >
+            {attachments!.map((att, i) => (
+              <View key={i} style={styles.attachItem}>
+                <Image
+                  source={att.source ?? { uri: att.uri }}
+                  style={tokenStyles.attachThumb}
+                  resizeMode="cover"
+                  accessibilityLabel={`Attachment ${i + 1}`}
+                />
+                {onRemoveAttachment && (
+                  <Pressable
+                    onPress={() => onRemoveAttachment(i)}
+                    style={styles.removeBtn}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Remove attachment ${i + 1}`}
+                  >
+                    <Ionicons
+                      name="close-circle"
+                      size={16}
+                      color={cr.surface.surface.sysOnSurfaceVariant}
+                    />
+                  </Pressable>
+                )}
+              </View>
+            ))}
+          </ScrollView>
+        )}
+
+        {/* Input row */}
+        <View
+          style={[
+            tokenStyles.container,
+            styles.inputRow,
+            isFocused && {
+              // focus ring via transparent primary halo
+              shadowColor: cr.accent.primary.sysPrimary,
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.08,
+              shadowRadius: 4,
+            },
+          ]}
+        >
+          {/* Attach button */}
+          {onAttach && (
+            <Pressable
+              onPress={onAttach}
+              disabled={disabled}
+              style={({ pressed }) => [
+                tokenStyles.attachBtn,
+                pressed && styles.pressed,
+              ]}
+              accessibilityRole="button"
+              accessibilityLabel="Add attachment"
+            >
+              <Ionicons
+                name="add"
+                size={ico.sysSizeSm}
+                color={
+                  disabled
+                    ? cr.surface.surface.sysOnSurfaceVariant
+                    : cr.surface.surface.sysOnSurface
+                }
+              />
+            </Pressable>
+          )}
+
+          {/* Text field */}
+          <TextInput
+            ref={inputRef}
+            value={value}
+            onChangeText={onChangeText}
+            placeholder={placeholder}
+            placeholderTextColor={cr.surface.surface.sysOnSurfaceVariant}
+            editable={!disabled}
+            multiline
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onContentSizeChange={handleContentSizeChange}
+            scrollEnabled={inputHeight >= 120}
+            style={[
+              styles.textInput,
+              {
+                color: cr.surface.surface.sysOnSurface,
+                fontSize: 16,
+                lineHeight: 24,
+                height: inputHeight,
+              },
+            ]}
+            accessibilityLabel={placeholder}
+            returnKeyType="default"
+          />
+
+          {/* Send button */}
           <Pressable
-            onPress={onAttach}
-            disabled={disabled}
+            onPress={canSend ? onSend : undefined}
+            disabled={!canSend}
             style={({ pressed }) => [
-              tokenStyles.attachBtn,
-              pressed && styles.pressed,
+              tokenStyles.sendBtn,
+              pressed && canSend && styles.pressed,
             ]}
             accessibilityRole="button"
-            accessibilityLabel="Add attachment"
+            accessibilityLabel="Send"
+            accessibilityState={{ disabled: !canSend }}
           >
             <Ionicons
-              name="add"
+              name="arrow-up"
               size={ico.sysSizeSm}
               color={
-                disabled
-                  ? cr.surface.surface.sysOnSurfaceVariant
-                  : cr.surface.surface.sysOnSurface
+                canSend
+                  ? cr.custom.warning.sysOnWarning
+                  : cr.surface.surface.sysOnSurfaceVariant
               }
             />
           </Pressable>
-        )}
-
-        {/* Text field */}
-        <TextInput
-          ref={inputRef}
-          value={value}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          placeholderTextColor={cr.surface.surface.sysOnSurfaceVariant}
-          editable={!disabled}
-          multiline
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          onContentSizeChange={handleContentSizeChange}
-          scrollEnabled={inputHeight >= 120}
-          style={[
-            styles.textInput,
-            {
-              color: cr.surface.surface.sysOnSurface,
-              fontSize: 16,
-              lineHeight: 24,
-              height: inputHeight,
-            },
-          ]}
-          accessibilityLabel={placeholder}
-          returnKeyType="default"
-        />
-
-        {/* Send button */}
-        <Pressable
-          onPress={canSend ? onSend : undefined}
-          disabled={!canSend}
-          style={({ pressed }) => [
-            tokenStyles.sendBtn,
-            pressed && canSend && styles.pressed,
-          ]}
-          accessibilityRole="button"
-          accessibilityLabel="Send"
-          accessibilityState={{ disabled: !canSend }}
-        >
-          <Ionicons
-            name="arrow-up"
-            size={ico.sysSizeSm}
-            color={
-              canSend
-                ? cr.custom.warning.sysOnWarning
-                : cr.surface.surface.sysOnSurfaceVariant
-            }
-          />
-        </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -240,7 +249,7 @@ export function ChatInput({
 
 const styles = StyleSheet.create({
   wrapper: {
-    gap: 4,
+    gap: 12,
   },
   disabled: {
     opacity: 0.48,
