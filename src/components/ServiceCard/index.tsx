@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
 import {
+  I18nManager,
   Image,
   type ImageSourcePropType,
   Pressable,
@@ -368,7 +369,9 @@ export function ServiceCard({
             style={{
               position: 'absolute',
               bottom: s.paddingV,
-              right: s.paddingH,
+              ...(I18nManager.isRTL
+                ? { left: s.paddingH }
+                : { right: s.paddingH }),
             }}
             pointerEvents="none"
           >
