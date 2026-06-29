@@ -92,6 +92,7 @@ export function ServiceCard({
         innerBg: undefined,
         iconBadgeBg: undefined,
         iconBadgeColor: undefined,
+        buttonIconBg: cr.surface.surfaceContainer.sysSurfaceContainer,
       },
       tonal: {
         bg: cr.addOn.primaryFixed.sysPrimaryFixedDim,
@@ -104,6 +105,7 @@ export function ServiceCard({
         innerBg: undefined,
         iconBadgeBg: undefined,
         iconBadgeColor: undefined,
+        buttonIconBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
       },
       filled: {
         bg: cr.accent.primary.sysPrimaryContainer,
@@ -116,6 +118,7 @@ export function ServiceCard({
         innerBg: undefined,
         iconBadgeBg: undefined,
         iconBadgeColor: undefined,
+        buttonIconBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
       },
       doubled: {
         bg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
@@ -128,6 +131,7 @@ export function ServiceCard({
         innerBg: cr.transparent.primary.sysPrimary08,
         iconBadgeBg: cr.accent.primary.sysPrimary,
         iconBadgeColor: cr.accent.primary.sysOnPrimary,
+        buttonIconBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
       },
       image: {
         bg: 'transparent',
@@ -140,6 +144,7 @@ export function ServiceCard({
         innerBg: undefined,
         iconBadgeBg: undefined,
         iconBadgeColor: undefined,
+        buttonIconBg: cr.surface.surfaceContainer.sysSurfaceContainerLowest,
       },
     }),
     [cr, dim],
@@ -366,16 +371,25 @@ export function ServiceCard({
         {children}
         {buttonIcon && (
           <View
-            style={{
-              position: 'absolute',
-              bottom: s.paddingV,
-              ...(I18nManager.isRTL
-                ? { left: s.paddingH }
-                : { right: s.paddingH }),
-            }}
+            style={[
+              styles.buttonIconWrapper,
+              {
+                bottom: s.paddingV,
+                ...(I18nManager.isRTL
+                  ? { left: s.paddingH }
+                  : { right: s.paddingH }),
+              },
+            ]}
             pointerEvents="none"
           >
-            {buttonIcon}
+            <View
+              style={[
+                styles.buttonIconCircle,
+                { backgroundColor: v.buttonIconBg },
+              ]}
+            >
+              {buttonIcon}
+            </View>
           </View>
         )}
       </>
@@ -424,6 +438,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     width: '100%',
     gap: 16,
+  },
+  buttonIconWrapper: {
+    position: 'absolute',
+  },
+  buttonIconCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   imageArrowButton: {
     width: 32,
