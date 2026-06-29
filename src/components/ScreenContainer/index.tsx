@@ -7,6 +7,7 @@ import { useTheme } from '../../theme';
 export interface ScreenContainerProps extends ScrollViewProps {
   children?: React.ReactNode;
   noPadding?: boolean;
+  keyboardShouldPersistTaps?: 'always' | 'never' | 'handled' | boolean;
 }
 
 /**

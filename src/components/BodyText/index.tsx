@@ -18,6 +18,7 @@ export interface BodyTextProps extends TextProps {
   variant?: BodyVariant;
   emphasized?: boolean;
   color?: string;
+  children?: React.ReactNode;
 }
 
 const FONT_FAMILY: Record<string, string> = {
