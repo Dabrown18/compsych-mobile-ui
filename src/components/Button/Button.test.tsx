@@ -48,4 +48,9 @@ describe('Button', () => {
     const { getByText } = render(<Button label="Full" fullWidth />);
     expect(getByText('Full')).toBeTruthy();
   });
+
+  it('does not render label text when loading is true', () => {
+    const { queryByText } = render(<Button label="Submit" loading />);
+    expect(queryByText('Submit')).toBeNull();
+  });
 });

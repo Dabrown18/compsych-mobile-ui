@@ -209,45 +209,47 @@ export function Button({
       <View style={[styles.content, { gap: dim.spacing.padding.sysPadding8 }]}>
         {loading ? (
           <ActivityIndicator size={s.iconSize} color={v.label} />
-        ) : leadingIcon ? (
-          <View
-            style={{
-              width: s.iconSize,
-              height: s.iconSize,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {leadingIcon}
-          </View>
-        ) : null}
-
-        {!iconOnly && (
-          <Text
-            style={{
-              color: v.label,
-              fontSize: s.fontSize,
-              lineHeight: s.lineHeight,
-              fontWeight: '600',
-              includeFontPadding: false,
-            }}
-            numberOfLines={1}
-          >
-            {label}
-          </Text>
-        )}
-
-        {trailingIcon && (
-          <View
-            style={{
-              width: s.iconSize,
-              height: s.iconSize,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {trailingIcon}
-          </View>
+        ) : (
+          <>
+            {!iconOnly && leadingIcon && (
+              <View
+                style={{
+                  width: s.iconSize,
+                  height: s.iconSize,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {leadingIcon}
+              </View>
+            )}
+            {!iconOnly && (
+              <Text
+                style={{
+                  color: v.label,
+                  fontSize: s.fontSize,
+                  lineHeight: s.lineHeight,
+                  fontWeight: '600',
+                  includeFontPadding: false,
+                }}
+                numberOfLines={1}
+              >
+                {label}
+              </Text>
+            )}
+            {trailingIcon && (
+              <View
+                style={{
+                  width: s.iconSize,
+                  height: s.iconSize,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {trailingIcon}
+              </View>
+            )}
+          </>
         )}
       </View>
     </Pressable>

@@ -117,6 +117,9 @@ export type {
   TooltipDirection,
 } from './components/Tooltip';
 
+export { DateTimePicker } from './components/DateTimePicker';
+export type { DateTimePickerProps } from './components/DateTimePicker';
+
 export { ActionSheet } from './components/ActionSheet';
 export type {
   ActionSheetProps,
