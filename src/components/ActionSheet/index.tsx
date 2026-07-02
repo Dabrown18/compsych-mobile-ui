@@ -19,6 +19,7 @@ import { HeaderText } from '../HeaderText';
 export interface ActionSheetAction {
   label: string;
   onPress: () => void;
+  loading?: boolean;
 }
 
 export interface ActionSheetProps {
@@ -183,6 +184,7 @@ export function ActionSheet({
                   variant="filled"
                   size="xl"
                   fullWidth
+                  loading={primaryAction.loading}
                   onPress={primaryAction.onPress}
                 />
               )}
