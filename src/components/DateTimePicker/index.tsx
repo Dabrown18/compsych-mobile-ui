@@ -119,14 +119,6 @@ export function DateTimePicker({
     [viewYear, viewMonth, today, maxDate],
   );
 
-  const isToday = useCallback(
-    (day: number) => {
-      const d = new Date(viewYear, viewMonth, day);
-      return toLocalDateString(d) === toLocalDateString(today);
-    },
-    [viewYear, viewMonth, today],
-  );
-
   const isSelected = useCallback(
     (day: number) => {
       const d = new Date(viewYear, viewMonth, day);
@@ -148,7 +140,8 @@ export function DateTimePicker({
   const sysOutline = cr.outline.sysOutline;
   const sysOnSurface = cr.surface.surface.sysOnSurface;
   const sysOnSurfaceVariant = cr.surface.surface.sysOnSurfaceVariant;
-  const sysSurface = cr.surface.surface.sysSurface;
+  const sysSurfaceContainerHighest =
+    cr.surface.surfaceContainer.sysSurfaceContainerHighest;
 
   const prevChevron = I18nManager.isRTL ? '>' : '<';
   const nextChevron = I18nManager.isRTL ? '<' : '>';
@@ -163,7 +156,7 @@ export function DateTimePicker({
       testID="calendar-picker"
       style={[
         styles.card,
-        { borderColor: sysOutline, backgroundColor: sysSurface },
+        { borderColor: sysOutline, backgroundColor: '#FFFFFF' },
       ]}
     >
       {/* Calendar section */}
@@ -237,24 +230,16 @@ export function DateTimePicker({
               }
               const disabled = isDisabled(day);
               const selected = isSelected(day);
-              const todayDay = isToday(day);
 
               const cellStyle = [
                 styles.dayCellInner,
+                !disabled &&
+                  !selected && { backgroundColor: sysSurfaceContainerHighest },
                 selected && {
+                  backgroundColor: '#FFFFFF',
                   borderColor: sysPrimary,
                   borderWidth: 2,
-                  shadowColor: sysPrimary,
-                  shadowOffset: { width: 1, height: 2 },
-                  shadowOpacity: 1,
-                  shadowRadius: 0,
-                  elevation: 2,
                 },
-                !selected &&
-                  todayDay && {
-                    borderColor: sysPrimary,
-                    borderWidth: 1.5,
-                  },
                 disabled && styles.dayCellDisabled,
               ];
 
@@ -316,7 +301,7 @@ export function DateTimePicker({
                       {
                         borderColor: slotSelected ? sysPrimary : sysOutline,
                         borderWidth: slotSelected ? 2 : 1.5,
-                        backgroundColor: sysSurface,
+                        backgroundColor: '#FFFFFF',
                       },
                       slotSelected && {
                         shadowColor: sysPrimary,
