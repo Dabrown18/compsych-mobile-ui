@@ -107,4 +107,37 @@ describe('DateTimePicker', () => {
     fireEvent.press(getByTestId('time-slot-10-00-AM'));
     expect(onSelectTime).toHaveBeenCalledWith('10:00 AM');
   });
+
+  it('does not show the language/timezone info row when neither label is provided', () => {
+    const { queryByTestId } = render(<DateTimePicker {...BASE_PROPS} />);
+    expect(queryByTestId('calendar-info-row')).toBeNull();
+  });
+
+  it('shows the language label when provided', () => {
+    const { getByTestId, getByText } = render(
+      <DateTimePicker {...BASE_PROPS} languageLabel="English" />,
+    );
+    expect(getByTestId('calendar-language-info')).toBeTruthy();
+    expect(getByText('English')).toBeTruthy();
+  });
+
+  it('shows the timezone label when provided', () => {
+    const { getByTestId, getByText } = render(
+      <DateTimePicker {...BASE_PROPS} timezoneLabel="America/Chicago" />,
+    );
+    expect(getByTestId('calendar-timezone-info')).toBeTruthy();
+    expect(getByText('America/Chicago')).toBeTruthy();
+  });
+
+  it('renders the language/timezone info as non-interactive (no press handler)', () => {
+    const { getByTestId } = render(
+      <DateTimePicker
+        {...BASE_PROPS}
+        languageLabel="English"
+        timezoneLabel="America/Chicago"
+      />,
+    );
+    expect(getByTestId('calendar-language-info').props.onPress).toBeUndefined();
+    expect(getByTestId('calendar-timezone-info').props.onPress).toBeUndefined();
+  });
 });

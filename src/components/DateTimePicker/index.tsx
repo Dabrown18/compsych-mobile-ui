@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 
+import { resolveIcon } from '../../icons';
 import { useTheme } from '../../theme';
 
 export interface DateTimePickerProps {
@@ -18,7 +19,12 @@ export interface DateTimePickerProps {
   onSelectTime: (time: string) => void;
   availableTimes: string[];
   availableTimeLabel: string;
+  availableDates?: string[];
   maxMonthsAhead?: number;
+  /** Display-only label for the user's current language, e.g. "English". Not interactive. */
+  languageLabel?: string;
+  /** Display-only label for the user's current timezone, e.g. "America/Chicago". Not interactive. */
+  timezoneLabel?: string;
 }
 
 const DAY_HEADERS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -42,9 +48,15 @@ export function DateTimePicker({
   onSelectTime,
   availableTimes,
   availableTimeLabel,
+  availableDates,
   maxMonthsAhead = 1,
+  languageLabel,
+  timezoneLabel,
 }: DateTimePickerProps) {
   const { colorRoles: cr } = useTheme();
+
+  const LanguagesIcon = resolveIcon('Languages');
+  const GlobeIcon = resolveIcon('Globe');
 
   const today = useMemo(() => {
     const d = new Date();
@@ -110,13 +122,23 @@ export function DateTimePicker({
     return cells;
   }, [viewYear, viewMonth]);
 
+  const availableDatesSet = useMemo(
+    () => (availableDates ? new Set(availableDates) : null),
+    [availableDates],
+  );
+
   const isDisabled = useCallback(
     (day: number) => {
       const d = new Date(viewYear, viewMonth, day);
       d.setHours(0, 0, 0, 0);
-      return d < today || d > maxDate;
+      if (d < today || d > maxDate) return true;
+      if (availableDatesSet) {
+        const dateStr = toLocalDateString(d);
+        return !availableDatesSet.has(dateStr);
+      }
+      return false;
     },
-    [viewYear, viewMonth, today, maxDate],
+    [viewYear, viewMonth, today, maxDate, availableDatesSet],
   );
 
   const isSelected = useCallback(
@@ -327,6 +349,35 @@ export function DateTimePicker({
           </View>
         </>
       )}
+
+      {/* Language / timezone info row — display-only, not interactive */}
+      {(languageLabel || timezoneLabel) && (
+        <>
+          <View style={[styles.divider, { backgroundColor: sysOutline }]} />
+          <View style={styles.infoRow} testID="calendar-info-row">
+            {languageLabel && (
+              <View style={styles.infoItem} testID="calendar-language-info">
+                {LanguagesIcon && (
+                  <LanguagesIcon size={16} color={sysOnSurfaceVariant} />
+                )}
+                <Text style={[styles.infoText, { color: sysOnSurfaceVariant }]}>
+                  {languageLabel}
+                </Text>
+              </View>
+            )}
+            {timezoneLabel && (
+              <View style={styles.infoItem} testID="calendar-timezone-info">
+                {GlobeIcon && (
+                  <GlobeIcon size={16} color={sysOnSurfaceVariant} />
+                )}
+                <Text style={[styles.infoText, { color: sysOnSurfaceVariant }]}>
+                  {timezoneLabel}
+                </Text>
+              </View>
+            )}
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -426,5 +477,21 @@ const styles = StyleSheet.create({
   timeSlotText: {
     fontSize: 14,
     textAlign: 'center',
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  infoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  infoText: {
+    fontSize: 13,
+    fontWeight: '500',
   },
 });
