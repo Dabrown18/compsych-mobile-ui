@@ -27,6 +27,7 @@ describe('Button', () => {
     'tonal',
     'outlined',
     'elevated',
+    'inverted',
     'text',
     'danger',
     'danger-outlined',

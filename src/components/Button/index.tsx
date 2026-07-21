@@ -16,6 +16,7 @@ export type ButtonVariant =
   | 'tonal'
   | 'outlined'
   | 'elevated'
+  | 'inverted'
   | 'text'
   | 'danger'
   | 'danger-outlined'
@@ -85,6 +86,12 @@ export function Button({
           label: cr.surface.surface.sysOnSurface,
           borderColor: 'transparent',
           borderWidth: 0,
+        },
+        inverted: {
+          bg: cr.accent.primary.sysOnPrimary,
+          label: cr.surface.surface.sysOnSurface,
+          borderColor: cr.outline.sysOutline,
+          borderWidth: dim.borderWidth.sysStrokeThin,
         },
         text: {
           bg: 'transparent',
@@ -203,6 +210,18 @@ export function Button({
                 elevation: 2,
               }
             : {}),
+          // Inverted: a deliberately sharper, more pronounced "lifted off the
+          // screen" shadow — tighter radius reads as a crisper edge, higher
+          // opacity/offset than Elevated's soft lv2 shadow.
+          ...(variant === 'inverted'
+            ? {
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.11,
+                shadowRadius: 8,
+                elevation: 10,
+              }
+            : {}),
         },
       ]}
     >
@@ -261,7 +280,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
+    // No overflow: 'hidden' here — on iOS that clips to bounds, which cuts
+    // off the elevated/inverted drop shadow (shadows render outside the
+    // layer's frame). Background/border-radius already render correctly
+    // rounded without it, and this button's content (icon + text) never
+    // overflows its own corners.
   },
   content: {
     flexDirection: 'row',
